@@ -61,11 +61,6 @@ enum {
     NSDate *_modifiedDate;
 }
 
-+ (void)updateFriendSet:(NSMutableSet *)friends withReply:(NSDictionary *)reply account:(LJAccount *)account;
-+ (void)updateFriendOfSet:(NSMutableSet *)friendOfs withReply:(NSDictionary *)reply account:(LJAccount *)account;
-+ (void)updateFriendSet:(NSSet *)friends withEditReply:(NSDictionary *)reply;
-
-- (id)initWithUsername:(NSString *)username account:(LJAccount *)account;
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
@@ -172,13 +167,4 @@ enum {
  */
 - (NSColor *)foregroundColorForYou;
 
-@end
-
-@interface LJFriend (Private)
-- (void)_addAddFieldsToDictionary:(NSMutableDictionary *)parameters index:(int)i;
-- (void)_addDeleteFieldsToDictionary:(NSMutableDictionary *)parameters;
-- (void)_enqueueNotificationName:(NSString *)name;
-- (void)_updateModifiedDate;
-- (void)_setOutgoingFriendship:(BOOL)flag;
-- (void)_setIncomingFriendship:(BOOL)flag;
 @end

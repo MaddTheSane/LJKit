@@ -19,7 +19,7 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
-#import "LJFriend.h"
+#import "LJFriend_Private.h"
 #import "LJGroup.h"
 #import "LJAccount_EditFriends.h"
 #import "Miscellaneous.h"
@@ -364,7 +364,7 @@
     return nil;
 }
 
-- (void)_addAddFieldsToDictionary:(NSMutableDictionary *)parameters index:(int)i
+- (void)_addAddFieldsToParameters:(NSMutableDictionary *)parameters index:(int)i
 {
     NSString *key;
 
@@ -382,7 +382,7 @@
     [parameters setObject:[NSString stringWithFormat:@"%u", _groupMask] forKey:key];
 }
 
-- (void)_addDeleteFieldsToDictionary:(NSMutableDictionary *)parameters
+- (void)_addDeleteFieldsToParameters:(NSMutableDictionary *)parameters
 {
     NSString *key;
 
