@@ -27,19 +27,19 @@
 {
     NSString *s;
     s = [NSString stringWithFormat:@"/userinfo.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[_server url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[_server URL]] absoluteURL];
 }
 
 - (NSURL *)memoriesHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/tools/memories.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[_server url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[_server URL]] absoluteURL];
 }
 
 - (NSURL *)toDoListHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/todo/?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[_server url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[_server URL]] absoluteURL];
 }
 
 @end
@@ -50,7 +50,7 @@
 {
     NSString *s;
     s = [NSString stringWithFormat:@"/users/%@/", _name];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
 }
 
 - (NSURL *)friendsEntriesHttpURL
@@ -104,7 +104,7 @@
 - (NSURL *)addToMemoriesHttpURL
 {
     if (_itemID) {
-        NSURL *baseURL = [[[_journal account] server] url];
+        NSURL *baseURL = [[[_journal account] server] URL];
         NSString *s = [NSString stringWithFormat:@"tools/memadd.bml?journal=%@&itemid=%u",
             [_journal name], [self webItemID]];
         return [[NSURL URLWithString:s relativeToURL:baseURL] absoluteURL];
@@ -129,55 +129,55 @@
 - (NSURL *)userProfileHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/userinfo.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
 }
 
 - (NSURL *)memoriesHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/tools/memories.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
 }
 
 - (NSURL *)toDoListHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/todo/?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
 }
 
 - (NSURL *)rssFeedURL
 {
     NSString *s = [NSString stringWithFormat:@"/users/%@/data/rss", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];	
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];	
 }
 
 - (NSURL *)atomFeedURL
 {
     NSString *s = [NSString stringWithFormat:@"/users/%@/data/atom", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];		
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];		
 }
 
 - (NSURL *)foafURL 
 {
     NSString *s = [NSString stringWithFormat:@"/users/%@/data/foaf", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];		
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];		
 }
 
 - (NSURL *)recentEntriesHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/users/%@/", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
 }
 
 - (NSURL *)joinCommunityHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/community/join.bml?comm=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
 }
 
 - (NSURL *)leaveCommunityHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/community/leave.bml?comm=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
 }
 
 @end

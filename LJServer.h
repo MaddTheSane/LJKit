@@ -90,10 +90,10 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
 - (void)setURL:(NSURL *)url;
 
 /*!
- @method url
- @abstract Obtain the url of host the receiver communicates with.
+ @method URL
+ @abstract Obtain the URL of host the receiver communicates with.
  */
-- (NSURL *)url;
+- (NSURL *)URL;
 
 /*!
  @method isUsingFastServers

@@ -128,7 +128,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     }
 }
 
-- (NSURL *)url
+- (NSURL *)URL
 {
     return _serverURL;
 }
@@ -211,7 +211,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 - (BOOL)getReachability:(SCNetworkConnectionFlags *)flags
 {
     NSAssert(flags != NULL, @"Flags must not be NULL.");
-    return SCNetworkCheckReachabilityByName([[[self url] host] UTF8String], flags);
+    return SCNetworkCheckReachabilityByName([[[self URL] host] UTF8String], flags);
 }
 
 - (void)updateRequestTemplate
