@@ -404,6 +404,7 @@
             _addedOutgoingDate = nil;
         }
     }
+    [self _updateModifiedDate];
 }
 
 - (void)_setIncomingFriendship:(BOOL)flag
