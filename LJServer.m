@@ -133,6 +133,8 @@ static NSString *LJUserAgent = nil;
     _requestTemplate = CFHTTPMessageCreateRequest(kCFAllocatorDefault,
                                                   CFSTR("POST"), url,
                                                   kCFHTTPVersion1_0);
+    //NSLog(@"_requestTemplate RC = %d", CFGetRetainCount(_requestTemplate));
+    CFRetain(_requestTemplate);
     CFRelease(url);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Host"),
                                      (CFStringRef)[_serverURL host]);
