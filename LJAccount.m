@@ -59,6 +59,11 @@ static LJAccount *gAccountListHead = nil;
 + (NSString *)_clientVersionForBundle:(NSBundle *)bundle;
 @end
 
+@interface LJAccount (PrivateImpl)
+- (void)setJournalArray:(NSArray *)aJournalArray;
+- (void) setUserPicturesDictionary: (NSDictionary *)aDict;
+@end
+
 @implementation LJAccount
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_3
@@ -105,6 +110,9 @@ static LJAccount *gAccountListHead = nil;
         }
         gClientVersion = [[NSString alloc] initWithFormat:@"MacOSX-%@/%@", name, version];
         NSLog(@"LJKit Client Version: %@", gClientVersion);
+		
+		// Set up KVO for the dependent key "userPictureKeywords" which depends on userPicturesDictionary
+		[self setKeys: [NSArray arrayWithObject: @"userPicturesDictionary"] triggerChangeNotificationsForDependentKey: @"userPictureKeywords"];
     }
 }
 
@@ -201,6 +209,7 @@ static LJAccount *gAccountListHead = nil;
             gAccountListHead->_nextAccount = self;
         }
     }
+	
     return self;
 }
 
@@ -461,8 +470,9 @@ static LJAccount *gAccountListHead = nil;
     key = [reply objectForKey:@"defaultpicurl"];
     url = (key != nil ? [NSURL URLWithString:key] : nil);
     SafeSetObject(&_defaultUserPictureURL, url);
-    [_userPicturesDictionary release];
-    _userPicturesDictionary = [userPics copy];
+
+	// [FS] Added use of accessor here
+	[self setUserPicturesDictionary: [userPics copy]];
     [userPics release];
 }
 
@@ -519,8 +529,8 @@ static LJAccount *gAccountListHead = nil;
         [_server setUseFastServers:YES];
     }
     journals = [LJJournal _journalArrayFromLoginReply:reply account:self];
-    [_journalArray release];
-    _journalArray = [journals retain];
+	// [FS] Changed this from direct ivar access for KVO reasons
+	[self setJournalArray: journals];
     if (loginFlags & LJGetMoodsLoginFlag) {
         [_moods updateMoodsWithLoginReply:reply];
     }
@@ -569,9 +579,22 @@ static LJAccount *gAccountListHead = nil;
     return _menu;
 }
 
+- (NSArray *)userPictureKeywords {
+	// [FS] This is potenitally a performance hot spot, but let's be guided by profiling.
+	return [[_userPicturesDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+}
+
 - (NSDictionary *)userPicturesDictionary
 {
     return _userPicturesDictionary;
+}
+
+// [FS] For key value observing
+- (void) setUserPicturesDictionary: (NSDictionary *)aDict {
+	NSLog(@"Setting user pictures dictionary");
+	[aDict retain];
+	[_userPicturesDictionary release];
+	_userPicturesDictionary = aDict;
 }
 
 - (NSURL *)defaultUserPictureURL
@@ -627,6 +650,17 @@ static LJAccount *gAccountListHead = nil;
 - (NSArray *)journalArray
 {
     return _journalArray;
+}
+
+// =========================================================== 
+// - setJournalArray:
+// =========================================================== 
+- (void)setJournalArray:(NSArray *)aJournalArray {
+    if (_journalArray != aJournalArray) {
+        [aJournalArray retain];
+        [_journalArray release];
+        _journalArray = aJournalArray;
+    }
 }
 
 - (LJJournal *)defaultJournal

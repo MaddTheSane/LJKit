@@ -6,8 +6,6 @@
 	objectVersion = 39;
 	objects = {
 		014CEA440018CDF011CA2923 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -22,8 +20,6 @@
 			name = Development;
 		};
 		014CEA450018CDF011CA2923 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -109,8 +105,7 @@
 			sourceTree = "<group>";
 		};
 		0867D69BFE84028FC02AAC07 = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = /System/Library/Frameworks/Foundation.framework;
@@ -118,8 +113,7 @@
 			sourceTree = "<absolute>";
 		};
 		0867D6A5FE840307C02AAC07 = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
 			path = /System/Library/Frameworks/AppKit.framework;
@@ -168,8 +162,7 @@
 //103
 //104
 		1058C7B1FEA5585E11CA2CBB = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = /System/Library/Frameworks/Cocoa.framework;
@@ -215,6 +208,47 @@
 //432
 //433
 //434
+//5F0
+//5F1
+//5F2
+//5F3
+//5F4
+		5F548C4A07133B7600515272 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = LJUserEntity.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5F548C4B07133B7600515272 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = LJUserEntity.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5F548C4C07133B7600515272 = {
+			fileRef = 5F548C4A07133B7600515272;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		5F548C4D07133B7600515272 = {
+			fileRef = 5F548C4B07133B7600515272;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//5F0
+//5F1
+//5F2
+//5F3
+//5F4
 //BC0
 //BC1
 //BC2
@@ -317,6 +351,7 @@
 				BCBC6AA705AB96F9000EFE4A,
 				BCBC6AA905AB976B000EFE4A,
 				BCBC6AAB05AB9849000EFE4A,
+				5F548C4C07133B7600515272,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,6 +547,7 @@
 				BC72DB12058B2AFA00784C4A,
 				BC72DB13058B2AFA00784C4A,
 				BC72DB14058B2AFA00784C4A,
+				5F548C4D07133B7600515272,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,8 +685,8 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BC72DB1B058B2AFA00784C4A = {
-			explicitFileType = text.plist.xml;
 			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
 			path = Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
@@ -886,6 +922,8 @@
 				F52AFB6002E35F4A01ECE1AA,
 				F52E1F010357A538010C7683,
 				F52E1F020357A538010C7683,
+				5F548C4A07133B7600515272,
+				5F548C4B07133B7600515272,
 			);
 			isa = PBXGroup;
 			name = Public;
@@ -1124,8 +1162,7 @@
 			sourceTree = "<group>";
 		};
 		F5992D0C03786BB6012C19B1 = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = CoreServices.framework;
 			path = /System/Library/Frameworks/CoreServices.framework;

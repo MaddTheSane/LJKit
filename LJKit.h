@@ -90,3 +90,4 @@
 #import <LJKit/LJFriend.h>
 #import <LJKit/LJGroup.h>
 #import <LJKit/LJHttpURLs.h>
+#import <LJKit/LJUserEntity.h>

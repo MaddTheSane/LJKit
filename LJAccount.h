@@ -420,6 +420,18 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
 - (void)setMoods:(LJMoods *)moods;
 
 /*!
+ @method userPictureKeywords
+ @abstract Returns an NSArray of account picture keywords in NSStrings.
+ @discussion
+	 If you provided the LJGetPicturesLoginFlag to the loginWithPassword:flags:
+	 method, this method will return an NSArray of NSStrings. Otherwise, returns nil.
+	 
+	 This property is preserved during archiving.
+	 */
+- (NSArray *)userPictureKeywords;
+
+
+/*!
  @method userPicturesDictionary
  @abstract Returns a dictionary of account picture keywords and URLs.
  @discussion

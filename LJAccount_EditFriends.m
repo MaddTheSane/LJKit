@@ -42,8 +42,10 @@
 	
 	// Update the static ordered array cache
 	if(_orderedGroupArrayCache) {
+		[self willChangeValueForKey: @"groupArray"];
 		[_orderedGroupArrayCache release];
 		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+		[self didChangeValueForKey: @"groupArray"];
 	}
 }
 
@@ -103,8 +105,10 @@
 	
 	if(_orderedFriendArrayCache) {
 		// The underlying set changed, so update the cache
+		[self willChangeValueForKey: @"friendArray"];
 		[_orderedFriendArrayCache release];
 		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+		[self didChangeValueForKey: @"friendArray"];
 	}
 
     return YES;
@@ -179,7 +183,7 @@
 	if(!_orderedGroupArrayCache)
 		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
 	
-    return [[_orderedGroupArrayCache copy] autorelease]; //[[_groupSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
+    return [[_orderedGroupArrayCache copy] autorelease];
 }
 
 - (NSEnumerator *)groupEnumerator
@@ -302,8 +306,10 @@
 	
 	if(_orderedFriendArrayCache) {
 		// The underlying set changed, so change the cache
+		[self willChangeValueForKey: @"friendArray"];
 		[_orderedFriendArrayCache release];
 		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+		[self didChangeValueForKey: @"friendArray"];
 	}
 	
     return buddy;
@@ -319,8 +325,10 @@
     [buddy _setOutgoingFriendship:NO];
 	
 	if(_orderedFriendArrayCache) {
+		[self willChangeValueForKey: @"friendArray"];
 		[_orderedFriendArrayCache release];
 		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+		[self didChangeValueForKey: @"friendArray"];
 	}
 }
 
@@ -342,8 +350,10 @@
 	
 	// Update the static ordered array cache
 	if(_orderedGroupArrayCache) {
+		[self willChangeValueForKey: @"groupArray"];
 		[_orderedGroupArrayCache release];
 		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+		[self didChangeValueForKey: @"groupArray"];
 	}
 	
     return group;
@@ -371,8 +381,10 @@
 	
 	// Update the static ordered array cache
 	if(_orderedGroupArrayCache) {
+		[self willChangeValueForKey: @"groupArray"];
 		[_orderedGroupArrayCache release];
 		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+		[self didChangeValueForKey: @"groupArray"];
 	}
 }
 
