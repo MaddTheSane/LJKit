@@ -19,7 +19,7 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
-#import "LJEntry.h"
+#import "LJEntry_Private.h"
 #import "LJJournal.h"
 #import "LJGroup.h"
 #import "Miscellaneous.h"
@@ -211,8 +211,7 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
     NSEnumerator *propertyKeys;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
-    NSAssert(_journal != nil, (@"Must set a journal before attempting to save "
-                               @"entry."));
+    NSAssert(_journal != nil, (@"Must set a journal before attempting to save entry."));
     [center postNotificationName:LJEntryWillSaveToJournalNotification
                           object:self];
     // Compile the request to be sent to the server

@@ -93,8 +93,6 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
     unsigned int _allowGroupMask;
 }
 
-- (id)initWithReply:(NSDictionary *)info prefix:(NSString *)prefix journal:(LJJournal *)journal;
-
 /*!
  @method initWithContentsOfFile:
  @abstract Initializes an entry object from a file.

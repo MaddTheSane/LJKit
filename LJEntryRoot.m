@@ -19,6 +19,10 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
+/*
+ 2004-01-06 [BPR] Removed calls to ImmutablizeObject()
+ */
+
 #import "LJEntryRoot.h"
 #import "LJJournal.h"
 #import "LJAccount.h"
@@ -53,7 +57,7 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
         obj = [info objectForKey:[prefix stringByAppendingString:@"anum"]];
         _aNum = [obj intValue];
         obj = [info objectForKey:[prefix stringByAppendingString:@"event"]];
-        _content = URLDecodeString(obj);
+        _content = LJURLDecodeString(obj);
         [_content retain];
         obj = [info objectForKey:[prefix stringByAppendingString:@"poster"]];
         _posterUsername = [obj retain];
@@ -184,25 +188,23 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
 
 - (NSArray *)groupsAllowedAccessArray
 {
-    NSAssert(_journal != nil, (@"Cannot use group security methods with "
-                               @"unassociated entries."));
+    NSAssert(_journal != nil, @"Cannot use group security methods with unassociated entries.");
     if (_security == LJPublicSecurityMode || _security == LJFriendSecurityMode)
         return [[_journal account] groupArray];
     if (_security == LJPrivateSecurityMode)
         return [NSArray array];
     if (_security == LJGroupSecurityMode) {
         LJGroup *group;
-        NSMutableArray *workingArray;
+        NSMutableArray *array;
         NSEnumerator *groupEnumerator;
 
         if (_allowGroupMask == 0) return [NSArray array];
         groupEnumerator = [[[_journal account] groupSet] objectEnumerator];
-        workingArray = [[NSMutableArray alloc] init];
+        array = [NSMutableArray arrayWithCapacity:8];
         while (group = [groupEnumerator nextObject]) {
-            if ((_allowGroupMask & [group mask]) != 0)
-                [workingArray addObject:group];
+            if ((_allowGroupMask & [group mask]) != 0) [array addObject:group];
         }
-        return ImmutablizeObject(workingArray);
+        return array;
     }
     return nil;
 }
@@ -218,15 +220,12 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     NSDictionary *info;
     
-    NSAssert(_itemID != 0, (@"Cannot remove a journal entry that has never "
-                            @"been saved."));
-    [center postNotificationName:LJEntryWillRemoveFromJournalNotification
-                          object:self];
+    NSAssert(_itemID != 0, @"Cannot remove a journal entry that has never been saved.");
+    [center postNotificationName:LJEntryWillRemoveFromJournalNotification object:self];
     // Compile the request to be sent to the server
     request = [NSMutableDictionary dictionaryWithCapacity:3];
     [request setObject:@"" forKey:@"event"];
-    [request setObject:[NSString stringWithFormat:@"%u", _itemID]
-                forKey:@"itemid"];
+    [request setObject:[NSString stringWithFormat:@"%u", _itemID] forKey:@"itemid"];
     if (![_journal isDefault]) {
         [request setObject:[_journal name] forKey:@"usejournal"];
     }
@@ -234,16 +233,14 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     NS_DURING
         [[_journal account] getReplyForMode:@"editevent" parameters:request];
     NS_HANDLER
-        info = [NSDictionary dictionaryWithObject:localException
-                                           forKey:@"LJException"];
-        [center postNotificationName:LJEntryDidNotRemoveFromJournalNotification
+        info = [NSDictionary dictionaryWithObject:localException forKey:@"LJException"];
+        [center postNotificationName:LJEntryDidNotRemoveFromJournalNotification 
                               object:self userInfo:info];
         [localException raise];
     NS_ENDHANDLER
     _itemID = 0;
     _aNum = 0;
-    [center postNotificationName:LJEntryDidRemoveFromJournalNotification
-                          object:self];
+    [center postNotificationName:LJEntryDidRemoveFromJournalNotification object:self];
 }
 
 @end

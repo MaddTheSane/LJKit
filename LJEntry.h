@@ -82,7 +82,6 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
 - (id)init;
 
 - (id)initWithCoder:(NSCoder *)decoder;
-
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
