@@ -31,6 +31,7 @@
 
 @class LJAccount;
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 /*!
  @const LJServerReachabilityDidChangeNotification
  Posted if the system determines that the reachability of a server has changed.
@@ -50,6 +51,7 @@
  file:///System/Library/Frameworks/SystemConfiguration.framework/Headers/SCNetwork.h
  */
 FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
+#endif
 
 /*!
  @class LJServer
@@ -101,23 +103,31 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  */
 - (BOOL)isUsingFastServers;
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 /*!
  @method enableReachabilityMonitoring
  @abstract Enables reachability monitoring.
  @discussion
- Description forthcoming.
+ When monitoring is enabled, LJKit posts 
+ LJServerReachabilityDidChangeNotification every time the reachability of the
+ server changes for some reason.  You can call getReachability: to determine 
+ the reachability of the server.
+ Monitoring is only available on Mac OS X 10.3 or later.
  */
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 - (void)enableReachabilityMonitoring;
 #endif
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 /*!
  @method disableReachabilityMonitoring
  @abstract Disables reachability monitoring.
  @discussion
- Description forthcoming.
+ When monitoring is enabled, LJKit posts 
+ LJServerReachabilityDidChangeNotification every time the reachability of the
+ server changes for some reason.  You can call getReachability: to determine 
+ the reachability of the server.
+ Monitoring is only available on Mac OS X 10.3 or later.
  */
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 - (void)disableReachabilityMonitoring;
 #endif
 
