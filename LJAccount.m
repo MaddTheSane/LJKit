@@ -386,7 +386,7 @@ static LJAccount *gAccountListHead = nil;
     NSNotificationCenter *noticeCenter = [NSNotificationCenter defaultCenter];
 
     NSAssert(password != nil, @"Password must not be nil.");
-    NSAssert(loginFlags & LJReservedLoginFlags == 0, @"A reserved login flag was set."); 
+    NSAssert((loginFlags & LJReservedLoginFlags) == 0, @"A reserved login flag was set."); 
     [noticeCenter postNotificationName:LJAccountWillLoginNotification
                                 object:self userInfo:nil];
     // Configure server object with login information.
