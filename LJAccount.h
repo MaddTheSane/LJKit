@@ -168,6 +168,12 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
     NSMutableSet *_friendOfSet;
     NSDate *_groupsSyncDate;
     NSDate *_friendsSyncDate;
+    
+   	// For efficiency, keep an ordered cache of friends, 
+	// which we only update when _friendSet changes
+	NSArray *_orderedFriendArrayCache;
+	NSArray *_orderedGroupArrayCache;
+	
     // for internal linked list
     LJAccount *_nextAccount;
 }

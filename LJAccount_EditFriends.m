@@ -39,6 +39,12 @@
     [LJGroup updateGroupSet:_groupSet withReply:reply account:self];
     [_groupsSyncDate release];
     _groupsSyncDate = [[NSDate alloc] init];
+	
+	// Update the static ordered array cache
+	if(_orderedGroupArrayCache) {
+		[_orderedGroupArrayCache release];
+		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+	}
 }
 
 - (void)downloadFriends
@@ -94,6 +100,13 @@
     _removedFriendSet = nil;
     [_friendsSyncDate release];
     _friendsSyncDate = [[NSDate alloc] init];
+	
+	if(_orderedFriendArrayCache) {
+		// The underlying set changed, so update the cache
+		[_orderedFriendArrayCache release];
+		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+	}
+
     return YES;
 }
 
@@ -143,7 +156,12 @@
         
 - (NSArray *)friendArray
 {
-    return [[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
+	// Lazily create the cache the first time it's needed
+	 if(!_orderedFriendArrayCache)
+		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+	
+	// return the cached array
+	return [[_orderedFriendArrayCache copy] autorelease];
 }
 
 - (NSEnumerator *)friendEnumerator
@@ -158,7 +176,10 @@
 
 - (NSArray *)groupArray
 {
-    return [[_groupSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
+	if(!_orderedGroupArrayCache)
+		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+	
+    return [[_orderedGroupArrayCache copy] autorelease]; //[[_groupSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (NSEnumerator *)groupEnumerator
@@ -278,6 +299,13 @@
     [buddy _setOutgoingFriendship:YES];
     [_friendSet addObject:buddy];
     [buddy release];
+	
+	if(_orderedFriendArrayCache) {
+		// The underlying set changed, so change the cache
+		[_orderedFriendArrayCache release];
+		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+	}
+	
     return buddy;
 }
 
@@ -289,6 +317,11 @@
     [_removedFriendSet addObject:buddy];
     [_friendSet removeObject:buddy];
     [buddy _setOutgoingFriendship:NO];
+	
+	if(_orderedFriendArrayCache) {
+		[_orderedFriendArrayCache release];
+		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+	}
 }
 
 - (LJGroup *)newGroupWithName:(NSString *)name
@@ -306,6 +339,13 @@
     [group setName:name];
     [_groupSet addObject:group];
     [group release];
+	
+	// Update the static ordered array cache
+	if(_orderedGroupArrayCache) {
+		[_orderedGroupArrayCache release];
+		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+	}
+	
     return group;
 }
 
@@ -328,6 +368,12 @@
     while (buddy = [e nextObject]) {
         [group removeFriend:buddy];
     }
+	
+	// Update the static ordered array cache
+	if(_orderedGroupArrayCache) {
+		[_orderedGroupArrayCache release];
+		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+	}
 }
 
 - (unsigned int)_groupMaskFromEnumerator:(NSEnumerator *)enumerator
