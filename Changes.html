@@ -1,0 +1,182 @@
+<html>
+<head>
+<title>LJKit Changes</title>
+<style>
+dt { float: left; width:3em; text-align:right; }
+dd { margin-left: 4em; }
+</style>
+</head>
+<body>
+
+<h2>Contributors</h2>
+
+<dl>
+
+<dt>[BPR] <dd> Benjamin Peter Ragheb
+<span class="ljuser" style="white-space: nowrap;"><a href="http://www.livejournal.com/userinfo.bml?user=benzado"><img src="http://stat.livejournal.com/img/userinfo.gif" alt="[info]" width="17" height="17" style="vertical-align: bottom; border: 0;" /></a><a href="http://www.livejournal.com/users/benzado/"><b>benzado</b></a></span>
+
+<dt>[FS] <dd> Fraser Speirs <lj user="fraserspeirs">
+<span class="ljuser" style="white-space: nowrap;"><a href="http://www.livejournal.com/userinfo.bml?user= fraserspeirs"><img src="http://stat.livejournal.com/img/userinfo.gif" alt="[info]" width="17" height="17" style="vertical-align: bottom; border: 0;" /></a><a href="http://www.livejournal.com/users/fraserspeirs/"><b>fraserspeirs</b></a></span>
+
+</dl>
+
+<h2>Version 0.9.5:</h2>
+
+<dl>
+
+<dt>[BPR]<dd> Modified LJGroup and LJFriend's compare: and isEqual: methods to make sure
+      they were consistent.  This may fix a bug where groups were being deleted
+      from the server but not removed when sync'ed.
+
+</dl>
+
+<h2>Version 0.9.4: 2003-03-21</h2>
+
+<dl>
+
+<dt>[FS]<dd>  Fixed bug in [LJFriend updateFriendSet:withReply:account:] where a pointer
+      to a released object was not being set to nil.
+<dt>[BPR]<dd> LJMoods reimplemented.  Now uses two parallel arrays instead of a trie.
+      Much cleaner and still efficient (O(log n)).
+<dt>[BPR]<dd> LJFriend* notifications have been removed due to difficulties with
+      NSNotificationQueue.  They will return after 1.0.
+<dt>[BPR]<dd> Calls to [NSCoder allowsKeyedCoding] have been removed, since when they
+      returned false LJKit would raise an exception, which is what the Obj-C
+      runtime will do anyway if you try to use an archiver that doesn't support
+      keyed coding.
+<dt>[BPR]<dd> Removed all implicit calls to downloadFriends and downloadGroups.  Now 
+      methods like [LJAccount friendArray] return nil if the information is
+      not available, and an empty array if the account has no friends.  This is
+      because I believe a simple accessor should not initiate a network 
+      connection.
+<dt>[BPR]<dd> Removed [LJAccount downloadGroups] and [LJAccount uploadGroups].  Their
+      functionality has been rolled into downloadFriends/uploadFriends.  Why?
+      The most important reason is that this will force friend and group info
+      to stay synchronized.  Clients that allow friends editing should also
+      keep group info synchronized.  Clients that are not interested in friends
+      will still have access to group info --- that is downloaded once during 
+      login.  To keep group info up-to-date without download the friends list,
+      clients can just re-login.
+<dt>[BPR]<dd> Updated [LJAccount userPicturesMenu] to leave out the separator if there 
+      are no picture keywords defined.
+<dt>[BPR]<dd> Updated [LJAccount initialize] to take only the last space-separated item
+      of CFBundleShortVersionString as the client version number, so
+      "MyClient version 6.8b" becomes "6.8b".
+<dt>[BPR]<dd> Updated [LJAccount _journalArrayFromLoginReply:] so that existing 
+      LJJournal objects are recycled, not recreated, on each login.
+<dt>[BPR]<dd> HttpURLs.m has NOT been modified for the new LiveJournal URL format.  New
+      code has been written but left commented out, because although LiveJournal
+      and uJournal are using the new URLs, DeadJournal and AboutMyLife.net are
+      not.
+
+</dl>
+
+<h2>Version 0.9.3: 2003-02-17</h2>
+
+<dl>
+
+<dt>[BPR]<dd> Added [LJAccount defaultUserPictureURL], changed behavior of 
+      [LJAccount userPicturesDictionary]
+<dt>[BPR]<dd> Added LJNotLoggedInError exception.
+<dt>[BPR]<dd> Modified [LJAccount openFriendsPage] to include ?filter=(groupmask) in URL
+<dt>[BPR]<dd> Fixed [LJEntry posterUsername]: wasn't reading "poster" key from reply.
+<dt>[BPR]<dd> Fixed [LJAccount openFriendsPage]: wasn't calling [NSURL absoluteURL].
+<dt>[BPR]<dd> Fixed [LJAccount setChecking:forGroup:]: would add but not remove.
+<dt>[BPR]<dd> Fixed [LJAccount checkGroupSet]: missing parens, always returned empty set
+<dt>[BPR]<dd> Moved friends checking code into a new class: LJCheckFriendsSession
+<dt>[BPR]<dd> Added LJAccount groupMaskFromSet/Array:, groupArray/SetFromMask:
+<dt>[BPR]<dd> Added LJEntryRoot groupsAllowedAccessMask
+<dt>[BPR]<dd> Added LJEntry setGroupsAllowedAccessMask:
+<dt>[BPR]<dd> Added LJAccount(Will/Did)ConnectNotification
+<dt>[BPR]<dd> Added LJAccount userPicturesMenu
+<dt>[BPR]<dd> Added delegate support to LJAccount
+<dt>[BPR]<dd> Added notifications: 
+      LJEntryWillSaveToJournalNotification
+      LJEntryDidSaveToJournalNotification
+      LJEntryDidNotSaveToJournalNotification
+      LJEntryWillRemoveFromJournalNotification
+      LJEntryDidRemoveFromJournalNotification
+      LJEntryDidNotRemoveFromJournalNotification
+<dt>[BPR]<dd> Added notifications:
+      LJFriendAddedNotification
+      LJFriendRemovedNotification
+      LJFriendOfAddedNotification
+      LJFriendOfRemovedNotification
+      LJFriendChangedNotification
+<dt>[BPR]<dd> Uses CFBundleShortVersionString instead of CFBundleVersion to compose the
+      login clientversion and the User-Agent key.  This is to please folks who
+      are using apple-generic versioning.
+<dt>[BPR]<dd> Added LJEntry setEdited:
+<dt>[BPR]<dd> Added LJEntry customInfo
+<dt>[BPR]<dd> Added notifications:
+      LJAccountWillLoginNotification
+      LJAccountDidLoginNotification
+      LJAccountDidNotLoginNotification
+
+</dl>
+
+<p> Notes:
+<ul>
+<li> Thanks to Fraser Speirs for his input and advice for the new features in 
+  this version.
+<li> There are bugs in LJMoods.  If you can find them, I'll be very grateful.
+<li> This release is mostly untested, so there may be bugs elsewhere, too.
+</ul>
+
+<h2>Version 0.9.2: 2003-01-24</h2>
+
+<dl>
+
+<dt>[BPR]<dd> Removed Documentation folder and HeaderDoc build phase from project.
+      You can build these things manually if you like; it makes no sense to
+      regenerate them on every recompile.
+<dt>[BPR]<dd> Added [LJAccount initWithContentsOfFile:] and [LJAccount writeToFile:]
+<dt>[BPR]<dd> Added [LJEntry initWithContentsOfFile:] and [LJEntry writeToFile:]
+<dt>[BPR]<dd> Now [LJServer httpURL] omits port number if equal to 80.
+<dt>[BPR]<dd> Added [LJGroup membersEntriesHttpURL]
+<dt>[BPR]<dd> Added _account field to LJFriend and updated initializer methods
+<dt>[BPR]<dd> Added [LJFriend userProfileHttpURL] and [LJFriend recentEntriesHttpURL]
+<dt>[BPR]<dd> Added [LJAccount friendNamed:]
+<dt>[BPR]<dd> Changed LJServer to use CFNetwork instead of BSD sockets.
+<dt>[BPR]<dd> Changed LJServer to use NSURLs instead of hostnames and ports.
+<dt>[BPR]<dd> Renamed method setCheckAllFriends to setCheckingForAllFriends
+<dt>[BPR]<dd> Changed CheckFriends category to use a thread instead of a timer.
+      This removes the UI interruption that would occur during a check.  The
+      related notifications are still sent on the main thread.
+<dt>[BPR]<dd> Fixed a bug in URLEncoding that caused extended characters to get mangled.
+<dt>[BPR]<dd> Changed SafeSetObject() to use isEqual:
+<dt>[BPR]<dd> Changed Friends and Groups to use modification dates instead of isEdited.
+      The dates can be used to determine if a group is newer than a journal
+      entry, and thus doesn't apply to it.
+      LJFriend and LJGroup instances are modified, never replaced during 
+      downloadFriends and downloadGroups.
+<dt>[BPR]<dd> Rewrote ParseLJReplyData; replaced NSScanner with a call to 
+      [NSString componentsSeparatedByString]; fixes a bug which caused
+      a parsing failure when a key had an empty value.
+<dt>[BPR]<dd> Updated LJFriend to correctly handle birthdates with no years.
+<dt>[BPR]<dd> Fixed [LJEntry webItemID] (itemID and aNum were reversed)
+<dt>[BPR]<dd> LJAccount and LJFriend now force usernames to lowercase.
+<dt>[BPR]<dd> Created SafeSetString() to normalize empty strings to nil.
+<dt>[BPR]<dd> Moved code into LJEntryRoot, shared between LJEntry and LJEntrySummary.
+<dt>[BPR]<dd> Added LJEntry posterUsername.
+<dt>[BPR]<dd> Changed LJEntry to use NSDate instead of NSCalendarDate.
+<dt>[BPR]<dd> Added isLoggedIn method to LJAccount.
+<dt>[BPR]<dd> Added support for "defaultpicurl"; available in the userpics dictionary
+      using the empty string as the key.
+<dt>[BPR]<dd> Added ImmutablizeObject()
+<dt>[BPR]<dd> Added LJAccount friendEnumerator, groupEnumerator, and friendOfEnumerator.
+<dt>[BPR]<dd> Added LJGroup nonMemberArray and nonMemberSet.
+<dt>[BPR]<dd> Added LJAccount (joined,watched)Community(Array,Set) methods.
+
+</dl>
+
+<h2>Version 0.9.1: 2002-10-28</h2>
+
+<dl>
+
+<dt>[BPR]<dd> Initial Release
+
+</dl>
+
+</body>
+</html>
