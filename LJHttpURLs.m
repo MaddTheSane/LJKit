@@ -144,6 +144,24 @@
     return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];
 }
 
+- (NSURL *)rssFeedURL
+{
+    NSString *s = [NSString stringWithFormat:@"/users/%@/data/rss", _username];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];	
+}
+
+- (NSURL *)atomFeedURL
+{
+    NSString *s = [NSString stringWithFormat:@"/users/%@/data/atom", _username];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];		
+}
+
+- (NSURL *)foafURL 
+{
+    NSString *s = [NSString stringWithFormat:@"/users/%@/data/foaf", _username];
+    return [[NSURL URLWithString:s relativeToURL:[[_account server] url]] absoluteURL];		
+}
+
 - (NSURL *)recentEntriesHttpURL
 {
     NSString *s = [NSString stringWithFormat:@"/users/%@/", _username];

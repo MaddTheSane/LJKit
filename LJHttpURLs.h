@@ -116,6 +116,9 @@
 - (NSURL *)userProfileHttpURL;
 - (NSURL *)memoriesHttpURL;
 - (NSURL *)toDoListHttpURL;
+- (NSURL *)rssFeedURL;
+- (NSURL *)atomFeedURL;
+- (NSURL *)foafURL;
 /*!
  @method recentEntriesHttpURL
  @abstract Returns the URL of the receiver's recent entries view.
