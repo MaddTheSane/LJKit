@@ -177,8 +177,3 @@
 - (NSSet *)nonMemberSet;
 
 @end
-
-@interface LJGroup (Private)
-- (void)_addAddFieldsToDictionary:(NSMutableDictionary *)parameters;
-- (void)_addDeleteFieldsToDictionary:(NSMutableDictionary *)parameters;
-@end
