@@ -495,7 +495,10 @@ static LJAccount *gAccountListHead = nil;
         // Add separator
         [pMenu addItem:[NSMenuItem separatorItem]];
         // Add the keywords
-        keywordEnumerator = [_userPicturesDictionary keyEnumerator];
+		
+		// FS: Changed this line to give a menu sorted by keyword
+		//     Now that users get 100*10^6 userpics, this seems to be important.
+        keywordEnumerator = [[[_userPicturesDictionary allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)] objectEnumerator];
         while (keyword = [keywordEnumerator nextObject]) {
             pItem = [[NSMenuItem alloc] initWithTitle:keyword action:nil
                                         keyEquivalent:@""];
