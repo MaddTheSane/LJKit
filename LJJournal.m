@@ -21,6 +21,7 @@
 
 /*
  2004-01-06 [BPR] Removed calls to ImmutablizeObject()
+ 2004-03-01 [BPR] Simplified implementation of getMostRecentEntry
  */
 
 #import "LJAccount.h"
@@ -219,8 +220,7 @@ static NSString *entrySummaryLength = nil;
 
 - (LJEntry *)getMostRecentEntry
 {
-    NSArray *array = [self getEntriesWithParameters:[self parametersForItemID:-1]];
-    return [array count] == 0 ? nil : [array objectAtIndex:0];
+    return [self getEntryForItemID:-1];
 }
 
 - (NSArray *)getEntriesLastN:(int)n beforeDate:(NSDate *)date
