@@ -123,6 +123,14 @@ FOUNDATION_EXPORT NSString * const LJAccountDidLoginNotification;
 FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
 
 /*!
+ @const LJAccountDidLogoutNotification
+ @discussion
+ Posted after an account object logs out.
+ The notification object is the account instance.
+ */
+FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
+
+/*!
  @class LJAccount
  
  @abstract Represents an account on a LiveJournal server.
@@ -358,6 +366,16 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
  Calls loginWithPassword:flags: with LJDefaultLoginFlags.
  */
 - (void)loginWithPassword:(NSString *)password;
+
+/*!
+ @method logout
+ @abstract Logs out of the LiveJournal server.
+ @discussion
+ Since the LiveJournal Client Server Protocol is stateless, logging out does
+ not result in any communication with the server.  This method destroys any
+ stored password information and posts LJAccountDidLogoutNotification.
+ */
+- (void)logout;
 
 /*!
  @method loginMessage

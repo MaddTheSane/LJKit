@@ -44,6 +44,7 @@ NSString * const LJAccountDidConnectNotification =  @"LJAccountDidConnect";
 NSString * const LJAccountWillLoginNotification =   @"LJAccountWillLogin";
 NSString * const LJAccountDidLoginNotification =    @"LJAccountDidLogin";
 NSString * const LJAccountDidNotLoginNotification = @"LJAccountDidNotLogin";
+NSString * const LJAccountDidLogoutNotification =   @"LJAccountDidLogout";
 
 static NSString *gClientVersion = nil;
 
@@ -58,6 +59,11 @@ static LJAccount *gAccountListHead = nil;
 @end
 
 @implementation LJAccount
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_3
+- (void)willChangeValueForKey:(id)key { }
+- (void)didChangeValueForKey:(id)key { }
+#endif
 
 /*
  This method sets the client name and version to be sent to the server.
@@ -469,6 +475,7 @@ static LJAccount *gAccountListHead = nil;
     NSAssert((loginFlags & LJReservedLoginFlags) == 0, @"A reserved login flag was set."); 
     [noticeCenter postNotificationName:LJAccountWillLoginNotification
                                 object:self userInfo:nil];
+    [self willChangeValueForKey:@"isLoggedIn"];
     // Configure server object with login information.
     _isLoggedIn = NO;
     loginInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -523,6 +530,7 @@ static LJAccount *gAccountListHead = nil;
     }
     [self updateGroupSetWithReply:reply];
     _isLoggedIn = YES;
+    [self didChangeValueForKey:@"isLoggedIn"];
     [noticeCenter postNotificationName:LJAccountDidLoginNotification
                                 object:self userInfo:nil];
 }
@@ -530,6 +538,18 @@ static LJAccount *gAccountListHead = nil;
 - (void)loginWithPassword:(NSString *)password
 {
     [self loginWithPassword:password flags:LJDefaultLoginFlags];
+}
+
+- (void)logout
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    
+    [self willChangeValueForKey:@"isLoggedIn"];
+    _isLoggedIn = NO;
+    [[self server] setLoginInfo:nil];
+    [self didChangeValueForKey:@"isLoggedIn"];
+    [center postNotificationName:LJAccountDidLogoutNotification
+                          object:self userInfo:nil];
 }
 
 - (NSString *)loginMessage

@@ -29,9 +29,13 @@
 #import <CoreServices/CoreServices.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#define ENABLE_REACHABILITY_MONITORING
+#endif
+
 @class LJAccount;
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 /*!
  @const LJServerReachabilityDidChangeNotification
  Posted if the system determines that the reachability of a server has changed.
@@ -66,7 +70,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
     NSURL *_serverURL;
     BOOL _isUsingFastServers;
     NSData *_loginData;
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
     SCNetworkReachabilityContext _reachContext;
     SCNetworkReachabilityRef _target;
 #endif
@@ -103,7 +107,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  */
 - (BOOL)isUsingFastServers;
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 /*!
  @method enableReachabilityMonitoring
  @abstract Enables reachability monitoring.
@@ -117,7 +121,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
 - (void)enableReachabilityMonitoring;
 #endif
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 /*!
  @method disableReachabilityMonitoring
  @abstract Disables reachability monitoring.

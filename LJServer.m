@@ -31,7 +31,7 @@
 #import "Miscellaneous.h"
 #import "URLEncoding.h"
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 NSString * const LJServerReachabilityDidChangeNotification = @"LJServerReachabilityDidChange";
 #endif
 
@@ -46,7 +46,7 @@ static CFDictionaryRef			gProxyInfo = NULL;
 
 void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info);
 #endif
 
@@ -85,7 +85,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     [_serverURL release];
     [_loginData release];
     if (_requestTemplate) CFRelease(_requestTemplate);
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
     [self disableReachabilityMonitoring];
 #endif
     [self disableProxyDetection];
@@ -115,7 +115,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     if (SafeSetObject(&_serverURL, url)) {
         if (_requestTemplate) CFRelease(_requestTemplate);
         _requestTemplate = NULL;
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
         // If we were monitoring reachability, the target needs to be updated.
         if (_target != NULL) {
             [self disableReachabilityMonitoring];
@@ -147,8 +147,12 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 - (void)setLoginInfo:(NSDictionary *)loginDict
 {
     [_loginData release];
-    _loginData = LJCreateURLEncodedFormData(loginDict);
-    [_loginData retain];
+    if (loginDict != nil) {
+        _loginData = LJCreateURLEncodedFormData(loginDict);
+        [_loginData retain];
+    } else {
+        _loginData = nil;
+    }
 }
 
  - (void)enableProxyDetection
@@ -184,7 +188,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     }
 }
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 - (void)enableReachabilityMonitoring
 {
     if (_target == NULL) {
@@ -196,7 +200,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 }
 #endif
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 - (void)disableReachabilityMonitoring
 {
     if (_target != NULL) {
@@ -304,7 +308,7 @@ void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void
     gProxyInfo = SCDynamicStoreCopyProxies(store);
 }
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#ifdef ENABLE_REACHABILITY_MONITORING
 void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info)
 {
     NSDictionary *userInfo;
