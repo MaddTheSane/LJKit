@@ -18,6 +18,9 @@
 
  You may contact the author via email at benzado@livejournal.com.
  */
+/*
+ 2004-03-13 [BPR] Added setAccount:
+ */
 
 #import <Foundation/Foundation.h>
 #import <LJKit/LJEntryRoot.h>
@@ -89,7 +92,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  @abstract Set the journal to associate the receiver with.
  @discussion
  Sets the journal this entry is associated with.  To cause the receiver to become
- unassociated, call set journal to nil.  An exception is raised if you attempt to
+ unassociated, set journal to nil.  An exception is raised if you attempt to
  change the journal of a posted entry.
 
  If through this method you cause the receiver to become associated with an
@@ -98,6 +101,21 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  of the account they exist in.
  */
 - (void)setJournal:(LJJournal *)journal;
+
+/*!
+ @method setAccount:
+ @abstract Set the account to associate the receiver with.
+ @discussion
+ Sets the account this entry is associated with.  To cause the receiver to become
+ unassociated, set the account to nil.  An exception is raised if you attempt to
+ change the account of a posted entry.
+
+ If through this method you cause the receiver to become associated with an
+ different account than before, and the security mode is LJGroupModeSecurity,
+ the set of allowed groups will be cleared, as groups have no meaning outside
+ of the account they exist in.
+ */
+- (void)setAccount:(LJAccount *)account;
 
 /*!
  @method setDate:

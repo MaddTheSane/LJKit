@@ -18,6 +18,9 @@
 
  You may contact the author via email at benzado@livejournal.com.
  */
+/*
+ 2004-03-13 [BPR] Added setAccount:
+ */
 
 #import "LJEntry_Private.h"
 #import "LJJournal.h"
@@ -132,6 +135,13 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
     }
     if (SafeSetObject(&_journal, journal)) {
         _isEdited = YES;
+    }
+}
+
+- (void)setAccount:(LJAccount *)account
+{
+    if ([_journal account] != account) {
+        [self setJournal:[account defaultJournal]];
     }
 }
 

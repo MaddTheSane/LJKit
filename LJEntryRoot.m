@@ -21,6 +21,7 @@
 
 /*
  2004-01-06 [BPR] Removed calls to ImmutablizeObject()
+ 2004-03-13 [BPR] Added account method.
  */
 
 #import "LJEntryRoot.h"
@@ -148,6 +149,11 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     return _journal;
 }
 
+- (LJAccount *)account
+{
+    return [_journal account];
+}
+
 - (NSString *)posterUsername
 {
     return _posterUsername;
@@ -188,7 +194,8 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
 
 - (NSArray *)groupsAllowedAccessArray
 {
-    NSAssert(_journal != nil, @"Cannot use group security methods with unassociated entries.");
+    //NSAssert(_journal != nil, @"Cannot use group security methods with unassociated entries.");
+    if (_journal == nil) return nil;
     if (_security == LJPublicSecurityMode || _security == LJFriendSecurityMode)
         return [[_journal account] groupArray];
     if (_security == LJPrivateSecurityMode)

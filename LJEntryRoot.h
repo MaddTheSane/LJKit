@@ -18,6 +18,13 @@
 
  You may contact the author via email at benzado@livejournal.com.
  */
+/*
+ 2004-02-24 [BPR] Fixed a typo in the comments.  Changed
+                  groupsAllowedAccessArray/Set to return nil instead of raising
+                  an exception.
+ 2004-03-13 [BPR] Added account method.
+ 
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -123,6 +130,15 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 - (LJJournal *)journal;
 
 /*!
+ @method account
+ @abstract Obtain the account associated with the receiver.
+ @discussion
+ Returns the account that the receiver is associated with, or nil if it is
+ unassociated.
+ */
+- (LJAccount *)account;
+
+/*!
  @method posterUsername
  @abstract Obtain the username of the entry's poster.
  @discussion
@@ -171,11 +187,10 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 - (BOOL)accessAllowedForGroup:(LJGroup *)group;
 
 /*!
- @method groupsAllowdAccessMask
+ @method groupsAllowedAccessMask
  @discussion
  Returns the bitmask which defines the groups allowed to access the receiver.
- If the security mode is not LJGroupSecurityMode, this value will make no
- sense.
+ If the security mode is not LJGroupSecurityMode, the value is undefined.
  */
 - (unsigned int)groupsAllowedAccessMask;
 
@@ -183,10 +198,10 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  @method groupsAllowedAccessArray
  @abstract Determine what groups are allowed access to the receiver.
  @discussion
- You cannot use this and other group security related methods on unassociated
- entries.  If you try, an exception will be raised.  This is because groups
+ If the entry is not associated with a journal, returns nil.  Groups
  have no meaning outside of their account, and unassociated entries are not
  attached to an account.
+  If the entry is associated but no groups are allowed access, returns an empty array.
  @result An NSArray of LJGroup objects.
  */
 - (NSArray *)groupsAllowedAccessArray;
@@ -195,10 +210,10 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  @method groupsAllowedAccessSet
  @abstract Determine what groups are allowed access to the receiver.
  @discussion
- You cannot use this and other group security related methods on unassociated
- entries.  If you try, an exception will be raised.  This is because groups
+ If the entry is not associated with a journal, returns nil.  Groups
  have no meaning outside of their account, and unassociated entries are not
  attached to an account.
+ If the entry is associated but no groups are allowed access, returns an empty set.
  @result An NSSet of LJGroup objects.
  */
 - (NSSet *)groupsAllowedAccessSet;
