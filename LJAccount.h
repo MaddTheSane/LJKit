@@ -23,6 +23,8 @@
 
 @class LJServer, LJMoods, LJJournal;
 
+#define LJKitBundle [NSBundle bundleForClass:[LJAccount class]]
+
 /*!
  @enum Login Flags
 
@@ -469,6 +471,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
 
 @end
 
+
 /*!
  @category NSObject(LJAccountDelegate)
  @abstract Methods implemented by the delegate
@@ -484,12 +487,22 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
  */
 - (BOOL)accountShouldConnect:(LJAccount *)sender;
 
+/*!
+ @method accountWillConnect:
+ @param notification 
+ @discussion
+ Called before an account will connect to the server.
+ What is [notification object]???
+ */
 - (void)accountWillConnect:(NSNotification *)notification;
-- (void)accountDidConnect:(NSNotification *)notification;
-@end
 
-@interface LJAccount (Private)
-+ (NSString *)_clientVersionForBundle:(NSBundle *)bundle;
-- (void)_raiseExceptionWithName:(NSString *)name;
-- (void)_raiseExceptionWithName:(NSString *)name reason:(NSString *)reason;
+/*!
+ @method accountDidConnect:
+ @discussion
+ Called immediately after a connection to the server is completed.
+ Is it called if an error occurs???
+ What is [notification object]???
+ */
+- (void)accountDidConnect:(NSNotification *)notification;
+
 @end

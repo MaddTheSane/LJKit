@@ -19,32 +19,39 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
-#import "LJAccount.h"
+/*
+ 2004-01-10 [BPR]	Changed exception handling (gets strings from main bundle,
+                    not the LJKit bundle).
+ */
+
 #import "LJAccount_EditFriends.h"
-#import "LJServer.h"
-#import "Miscellaneous.h"
+#import "LJAccount_Private.h"
+#import "LJJournal_Private.h"
 #import "LJMenu.h"
-#import "LJMoods.h"
-#import "LJJournal.h"
+#import "LJMoods_Private.h"
+#import "LJServer_Private.h"
+#import "Miscellaneous.h"
 
-NSString * const LJAccountWillConnectNotification =
-@"LJAccountWillConnect";
-NSString * const LJAccountDidConnectNotification =
-@"LJAccountDidConnect";
-NSString * const LJAccountWillLoginNotification =
-@"LJAccountWillLogin";
-NSString * const LJAccountDidLoginNotification =
-@"LJAccountDidLogin";
-NSString * const LJAccountDidNotLoginNotification =
-@"LJAccountDidNotLogin";
+// The .strings resource file to look for error messages in.  "nil" means use "Localizable".
+#define LJKitStringsTable nil
 
-static NSString *clientVersion = nil;
+NSString * const LJAccountWillConnectNotification = @"LJAccountWillConnect";
+NSString * const LJAccountDidConnectNotification =  @"LJAccountDidConnect";
+NSString * const LJAccountWillLoginNotification =   @"LJAccountWillLogin";
+NSString * const LJAccountDidLoginNotification =    @"LJAccountDidLogin";
+NSString * const LJAccountDidNotLoginNotification = @"LJAccountDidNotLogin";
+
+static NSString *gClientVersion = nil;
 
 /*
  * Internally a linked list of LJAccount objects is maintained,
  * so that other objects can find the LJAccount.
  */
-static LJAccount *accountListHead = nil;
+static LJAccount *gAccountListHead = nil;
+
+@interface LJAccount (ClassPrivate)
++ (NSString *)_clientVersionForBundle:(NSBundle *)bundle;
+@end
 
 @implementation LJAccount
 
@@ -66,33 +73,34 @@ static LJAccount *accountListHead = nil;
 
 + (void)initialize
 {
-    NSBundle *bundle;
-    NSString *msg, *name, *version;
+    if (gClientVersion == nil) {
+        NSBundle *mainBundle, *ljKitBundle;
+        NSString *name, *version;
 
-    if (clientVersion == nil) {
-        bundle = [NSBundle mainBundle];
-        name = [bundle objectForInfoDictionaryKey:@"LJClientName"];
-        version = [bundle objectForInfoDictionaryKey:@"LJClientVersion"];
+        mainBundle = [NSBundle mainBundle];
+        ljKitBundle = LJKitBundle;
+        // Get name and version defined in main bundle.
+        name = [mainBundle objectForInfoDictionaryKey:@"LJClientName"];
+        version = [mainBundle objectForInfoDictionaryKey:@"LJClientVersion"];
+        // If that didn't work, use main bundle's name.
         if (name == nil) {
-            name = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
-            version = [self _clientVersionForBundle:bundle];
+            name = [mainBundle objectForInfoDictionaryKey:@"CFBundleName"];
+            version = [self _clientVersionForBundle:mainBundle];
         }
-        bundle = LJKitBundle;
+        // If that didn't work, use the name from the LJKit bundle.
         if (name == nil) {
-            name = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
-            version = [self _clientVersionForBundle:bundle];
+            name = [ljKitBundle objectForInfoDictionaryKey:@"CFBundleName"];
+            version = [self _clientVersionForBundle:ljKitBundle];
         }
-        msg = [bundle localizedStringForKey:name value:nil table:nil];
-        clientVersion = [[NSString alloc] initWithFormat:
-            @"MacOSX-%@/%@", name, version];
-        NSLog(msg, clientVersion);
+        gClientVersion = [[NSString alloc] initWithFormat:@"MacOSX-%@/%@", name, version];
+        NSLog(@"LJKit Client Version: %@", gClientVersion);
     }
 }
 
 + (NSArray *)allAccounts
 {
     NSMutableArray *array = [NSMutableArray array];
-    LJAccount *account = accountListHead;
+    LJAccount *account = gAccountListHead;
 
     while (account) {
         [array addObject:account];
@@ -103,7 +111,7 @@ static LJAccount *accountListHead = nil;
 
 + (LJAccount *)accountWithIdentifier:(NSString *)identifier
 {
-    LJAccount *account = accountListHead;
+    LJAccount *account = gAccountListHead;
 
     while (account) {
         if ([[account identifier] isEqualToString:identifier])
@@ -118,8 +126,8 @@ static LJAccount *accountListHead = nil;
     self = [super init];
     if (self) {
         // add self to global linked list of accounts
-        _nextAccount = accountListHead;
-        accountListHead = self;
+        _nextAccount = gAccountListHead;
+        gAccountListHead = self;
     }
     return self;
 }
@@ -166,10 +174,10 @@ static LJAccount *accountListHead = nil;
 - (void)dealloc
 {
     // remove self from global linked list of accounts
-    if (accountListHead == self) {
-        accountListHead = _nextAccount;
+    if (gAccountListHead == self) {
+        gAccountListHead = _nextAccount;
     } else {
-        LJAccount *accountList = accountListHead;
+        LJAccount *accountList = gAccountListHead;
 
         while (accountList) {
             if (accountList->_nextAccount == self) {
@@ -255,22 +263,43 @@ static LJAccount *accountListHead = nil;
 
 - (NSException *)_exceptionWithName:(NSString *)name
 {
-    NSString *r = [LJKitBundle localizedStringForKey:name value:nil table:nil];
-    return [self _exceptionWithName:name reason:r];
+    NSString *reason;
+    
+    reason = [[NSBundle mainBundle] localizedStringForKey:name value:nil 
+                                                    table:LJKitStringsTable];
+    return [self _exceptionWithName:name reason:reason];
 }
 
-- (void)_raiseExceptionWithName:(NSString *)name
+/*
+ For example,
+ [_account _exceptionWithFormat:@"LJStreamError_%d_%d", 1, 5];
+ will first look for a string for the key "LJStreamError_1_5" and use it.
+ If no such key is found, it will look for a string for the key
+ "LJStreamError_%d_%d" and substitute 1 and 5 for %d in the string itself.
+ */
+- (NSException *)_exceptionWithFormat:(NSString *)format, ...
 {
-    [[self _exceptionWithName:name reason:nil] raise];
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *name, *reason;
+    va_list args;
+    NSException *exception;
+    
+    va_start(args, format);
+    name = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    reason = [bundle localizedStringForKey:name value:@"?" table:LJKitStringsTable];
+    if ([reason isEqualToString:@"?"]) {
+        reason = [bundle localizedStringForKey:format value:nil table:LJKitStringsTable];
+        va_start(args, format);
+        reason = [[[NSString alloc] initWithFormat:reason arguments:args] autorelease];
+        va_end(args);
+    }
+    exception = [self _exceptionWithName:name reason:reason];
+    [name release];
+    return exception;
 }
 
-- (void)_raiseExceptionWithName:(NSString *)name reason:(NSString *)reason
-{
-    [[self _exceptionWithName:name reason:reason] raise];
-}
-
-- (NSDictionary *)getReplyForMode:(NSString *)mode
-                       parameters:(NSDictionary *)parameters
+- (NSDictionary *)getReplyForMode:(NSString *)mode parameters:(NSDictionary *)parameters
 {
     static int connectionID = 1; // to be mostly unique across invocations
     NSDictionary *reply = nil;
@@ -281,17 +310,16 @@ static LJAccount *accountListHead = nil;
 
     if ([_delegate respondsToSelector:@selector(accountShouldConnect:)] &&
         ( ! [_delegate accountShouldConnect:self] )) {
-        [self _raiseExceptionWithName:@"LJAccountDelegateDidVetoConnection"];
+        [[self _exceptionWithName:@"LJAccountDelegateDidVetoConnection"] raise];
     }
     if ( ! (_isLoggedIn || [mode isEqualToString:@"login"]) ) {
-        [self _raiseExceptionWithName:@"LJNotLoggedInError"];
+        [[self _exceptionWithName:@"LJNotLoggedInError"] raise];
     }
     // Post LJAccountWillConnectNotification
     info = [[NSMutableDictionary alloc] init];
     [info setObject:mode forKey:@"LJMode"];
     if (parameters) [info setObject:parameters forKey:@"LJParameters"];
-    [info setObject:[NSNumber numberWithInt:(connectionID++)]
-             forKey:@"LJConnection"];
+    [info setObject:[NSNumber numberWithInt:(connectionID++)] forKey:@"LJConnection"];
     [noticeCenter postNotificationName:LJAccountWillConnectNotification
                                 object:self userInfo:info];
     // Do the dirty deed.
@@ -303,8 +331,7 @@ static LJAccount *accountListHead = nil;
         } else if ( ! [success isEqualToString:@"OK"] ) {
             errmsg = [reply objectForKey:@"errmsg"];
             if (errmsg) {
-                exception = [self _exceptionWithName:@"LJServerError"
-                                              reason:errmsg];
+                exception = [self _exceptionWithName:@"LJServerError" reason:errmsg];
             } else {
                 exception = [self _exceptionWithName:@"LJNoErrMsgKeyError"];
             }
@@ -358,9 +385,8 @@ static LJAccount *accountListHead = nil;
     NSMutableDictionary *parameters;
     NSNotificationCenter *noticeCenter = [NSNotificationCenter defaultCenter];
 
-    if (loginFlags & LJReservedLoginFlags) {
-        [self _raiseExceptionWithName:@"LJReservedLoginFlagSetError"];
-    }
+    NSAssert(password != nil, @"Password must not be nil.");
+    NSAssert(loginFlags & LJReservedLoginFlags == 0, @"A reserved login flag was set."); 
     [noticeCenter postNotificationName:LJAccountWillLoginNotification
                                 object:self userInfo:nil];
     // Configure server object with login information.
@@ -372,7 +398,7 @@ static LJAccount *accountListHead = nil;
     [loginInfo release];
     // Set up parameters
     parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:clientVersion forKey:@"clientversion"];
+    [parameters setObject:gClientVersion forKey:@"clientversion"];
     if (loginFlags & LJGetMoodsLoginFlag) {
         if (_moods == nil) { _moods = [[LJMoods alloc] init]; }
         [parameters setObject:[_moods highestMoodIDString] forKey:@"getmoods"];
@@ -422,7 +448,7 @@ static LJAccount *accountListHead = nil;
 
 - (void)loginWithPassword:(NSString *)password
 {
-    return [self loginWithPassword:password flags:LJDefaultLoginFlags];
+    [self loginWithPassword:password flags:LJDefaultLoginFlags];
 }
 
 - (NSString *)loginMessage
