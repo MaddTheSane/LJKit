@@ -1,0 +1,897 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 38;
+	objects = {
+		014CEA440018CDF011CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "-DDEBUG";
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//010
+//011
+//012
+//013
+//014
+//030
+//031
+//032
+//033
+//034
+		034768DFFF38A50411DB9C8B = {
+			children = (
+				034768E0FF38A50411DB9C8B,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+		};
+		034768E0FF38A50411DB9C8B = {
+			isa = PBXFrameworkReference;
+			path = LJKit.framework;
+			refType = 3;
+		};
+//030
+//031
+//032
+//033
+//034
+//080
+//081
+//082
+//083
+//084
+		0867D690FE84028FC02AAC07 = {
+			buildStyles = (
+				014CEA440018CDF011CA2923,
+				014CEA450018CDF011CA2923,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 0867D691FE84028FC02AAC07;
+			productRefGroup = 034768DFFF38A50411DB9C8B;
+			projectDirPath = "";
+			targets = (
+				0867D69CFE84028FC02AAC07,
+			);
+		};
+		0867D691FE84028FC02AAC07 = {
+			children = (
+				F52D10D102F9F2C201ECE1AA,
+				F567C3700375DCC1011F79D0,
+				436733F403F4A34F007D1F38,
+				43A748C30423A93100B3509D,
+				F51DE22502E293D301745AE7,
+				F51DE22602E293E501745AE7,
+				089C1665FE841158C02AAC07,
+				0867D69AFE84028FC02AAC07,
+				034768DFFF38A50411DB9C8B,
+			);
+			isa = PBXGroup;
+			name = LJKit;
+			refType = 4;
+		};
+		0867D69AFE84028FC02AAC07 = {
+			children = (
+				F5992D0C03786BB6012C19B1,
+				1058C7B1FEA5585E11CA2CBB,
+				F52AFB7C02E3878801ECE1AA,
+				0867D69BFE84028FC02AAC07,
+				0867D6A5FE840307C02AAC07,
+			);
+			isa = PBXGroup;
+			name = "Frameworks and Libraries";
+			refType = 4;
+		};
+		0867D69BFE84028FC02AAC07 = {
+			isa = PBXFrameworkReference;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+		};
+		0867D69CFE84028FC02AAC07 = {
+			buildPhases = (
+				0867D69DFE84028FC02AAC07,
+				0867D69EFE84028FC02AAC07,
+				0867D69FFE84028FC02AAC07,
+				0867D6A0FE84028FC02AAC07,
+				0867D6A2FE84028FC02AAC07,
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-seg1addr 0x10000000";
+				PRODUCT_NAME = LJKit;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+			);
+			isa = PBXFrameworkTarget;
+			name = LJKit;
+			productInstallPath = "@executable_path/../Frameworks";
+			productName = LJKit;
+			productReference = 034768E0FF38A50411DB9C8B;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>LJKit</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.livejournal.benzado.LJKit</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>LJKit</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>LJKt</string>
+	<key>CFBundleVersion</key>
+	<string>0.9.4</string>
+	<key>NSPrincipalClass</key>
+	<string>LJAccount</string>
+</dict>
+</plist>
+";
+		};
+		0867D69DFE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				F51DE22802E293FB01745AE7,
+				F51DE22202E293C501745AE7,
+				F5D00B0A02F7A20001ECE1AA,
+				F52AFB5702E35F3201ECE1AA,
+				F5BD1B0E03A5597201805C1D,
+				F52AFB5B02E35F3C01ECE1AA,
+				F536142A0304A86B0100006B,
+				F5A55BE003686C84015CD356,
+				F52AFB6B02E3650701ECE1AA,
+				43DC2B4303F897280074B2F0,
+				F52AFB7902E381BC01ECE1AA,
+				43A8D825040850A500C93AF6,
+				F5D00B0C02F7A20301ECE1AA,
+				F52E1F030357A538010C7683,
+				F52AFB6F02E36F5701ECE1AA,
+				F52AFB6702E362C001ECE1AA,
+				F52AFB7402E37FBE01ECE1AA,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D69EFE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				089C1668FE841158C02AAC07,
+				F52E1F0B0357B1BA010C7683,
+				438B206A03BD273D00067F6D,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D69FFE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				F51DE22102E293C501745AE7,
+				F52AFB5602E35F3201ECE1AA,
+				F52AFB6602E362C001ECE1AA,
+				F52AFB6A02E3650701ECE1AA,
+				F52AFB6E02E36F5701ECE1AA,
+				F52AFB7302E37FBE01ECE1AA,
+				F52AFB7802E381BC01ECE1AA,
+				F5D00B0902F7A1F901ECE1AA,
+				F5D00B0D02F7A20501ECE1AA,
+				F5D00B0E02F7A20601ECE1AA,
+				F53614290304A86B0100006B,
+				F52E1F040357A538010C7683,
+				F5A55BE103686C84015CD356,
+				F5B976CE039970E701094BD6,
+				F5BD1B0F03A5597201805C1D,
+				43DC2B4403F897280074B2F0,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D6A0FE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				1058C7B3FEA5585E11CA2CBB,
+				F52AFB7D02E3878801ECE1AA,
+				F5992D8A03786BB6012C19B1,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D6A2FE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D6A5FE840307C02AAC07 = {
+			isa = PBXFrameworkReference;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+		};
+		089C1665FE841158C02AAC07 = {
+			children = (
+				089C1666FE841158C02AAC07,
+				F52E1F0A0357B1BA010C7683,
+				438B206903BD273D00067F6D,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			path = "";
+			refType = 4;
+		};
+		089C1666FE841158C02AAC07 = {
+			children = (
+				089C1667FE841158C02AAC07,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			refType = 4;
+		};
+		089C1667FE841158C02AAC07 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			name = English;
+			path = English.lproj/InfoPlist.strings;
+			refType = 4;
+		};
+		089C1668FE841158C02AAC07 = {
+			fileRef = 089C1666FE841158C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//080
+//081
+//082
+//083
+//084
+//100
+//101
+//102
+//103
+//104
+		1058C7B1FEA5585E11CA2CBB = {
+			isa = PBXFrameworkReference;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+		};
+		1058C7B3FEA5585E11CA2CBB = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//100
+//101
+//102
+//103
+//104
+//430
+//431
+//432
+//433
+//434
+		436733F403F4A34F007D1F38 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = syncitems.txt;
+			refType = 4;
+		};
+		438B206903BD273D00067F6D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = License.txt;
+			refType = 4;
+		};
+		438B206A03BD273D00067F6D = {
+			fileRef = 438B206903BD273D00067F6D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		43A748C30423A93100B3509D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = RemovedCode.txt;
+			refType = 4;
+		};
+		43A8D825040850A500C93AF6 = {
+			fileRef = F52AFB5D02E35F4301ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		43DC2B4103F897280074B2F0 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = LJCheckFriendsSession.h;
+			refType = 4;
+		};
+		43DC2B4203F897280074B2F0 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = LJCheckFriendsSession.m;
+			refType = 4;
+		};
+		43DC2B4303F897280074B2F0 = {
+			fileRef = 43DC2B4103F897280074B2F0;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		43DC2B4403F897280074B2F0 = {
+			fileRef = 43DC2B4203F897280074B2F0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//430
+//431
+//432
+//433
+//434
+//F50
+//F51
+//F52
+//F53
+//F54
+		F51DE21F02E293C501745AE7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJAccount.m;
+			refType = 4;
+		};
+		F51DE22002E293C501745AE7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJAccount.h;
+			refType = 4;
+		};
+		F51DE22102E293C501745AE7 = {
+			fileRef = F51DE21F02E293C501745AE7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F51DE22202E293C501745AE7 = {
+			fileRef = F51DE22002E293C501745AE7;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F51DE22502E293D301745AE7 = {
+			children = (
+				F51DE22702E293FB01745AE7,
+				F51DE22002E293C501745AE7,
+				F51DE21F02E293C501745AE7,
+				F52AFB5102E35F2301ECE1AA,
+				F52AFB5002E35F2301ECE1AA,
+				43DC2B4103F897280074B2F0,
+				43DC2B4203F897280074B2F0,
+				F52AFB6902E3650701ECE1AA,
+				F52AFB6802E3650701ECE1AA,
+				F52AFB7702E381BC01ECE1AA,
+				F52AFB7602E381BC01ECE1AA,
+				F52AFB5502E35F3201ECE1AA,
+				F52AFB5402E35F3201ECE1AA,
+				F5BD1B0C03A5597201805C1D,
+				F5BD1B0D03A5597201805C1D,
+				F52AFB5902E35F3C01ECE1AA,
+				F52AFB5802E35F3C01ECE1AA,
+				F53614280304A86B0100006B,
+				F53614270304A86B0100006B,
+				F5A55BDE03686C84015CD356,
+				F5A55BDF03686C84015CD356,
+				F52AFB5D02E35F4301ECE1AA,
+				F52AFB5C02E35F4301ECE1AA,
+				F52AFB6102E35F4A01ECE1AA,
+				F52AFB6002E35F4A01ECE1AA,
+				F52E1F010357A538010C7683,
+				F52E1F020357A538010C7683,
+			);
+			isa = PBXGroup;
+			name = Public;
+			path = "";
+			refType = 4;
+		};
+		F51DE22602E293E501745AE7 = {
+			children = (
+				F52AFB7202E37FBE01ECE1AA,
+				F52AFB7102E37FBE01ECE1AA,
+				F52AFB6D02E36F5701ECE1AA,
+				F52AFB6C02E36F5701ECE1AA,
+				F52AFB6502E362C001ECE1AA,
+				F52AFB6402E362C001ECE1AA,
+			);
+			isa = PBXGroup;
+			name = Private;
+			path = "";
+			refType = 4;
+		};
+		F51DE22702E293FB01745AE7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJKit.h;
+			refType = 4;
+		};
+		F51DE22802E293FB01745AE7 = {
+			fileRef = F51DE22702E293FB01745AE7;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F52AFB5002E35F2301ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJAccount_EditFriends.m;
+			refType = 4;
+		};
+		F52AFB5102E35F2301ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJAccount_EditFriends.h;
+			refType = 4;
+		};
+		F52AFB5402E35F3201ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJJournal.m;
+			refType = 4;
+		};
+		F52AFB5502E35F3201ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJJournal.h;
+			refType = 4;
+		};
+		F52AFB5602E35F3201ECE1AA = {
+			fileRef = F52AFB5402E35F3201ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52AFB5702E35F3201ECE1AA = {
+			fileRef = F52AFB5502E35F3201ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F52AFB5802E35F3C01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntry.m;
+			refType = 4;
+		};
+		F52AFB5902E35F3C01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntry.h;
+			refType = 4;
+		};
+		F52AFB5B02E35F3C01ECE1AA = {
+			fileRef = F52AFB5902E35F3C01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F52AFB5C02E35F4301ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJFriend.m;
+			refType = 4;
+		};
+		F52AFB5D02E35F4301ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJFriend.h;
+			refType = 4;
+		};
+		F52AFB6002E35F4A01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJGroup.m;
+			refType = 4;
+		};
+		F52AFB6102E35F4A01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJGroup.h;
+			refType = 4;
+		};
+		F52AFB6402E362C001ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Miscellaneous.m;
+			refType = 4;
+		};
+		F52AFB6502E362C001ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Miscellaneous.h;
+			refType = 4;
+		};
+		F52AFB6602E362C001ECE1AA = {
+			fileRef = F52AFB6402E362C001ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52AFB6702E362C001ECE1AA = {
+			fileRef = F52AFB6502E362C001ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		F52AFB6802E3650701ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJServer.m;
+			refType = 4;
+		};
+		F52AFB6902E3650701ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJServer.h;
+			refType = 4;
+		};
+		F52AFB6A02E3650701ECE1AA = {
+			fileRef = F52AFB6802E3650701ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52AFB6B02E3650701ECE1AA = {
+			fileRef = F52AFB6902E3650701ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F52AFB6C02E36F5701ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = URLEncoding.m;
+			refType = 4;
+		};
+		F52AFB6D02E36F5701ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = URLEncoding.h;
+			refType = 4;
+		};
+		F52AFB6E02E36F5701ECE1AA = {
+			fileRef = F52AFB6C02E36F5701ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52AFB6F02E36F5701ECE1AA = {
+			fileRef = F52AFB6D02E36F5701ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		F52AFB7102E37FBE01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJMenu.m;
+			refType = 4;
+		};
+		F52AFB7202E37FBE01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJMenu.h;
+			refType = 4;
+		};
+		F52AFB7302E37FBE01ECE1AA = {
+			fileRef = F52AFB7102E37FBE01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52AFB7402E37FBE01ECE1AA = {
+			fileRef = F52AFB7202E37FBE01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		F52AFB7602E381BC01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJMoods.m;
+			refType = 4;
+		};
+		F52AFB7702E381BC01ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJMoods.h;
+			refType = 4;
+		};
+		F52AFB7802E381BC01ECE1AA = {
+			fileRef = F52AFB7602E381BC01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52AFB7902E381BC01ECE1AA = {
+			fileRef = F52AFB7702E381BC01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F52AFB7C02E3878801ECE1AA = {
+			isa = PBXFileReference;
+			name = libcrypto.dylib;
+			path = /usr/lib/libcrypto.dylib;
+			refType = 0;
+		};
+		F52AFB7D02E3878801ECE1AA = {
+			fileRef = F52AFB7C02E3878801ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52D10D102F9F2C201ECE1AA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = ToDo.txt;
+			refType = 4;
+		};
+		F52E1F010357A538010C7683 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJHttpURLs.h;
+			refType = 4;
+		};
+		F52E1F020357A538010C7683 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJHttpURLs.m;
+			refType = 4;
+		};
+		F52E1F030357A538010C7683 = {
+			fileRef = F52E1F010357A538010C7683;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F52E1F040357A538010C7683 = {
+			fileRef = F52E1F020357A538010C7683;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F52E1F080357B1A8010C7683 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Localizable.strings;
+			path = English.lproj/Localizable.strings;
+			refType = 4;
+		};
+		F52E1F0A0357B1BA010C7683 = {
+			children = (
+				F52E1F080357B1A8010C7683,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+		};
+		F52E1F0B0357B1BA010C7683 = {
+			fileRef = F52E1F0A0357B1BA010C7683;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F53614270304A86B0100006B = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntry_Metadata.m;
+			refType = 4;
+		};
+		F53614280304A86B0100006B = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntry_Metadata.h;
+			refType = 4;
+		};
+		F53614290304A86B0100006B = {
+			fileRef = F53614270304A86B0100006B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F536142A0304A86B0100006B = {
+			fileRef = F53614280304A86B0100006B;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F567C3700375DCC1011F79D0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Changes.txt;
+			refType = 4;
+		};
+		F5992D0C03786BB6012C19B1 = {
+			isa = PBXFrameworkReference;
+			name = CoreServices.framework;
+			path = /System/Library/Frameworks/CoreServices.framework;
+			refType = 0;
+		};
+		F5992D8A03786BB6012C19B1 = {
+			fileRef = F5992D0C03786BB6012C19B1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F5A55BDE03686C84015CD356 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntrySummary.h;
+			refType = 4;
+		};
+		F5A55BDF03686C84015CD356 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntrySummary.m;
+			refType = 4;
+		};
+		F5A55BE003686C84015CD356 = {
+			fileRef = F5A55BDE03686C84015CD356;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F5A55BE103686C84015CD356 = {
+			fileRef = F5A55BDF03686C84015CD356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F5B976CE039970E701094BD6 = {
+			fileRef = F52AFB5802E35F3C01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F5BD1B0C03A5597201805C1D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntryRoot.h;
+			refType = 4;
+		};
+		F5BD1B0D03A5597201805C1D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = LJEntryRoot.m;
+			refType = 4;
+		};
+		F5BD1B0E03A5597201805C1D = {
+			fileRef = F5BD1B0C03A5597201805C1D;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F5BD1B0F03A5597201805C1D = {
+			fileRef = F5BD1B0D03A5597201805C1D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F5D00B0902F7A1F901ECE1AA = {
+			fileRef = F52AFB5002E35F2301ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F5D00B0A02F7A20001ECE1AA = {
+			fileRef = F52AFB5102E35F2301ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F5D00B0C02F7A20301ECE1AA = {
+			fileRef = F52AFB6102E35F4A01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		F5D00B0D02F7A20501ECE1AA = {
+			fileRef = F52AFB5C02E35F4301ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F5D00B0E02F7A20601ECE1AA = {
+			fileRef = F52AFB6002E35F4A01ECE1AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+	};
+	rootObject = 0867D690FE84028FC02AAC07;
+}

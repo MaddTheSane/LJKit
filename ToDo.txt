@@ -1,0 +1,61 @@
+This is my To Do List for the LJKit.  Not everything here is guaranteed to be 
+done.  You have the source, so feel free to tackle any of these yourself.
+
+TO BE DONE FOR 1.0
+
+TO BE DONE FOR 1.1
+
+TODO: Update HTTP URL methods
+
+TODO: Remove calls to [NSString cString]; to be deprecated in the future.
+    Only used in MD5HexDigest() function.
+
+TODO: Have methods that accept enumerators.
+  Move others into convenience categories?
+
+TODO: Add notifications
+  - LJGroupCreatedNotification
+  - LJGroupDeletedNotification
+  - LJGroupChangedNotification
+    object: the LJGroup instance
+  - LJFriend(Of)AddedNotification
+  - LJFriend(Of)RemovedNotification
+  - LJFriendChangedNotification
+    object: the LJFriend instance
+  - LJAccount(Will/Did/DidNot)(Upload/Download)(Friends/Groups)
+    object: the LJAccount instance
+
+TODO: Code Style: Review all HeaderDoc comments
+    Some of it was hastily written.
+    Project Builder doesn't like the way I've indented the comments, but I don't
+    know what it wants.
+
+TODO: LJServer Proxy Code
+  - CFHTTPReadStreamSetProxy() is deprecated.  It should be replaced with a call
+    to CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, info) where
+    info is a CFDictionary.  The info object can be acquired from the
+    SystemConfiguration.framework and passed to this function without
+    modification.
+  - Add a setProxyInfo: method which will save the proxy info dictionary.
+  - Modify setProxyURL: to internally create a proxyInfo CFDictionary.
+  - Create a detectProxyInfo method which will automatically pull the proxy
+    settings from SystemConfiguration.framework.
+
+TODO: Code Style: Private Methods
+  - Prefix all private methods with an underscore (_)
+  - Move all private methods declarations into a PrivateMethods category.
+
+TODO: Implement syncitems
+    It's the only thing we don't do.
+    
+TODO: Use accessor methods wherever possible, to make subclassing and debugging more 
+    logical.
+
+TODO: Add property list methods to codable objects.
+    - (id)propertyList;
+    - (id)initWithPropertyList:;
+    Could we make an archiver to do this?  Didn't somebody already do that?
+
+TO BE DONE FOR 1.2
+
+TODO: Implement LJPoll, LJPollQuestion objects

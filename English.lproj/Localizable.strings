@@ -1,0 +1,47 @@
+LJNotLoggedInError = 
+"You are not logged in.  Log in before trying again.";
+
+LJNoSuccessKeyError =
+"Could not complete operation.  The server did not report whether the operation succeeded or not.  This usually means there is a problem with the server.\n\nPlease wait and try again later.";
+
+LJNoErrMsgKeyError =
+"Could not complete operation.  The server reported that an error occurred but did not provide a message explaining why.\n\nPlease wait and try again later.";
+
+LJReservedLoginFlagSetError =
+"Could not log in.  The application enabled a reserved login flag, meaning there is a bug in the application.\n\nPlease report this problem to the developer.";
+
+LJAccountDelegateDidVetoConnection =
+"The application aborted the connection to the server.";
+
+LJGroupLimitReached =
+"You cannot create a new group because you already have 30, which is the maximum number of groups allowed by the server.  You will have to delete an existing group before you can make a new one.";
+
+LJInitializedMessage =
+"LJKit initialized for client %@.";
+
+"LJStreamError_1_50" =
+"The network is down.  Make sure your computer is connected to the Internet and try again.";
+
+"LJStreamError_1_51" =
+"Could not contact the server.  Make sure your computer is connected to the Internet and try again.";
+
+"LJStreamError_1_54" =
+"Could not complete operation because the connection was reset by the server.  This usually occurs when the network is busy.\n\nPlease wait and try again later.";
+
+"LJStreamError_1_65" =
+"Could not contact the server.  Make sure your computer is connected to the Internet and try again.";
+
+"LJStreamError_%d_%d" =
+"An error occurred while communicating with the server.  Your computer may not be connected to the Internet or the network could be busy. (Error Domain %d, Code %d)\n\nPlease wait and try again later.";
+
+LJHTTPParseError =
+"Unable to understand the server's reply.  The server could be sending garbage (a problem on the server side) or there may be a bug in this application.  If you see this error message frequently, please contact the developer.";
+
+"LJHTTPStatusError_404" =
+"Contacted the server but the LiveJournal service does not appear to be running.  There may be a problem with the server.\n\nMake sure you have the correct server URL and try again later.";
+
+"LJHTTPStatusError_500" =
+"Contacted the server but the LiveJournal service is not configured properly.  There may be a problem with the server.\n\nMake sure you have the correct server URL and try again later.";
+
+"LJHTTPStatusError_%d" =
+"The server responded with HTTP error code %d.  There may be a problem with the server.\n\nMake sure you have the correct server URL and try again later.";
