@@ -64,8 +64,10 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
     NSURL *_serverURL;
     BOOL _isUsingFastServers;
     NSData *_loginData;
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
     SCNetworkReachabilityContext _reachContext;
     SCNetworkReachabilityRef _target;
+#endif
     CFHTTPMessageRef _requestTemplate;
 }
 
@@ -105,7 +107,9 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  @discussion
  Description forthcoming.
  */
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 - (void)enableReachabilityMonitoring;
+#endif
 
 /*!
  @method disableReachabilityMonitoring
@@ -113,7 +117,9 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  @discussion
  Description forthcoming.
  */
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 - (void)disableReachabilityMonitoring;
+#endif
 
 /*!
  @method getReachability:
