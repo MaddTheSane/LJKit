@@ -200,6 +200,7 @@ static LJAccount *gAccountListHead = nil;
 - (id)initWithUsername:(NSString *)username
 {
     NSURL *defaultURL;
+    LJJournal *journal;
     
     if ([self init]) {
         NSParameterAssert(username);
@@ -207,6 +208,8 @@ static LJAccount *gAccountListHead = nil;
         _fullname = [_username copy];
         defaultURL = [NSURL URLWithString:@"http://www.livejournal.com"];
         _server = [[LJServer alloc] initWithURL:defaultURL account:self];
+        journal = [LJJournal _journalWithName:_username account:self];
+        _journalArray = [[NSArray alloc] initWithObjects:&journal count:1];
     }
     return self;
 }
@@ -460,6 +463,7 @@ static LJAccount *gAccountListHead = nil;
     NSDictionary *loginInfo, *reply, *info;
     NSMutableDictionary *parameters;
     NSNotificationCenter *noticeCenter = [NSNotificationCenter defaultCenter];
+    NSArray *journals;
 
     NSAssert(password != nil, @"Password must not be nil.");
     NSAssert((loginFlags & LJReservedLoginFlags) == 0, @"A reserved login flag was set."); 
@@ -505,8 +509,9 @@ static LJAccount *gAccountListHead = nil;
     {
         [_server setUseFastServers:YES];
     }
-    _journalArray = [LJJournal _journalArrayFromLoginReply:reply account:self];
-    [_journalArray retain];
+    journals = [LJJournal _journalArrayFromLoginReply:reply account:self];
+    [_journalArray release];
+    _journalArray = [journals retain];
     if (loginFlags & LJGetMoodsLoginFlag) {
         [_moods updateMoodsWithLoginReply:reply];
     }

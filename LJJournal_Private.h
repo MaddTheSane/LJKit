@@ -26,6 +26,7 @@
 #import "LJJournal.h"
 
 @interface LJJournal (FrameworkPrivate)
++ (LJJournal *)_journalWithName:(NSString *)name account:(LJAccount *)account;
 + (NSArray *)_journalArrayFromLoginReply:(NSDictionary *)reply account:(LJAccount *)account;
 - (id)initWithName:(NSString *)name account:(LJAccount *)account;
 @end

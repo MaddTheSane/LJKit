@@ -61,17 +61,21 @@ static NSString *entrySummaryLength = nil;
 {
     NSMutableArray *array;
     NSString *name;
+    LJJournal *journal;
     int count, i;
 
     count = [[reply objectForKey:@"access_count"] intValue];
     array = [NSMutableArray arrayWithCapacity:(count + 1)];
     // add user's own journal (not part of login reply)
-    [array addObject:[self _journalWithName:[account username]
-                                    account:account]];
+    [array addObject:[account defaultJournal]];
     // add others, if present
     for (i = 1; i <= count; i++) {
         name = [reply objectForKey:[NSString stringWithFormat:@"access_%d", i]];
-        [array addObject:[self _journalWithName:name account:account]];
+        journal = [account journalNamed:name];
+        if (journal == nil) {
+            journal = [self _journalWithName:name account:account];
+        }
+        [array addObject:journal];
     }
     return array;
 }
