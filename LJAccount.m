@@ -22,6 +22,10 @@
 /*
  2004-01-10 [BPR]	Changed exception handling (gets strings from main bundle,
                     not the LJKit bundle).
+ 2004-02-23 [BPR]   Updated initWithUsername: to call LJServer's designated initializer.
+                    (The account field wasn't being set.)
+                    Added method: description
+ 2004-03-13 [BPR]   Added default account methods.
  */
 
 #import "LJAccount_EditFriends.h"
@@ -97,6 +101,7 @@ static LJAccount *gAccountListHead = nil;
     }
 }
 
+
 + (NSArray *)allAccounts
 {
     NSMutableArray *array = [NSMutableArray array];
@@ -109,36 +114,99 @@ static LJAccount *gAccountListHead = nil;
     return array;
 }
 
+
+/* In Objective-C, [nil anyMessage] == nil, which makes traversing list links a breeze! */
+- (LJAccount *)_accountWithIdentifier:(NSString *)identifier
+{
+    if ([[self identifier] isEqualToString:identifier]) {
+        return self;
+    } else {
+        return [_nextAccount _accountWithIdentifier:identifier];
+    }
+}
+
+
 + (LJAccount *)accountWithIdentifier:(NSString *)identifier
 {
-    LJAccount *account = gAccountListHead;
-
-    while (account) {
-        if ([[account identifier] isEqualToString:identifier])
-            return account;
-        account = account->_nextAccount;
-    }
-    return nil;
+    return [gAccountListHead _accountWithIdentifier:identifier];
 }
+
+
++ (LJAccount *)defaultAccount
+{
+    return gAccountListHead;
+}
+
+
++ (void)setDefaultAccount:(LJAccount *)newDefault
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    // Must save here in case newDefault is already the list head
+    [defaults setObject:[newDefault identifier] forKey:@"LJDefaultAccountIdentifier"];
+    if (newDefault != gAccountListHead) {
+        LJAccount *previous = gAccountListHead;
+        LJAccount *current = gAccountListHead->_nextAccount;
+    
+        while (current) {
+            if (current == newDefault) {
+                [gAccountListHead setDefault:NO];
+                // remove newDefault from the list
+                previous->_nextAccount = newDefault->_nextAccount;
+                // put newDefault at the front
+                newDefault->_nextAccount = gAccountListHead;
+                gAccountListHead = newDefault;
+                return;
+            }
+            previous = current;
+            current = current->_nextAccount;
+        }
+        [NSException raise:NSInternalInconsistencyException
+                    format:@"New proposed default account not in the list."];
+    }
+}
+
+
+- (BOOL)isDefault
+{
+    return (gAccountListHead == self);
+}
+
+
+- (void)setDefault:(BOOL)flag
+{
+    if (flag) {
+        [LJAccount setDefaultAccount:self];
+    }
+}
+    
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        // add self to global linked list of accounts
-        _nextAccount = gAccountListHead;
-        gAccountListHead = self;
+        // add self to global linked list of accounts.
+        // can't overwrite the head because it is the default now
+        if (nil == gAccountListHead) {
+            gAccountListHead = self;
+        } else {
+            _nextAccount = gAccountListHead->_nextAccount;
+            gAccountListHead->_nextAccount = self;
+        }
     }
     return self;
 }
 
 - (id)initWithUsername:(NSString *)username
 {
+    NSURL *defaultURL;
+    
     if ([self init]) {
         NSParameterAssert(username);
         _username = [[username lowercaseString] retain];
         _fullname = [_username copy];
-        _server = [[LJServer alloc] init];
+        defaultURL = [NSURL URLWithString:@"http://www.livejournal.com"];
+        _server = [[LJServer alloc] initWithURL:defaultURL account:self];
     }
     return self;
 }
@@ -152,6 +220,9 @@ static LJAccount *gAccountListHead = nil;
 - (id)initWithCoder:(NSCoder *)decoder
 {
     if ([self init]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *theIdentifier;
+        
         _username = [[decoder decodeObjectForKey:@"LJAccountUsername"] retain];
         _fullname = [[decoder decodeObjectForKey:@"LJAccountFullname"] retain];
         _server = [[decoder decodeObjectForKey:@"LJAccountServer"] retain];
@@ -167,6 +238,11 @@ static LJAccount *gAccountListHead = nil;
         _removedGroupSet = [[decoder decodeObjectForKey:@"LJAccountExGroups"] retain];
         // custom info
         _customInfo = [[decoder decodeObjectForKey:@"LJAccountCustomInfo"] retain];
+        // check defaults to see if this is supposed to be the default account
+        theIdentifier = [defaults stringForKey:@"LJDefaultAccountIdentifier"];
+        if ([theIdentifier isEqualToString:[self identifier]]) {
+            [LJAccount setDefaultAccount:self];
+        }
     }
     return self;
 }
@@ -569,7 +645,7 @@ static LJAccount *gAccountListHead = nil;
 
 - (NSString *)identifier
 {
-    NSURL *serverURL = [_server url];
+    NSURL *serverURL = [_server URL];
     int p = [[serverURL port] intValue];
     return [NSString stringWithFormat:@"%@@%@:%u",
         _username, [serverURL host], (p != 0 ? p : 80)];
@@ -616,6 +692,11 @@ static LJAccount *gAccountListHead = nil;
 - (NSComparisonResult)compare:(LJAccount *)account
 {
     return [[self identifier] compare:[account identifier]];
+}
+
+- (NSString *)description
+{
+    return [self identifier];
 }
 
 @end

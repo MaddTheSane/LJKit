@@ -18,6 +18,9 @@
 
  You may contact the author via email at benzado@livejournal.com.
  */
+/*
+ 2004-03-13 [BPR] Added default account methods.
+ */
 
 #import <Cocoa/Cocoa.h>
 
@@ -111,7 +114,7 @@ FOUNDATION_EXPORT NSString * const LJAccountWillLoginNotification;
 FOUNDATION_EXPORT NSString * const LJAccountDidLoginNotification;
 
 /*!
- @const LJAccountDidLoginNotification
+ @const LJAccountDidNotLoginNotification
  @discussion
  Posted after an account object fails to log in.
  The notification object is the account instance.
@@ -182,6 +185,58 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
  found, returns nil.
  */
 + (LJAccount *)accountWithIdentifier:(NSString *)identifier;
+
+
+/*!
+ @method defaultAccount
+ @abstract Returns the default account.
+ @result An account reference if any exists.
+ @discussion
+ The LJAccount keeps an internal list of all known account objects.
+ This method will return the one designated as default.  If you have 
+ never set a default account, and arbitrary account will be returned.
+ This method is guaranteed not to return nil unless there are no
+ LJAccount objects in memory.
+ */
++ (LJAccount *)defaultAccount;
+
+/*!
+ @method setDefaultAccount:
+ @abstract Sets the default account.
+ @param newDefault The account to be set as the new default.
+ @discussion
+ Use this method to designate the account object to be returned by
+ defaultAccount.
+ The identifier of the selected account will be stored in the user defaults
+ database.  As account objects are unarchived, they check their identifiers 
+ against the defaults database.  If a match is found, the unarchived object
+ will be registered as the default account.  Thus, default account status 
+ is maintained across executions of your application if you archive account
+ object instances.  If you modify the defaults key directly default account
+ status will not be synchronized and the results are undefined.
+ */
++ (void)setDefaultAccount:(LJAccount *)newDefault;
+
+/*!
+ @method setDefault:
+ @abstract Makes the receiver the default.
+ @param flag YES to make the receiver the default.
+ @discussion
+ Use this method to designate the receiver to be the object returned by
+ defaultAccount.  If flag is NO, no action is taken.
+ */
+- (void)setDefault:(BOOL)flag;
+
+/*!
+ @method isDefault
+ @abstract Determines if the receiver is the default account.
+ @returns YES if the receiver is the default account, NO otherwise.
+ @discussion
+ Use this method to determine if the receiver is the object returned by
+ defaultAccount.
+ */
+- (BOOL)isDefault;
+
 
 /*!
  @method initWithUsername:
