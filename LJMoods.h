@@ -46,7 +46,6 @@
 
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
-- (void)updateMoodsWithLoginReply:(NSDictionary *)reply;
 
 /*!
  @method highestMoodID
@@ -78,6 +77,9 @@
  */
 - (NSArray *)moodNames;
 
+@end
+
+@interface LJMoods (NSComboBoxDelegate)
 - (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox;
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index;
 - (unsigned int)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)aString;

@@ -19,7 +19,16 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
+/*
+ 2004-01-06 [BPR] Moved combo box delegate methods into category.
+ */
+
 #import "LJMoods.h"
+
+@interface LJMoods (ClassPrivate)
+- (int)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag;
+- (void)_addMoodID:(NSString *)moodID forName:(NSString *)moodName;
+@end
 
 @implementation LJMoods
 
@@ -145,7 +154,10 @@
     return _moodNames;
 }
 
-/* NSComboBoxDataSource  methods */
+@end
+
+
+@implementation LJMoods (NSComboBoxDelegate)
 
 - (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox
 {
@@ -157,8 +169,7 @@
     return [_moodNames objectAtIndex:index];
 }
 
-- (NSString *)comboBox:(NSComboBox *)aComboBox completedString:
-    (NSString *)aString
+- (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)aString
 {
     int index = [self _indexForMoodName:aString hypothetical:YES];
     if (index < [_moodNames count]) {
@@ -168,8 +179,7 @@
     return nil;
 }
 
-- (unsigned int)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:
-    (NSString *)aString
+- (unsigned int)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)aString
 {
     return [self _indexForMoodName:aString hypothetical:NO];
 }
