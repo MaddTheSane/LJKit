@@ -77,7 +77,6 @@
 
 @implementation LJEntryRoot (LJHttpURLs)
 
-/* http://www.livejournal.com/talkread.bml?journal=lj_clients&itemid=67083 */
 - (int)webItemID
 {
     return ((_itemID << 8) + _aNum);
@@ -86,9 +85,6 @@
 - (NSURL *)readCommentsHttpURL
 {
     if (_itemID) {
-        //NSURL *baseURL = [[[_journal account] server] url];
-        //NSString *s = [NSString stringWithFormat:@"/talkread.bml?journal=%@&itemid=%u", [_journal name], [self webItemID]];
-        // New URL Code:
         NSURL *baseURL = [_journal recentEntriesHttpURL];
         NSString *s = [NSString stringWithFormat:@"%u.html", [self webItemID]];
         return [[NSURL URLWithString:s relativeToURL:baseURL] absoluteURL];
@@ -99,12 +95,8 @@
 - (NSURL *)postCommentHttpURL
 {
     if (_itemID) {
-        // NSURL *baseURL = [[[_journal account] server] url];
-        // NSString *s = [NSString stringWithFormat:@"/talkpost.bml?journal=%@&itemid=%u", [_journal name], [self webItemID]];
-        // return [[NSURL URLWithString:s relativeToURL:baseURL] absoluteURL];
-        // New URL Code:
         return [[NSURL URLWithString:@"?mode=reply"
-                        relativeToURL:[self readCommentsHttpURL]] absoluteURL];
+                       relativeToURL:[self readCommentsHttpURL]] absoluteURL];
     }
     return nil;
 }
