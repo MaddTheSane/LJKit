@@ -19,69 +19,98 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
-#import "LJServer.h"
+/*
+ 2004-01-09 [BPR] 	Removed proxyURL and setProxyURL:.
+ 					Added proxy detection and reachability stuff.
+ 2004-01-10 [BPR]	Added account reference.  Moved exception code into LJAccount.
+ */
+
+#import "LJServer_Private.h"
+#import "LJAccount_Private.h"
 #import "Miscellaneous.h"
 #import "URLEncoding.h"
-#import "LJAccount.h"
 
-static NSString *LJUserAgent = nil;
+NSString * const LJServerReachabilityDidChangeNotification = @"LJServerReachabilityDidChange";
+
+static NSString *				gUserAgent = nil;
+
+static unsigned int 			gStoreRefCount = 0;
+static SCDynamicStoreRef 		gStore = NULL;
+static SCDynamicStoreContext 	gStoreContext;
+static CFRunLoopSourceRef 		gRunLoopSource = NULL;
+static CFDictionaryRef			gProxyInfo = NULL;
+
+void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
+void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info);
+
+@interface LJServer (ClassPrivate)
+- (void)enableProxyDetection;
+- (void)disableProxyDetection;
+- (void)updateRequestTemplate;
+@end
 
 @implementation LJServer
 
 + (void)initialize
 {
-    if (LJUserAgent == nil) {
+    if (gUserAgent == nil) {
         NSBundle *myBundle = LJKitBundle;
-        LJUserAgent = [[NSString alloc] initWithFormat:@"%@/%@ (Mac_PowerPC)",
+        gUserAgent = [[NSString alloc] initWithFormat:@"%@/%@ (Mac_PowerPC)",
             [myBundle objectForInfoDictionaryKey:@"CFBundleName"],
             [LJAccount _clientVersionForBundle:myBundle]];
-        NSLog(@"LJKit User-Agent: %@", LJUserAgent);
+        NSLog(@"LJKit User-Agent: %@", gUserAgent);
     }
 }
 
-- (id)initWithURL:(NSURL *)url
+- (id)initWithURL:(NSURL *)url account:(LJAccount *)account
 {
     self = [super init];
     if (self) {
+        _account = account; // don't retain (to avoid a cycle)
         [self setURL:url];
+        [self enableProxyDetection];
     }
     return self;
-}
-
-- (id)init
-{
-    return [self initWithURL:[NSURL URLWithString:@"http://www.livejournal.com/"]];
-}
-
-- (id)initWithCoder:(NSCoder *)decoder
-{
-    self = [self initWithURL:[decoder decodeObjectForKey:@"LJServerURL"]];
-    if (self) {
-        _proxyURL = [decoder decodeObjectForKey:@"LJServerProxyURL"];
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
-    [encoder encodeObject:_serverURL forKey:@"LJServerURL"];
-    [encoder encodeObject:_proxyURL forKey:@"LJServerProxyURL"];
 }
 
 - (void)dealloc
 {
     [_serverURL release];
-    [_proxyURL release];
     [_loginData release];
     if (_requestTemplate) CFRelease(_requestTemplate);
+    [self disableReachabilityMonitoring];
+    [self disableProxyDetection];
     [super dealloc];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    return [self initWithURL:[decoder decodeObjectForKey:@"LJServerURL"]
+                     account:[decoder decodeObjectForKey:@"LJServerAccount"]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:_serverURL forKey:@"LJServerURL"];
+    [encoder encodeConditionalObject:_account forKey:@"LJServerAccount"];
+}
+
+- (LJAccount *)account
+{
+    return _account;
 }
 
 - (void)setURL:(NSURL *)url
 {
     NSAssert([[url scheme] isEqualToString:@"http"], @"URL scheme must be http");
     if (SafeSetObject(&_serverURL, url)) {
-        _templateNeedsUpdate = YES;
+        if (_requestTemplate) CFRelease(_requestTemplate);
+        _requestTemplate = NULL;
+        // If we were monitoring reachability, the target needs to be updated.
+        if (_target != NULL) {
+            [self disableReachabilityMonitoring];
+            [self enableReachabilityMonitoring];
+        }
     }
 }
 
@@ -90,24 +119,12 @@ static NSString *LJUserAgent = nil;
     return _serverURL;
 }
 
-- (void)setProxyURL:(NSURL *)url
-{
-    // nil to disable proxy
-    if (SafeSetObject(&_proxyURL, url)) {
-        _templateNeedsUpdate = YES;
-    }
-}
-
-- (NSURL *)proxyURL
-{
-    return _proxyURL;
-}
-
 - (void)setUseFastServers:(BOOL)flag
 {
     if (_isUsingFastServers != flag) {
         _isUsingFastServers = flag;
-        _templateNeedsUpdate = YES;
+        if (_requestTemplate) CFRelease(_requestTemplate);
+        _requestTemplate = NULL;
     }
 }
 
@@ -119,51 +136,90 @@ static NSString *LJUserAgent = nil;
 - (void)setLoginInfo:(NSDictionary *)loginDict
 {
     [_loginData release];
-    _loginData = CreateURLEncodedFormData(loginDict);
+    _loginData = LJCreateURLEncodedFormData(loginDict);
     [_loginData retain];
+}
+
+- (void)enableProxyDetection
+{
+    if (gStoreRefCount == 0) {
+        CFStringRef proxiesKey;
+        CFArrayRef keyArray;
+        
+        gStore = SCDynamicStoreCreate(kCFAllocatorDefault, CFSTR("LJKit"), 
+                                      LJServerStoreCallback, &gStoreContext);
+        proxiesKey = SCDynamicStoreKeyCreateProxies(kCFAllocatorDefault);
+        keyArray = CFArrayCreate(kCFAllocatorDefault, (const void * *)&proxiesKey, 1, NULL);
+        SCDynamicStoreSetNotificationKeys(gStore, keyArray, NULL);
+        CFRelease(keyArray);
+        CFRelease(proxiesKey);
+        gRunLoopSource = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, gStore, 0);
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), gRunLoopSource, kCFRunLoopDefaultMode);
+        // The callback won't be called unless the proxy *changes*, so we make an initial copy here.
+        gProxyInfo = SCDynamicStoreCopyProxies(gStore);
+    }
+    gStoreRefCount++;
+}
+
+- (void)disableProxyDetection
+{
+    gStoreRefCount--;
+    if (gStoreRefCount == 0) {
+        CFRunLoopRemoveSource(CFRunLoopGetCurrent(), gRunLoopSource, kCFRunLoopDefaultMode);
+        CFRelease(gRunLoopSource); gRunLoopSource = NULL;
+        CFRelease(gStore); gStore = NULL;
+        if (gProxyInfo) CFRelease(gProxyInfo); gProxyInfo = NULL;
+    }
+}
+
+- (void)enableReachabilityMonitoring
+{
+    if (_target == NULL) {
+        _reachContext.info = self;
+        _target = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [[[self url] host] UTF8String]);
+        SCNetworkReachabilitySetCallback(_target, LJServerReachabilityCallback, &_reachContext);
+        SCNetworkReachabilityScheduleWithRunLoop(_target, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    }
+}
+
+- (void)disableReachabilityMonitoring
+{
+    if (_target != NULL) {
+        SCNetworkReachabilityUnscheduleFromRunLoop(_target, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+        CFRelease(_target);
+        _target = NULL;
+    }
+}
+
+- (BOOL)getReachability:(SCNetworkConnectionFlags *)flags
+{
+    NSAssert(flags != NULL, @"Flags must not be NULL.");
+    return SCNetworkCheckReachabilityByName([[[self url] host] UTF8String], flags);
 }
 
 - (void)updateRequestTemplate
 {
     CFURLRef url;
 
-    url = CFURLCreateWithString(kCFAllocatorDefault,
-                                CFSTR("/interface/flat"), (CFURLRef)_serverURL);
+    url = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("/interface/flat"),
+                                (CFURLRef)_serverURL);
     if (_requestTemplate) CFRelease(_requestTemplate);
     _requestTemplate = CFHTTPMessageCreateRequest(kCFAllocatorDefault,
                                                   CFSTR("POST"), url,
                                                   kCFHTTPVersion1_0);
     //NSLog(@"_requestTemplate RC = %d", CFGetRetainCount(_requestTemplate));
     CFRetain(_requestTemplate);
-    CFRelease(url);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Host"),
                                      (CFStringRef)[_serverURL host]);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Content-Type"),
                                      CFSTR("application/x-www-form-urlencoded"));
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("User-Agent"),
-                                     (CFStringRef)LJUserAgent);
-    if (_isUsingFastServers)
+                                     (CFStringRef)gUserAgent);
+    if (_isUsingFastServers) {
         CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Set-Cookie"),
                                          CFSTR("ljfastservers=1"));
-    _templateNeedsUpdate = NO;
-}
-
-- (void)_raiseExceptionWithNameFormat:(NSString *)format, ...
-{
-    NSBundle *bundle = LJKitBundle;
-    NSString *key, *reason;
-    va_list args;
-
-    va_start(args, format);
-    key = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
-    va_end(args);
-    reason = [bundle localizedStringForKey:key value:@"?" table:nil];
-    if ([reason isEqualToString:@"?"]) {
-        reason = [bundle localizedStringForKey:format value:nil table:nil];
     }
-    va_start(args, format);
-    [NSException raise:key format:reason arguments:args];
-    va_end(args);
+    CFRelease(url);
 }
 
 - (NSDictionary *)getReplyForMode:(NSString *)mode parameters:(NSDictionary *)parameters
@@ -182,31 +238,31 @@ static NSString *LJUserAgent = nil;
     tmpString = [NSString stringWithFormat:@"mode=%@", mode];
     [contentData appendData:[tmpString dataUsingEncoding:NSUTF8StringEncoding]];
     if (_loginData) [contentData appendData:_loginData];
-    if (parameters) [contentData appendData:CreateURLEncodedFormData(parameters)];
+    if (parameters) [contentData appendData:LJCreateURLEncodedFormData(parameters)];
+
     // Copy the template HTTP message and set the data and content length.
-    if (_templateNeedsUpdate) [self updateRequestTemplate];
+    if (_requestTemplate == NULL) [self updateRequestTemplate];
     request = CFHTTPMessageCreateCopy(kCFAllocatorDefault, _requestTemplate);
     CFHTTPMessageSetBody(request, (CFDataRef)contentData);
     tmpString = [NSString stringWithFormat:@"%u", [contentData length]];
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Content-Length"), (CFStringRef)tmpString);
+    
     // Connect to the server.
     stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
-    if (_proxyURL) {
-        CFHTTPReadStreamSetProxy(stream, (CFStringRef)[_proxyURL host],
-                                 [[_proxyURL port] intValue]);
-        //CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy,
-        // <a CFDictionary object>);
+    if (gProxyInfo) {
+        CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, gProxyInfo);
     }
     CFReadStreamOpen(stream);
+    
     // Build an HTTP response from the data read.
     response = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
     while (bytesRead = CFReadStreamRead(stream, bytes, 64)) {
         if (bytesRead == -1) {
             CFStreamError err = CFReadStreamGetError(stream);
-            [self _raiseExceptionWithNameFormat:@"LJStreamError_%d_%d", err.domain, err.error];
+            [[_account _exceptionWithFormat:@"LJStreamError_%d_%d", err.domain, err.error] raise];
         } else if (!CFHTTPMessageAppendBytes(response, bytes, bytesRead)) {
             CFReadStreamClose(stream);
-            [self _raiseExceptionWithNameFormat:@"LJHTTPParseError"];
+            [[_account _exceptionWithName:@"LJHTTPParseError"] raise];
         }
     }
     statusCode = CFHTTPMessageGetResponseStatusCode(response);
@@ -215,7 +271,7 @@ static NSString *LJUserAgent = nil;
         replyDictionary = ParseLJReplyData((NSData *)responseData);
         if (responseData) CFRelease(responseData);
     } else {
-        [self _raiseExceptionWithNameFormat:@"LJHTTPStatusError_%d", statusCode];
+        [[_account _exceptionWithFormat:@"LJHTTPStatusError_%d", statusCode] raise];
     }
     if (stream) CFRelease(stream);
     if (response) CFRelease(response);
@@ -224,3 +280,24 @@ static NSString *LJUserAgent = nil;
 }
 
 @end
+
+void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info)
+{
+    // We're only monitoring one key, so it's a safe bet we can ignore the changedKeys parameter.
+    if (gProxyInfo) CFRelease(gProxyInfo);
+    gProxyInfo = SCDynamicStoreCopyProxies(store);
+}
+
+void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info)
+{
+    NSDictionary *userInfo;
+    NSNotificationCenter *center;
+
+    userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInt:flags]
+                                           forKey:@"ConnectionFlags"];
+    center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:LJServerReachabilityDidChangeNotification
+                          object:(LJServer *)info
+                        userInfo:userInfo];
+    [userInfo release];
+}

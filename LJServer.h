@@ -19,8 +19,37 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
+/*
+ 2004-01-09 [BPR]	Removed proxyURL and setProxyURL:.
+ 					Added reachability methods.
+ 					Added account reference.
+ */
+
 #import <Foundation/Foundation.h>
 #import <CoreServices/CoreServices.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+
+@class LJAccount;
+
+/*!
+ @const LJServerReachabilityDidChangeNotification
+ Posted if the system determines that the reachability of a server has changed.
+ Reachability is not monitored by default.  If you want these notifications to
+ be posted, you must enable reachability monitoring.
+ 
+ <code>[[myAccount server] enableReachabilityMonitoring];</code>
+ 
+ The notification object is the LJServer instance.  To find the corresponding
+ LJAccount instance you will have to query the LJAccounts individually.
+ 
+ The userInfo dictionary contains one key, @"ConnectionFlags" which is paired
+ with an NSNumber instance.  This value is a bit field as returned by the
+ SystemConfiguration framework.  You can learn more about the flags meanings in
+ the SCNetwork header file.
+ 
+ file:///System/Library/Frameworks/SystemConfiguration.framework/Headers/SCNetwork.h
+ */
+FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
 
 /*!
  @class LJServer
@@ -31,46 +60,38 @@
  */
 @interface LJServer : NSObject <NSCoding>
 {
-    NSURL *_serverURL, *_proxyURL;
+    LJAccount *_account;
+    NSURL *_serverURL;
     BOOL _isUsingFastServers;
-    BOOL _templateNeedsUpdate;
     NSData *_loginData;
+    SCNetworkReachabilityContext _reachContext;
+    SCNetworkReachabilityRef _target;
     CFHTTPMessageRef _requestTemplate;
 }
-- (id)initWithURL:(NSURL *)url;
+
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
+
+/*!
+ @method account
+ @abstract Obtain the account associated with the receiver.
+ */
+- (LJAccount *)account;
 
 /*!
  @method setURL:
  @abstract Set the URL of the host to communicate with.
  @param url The URL of the host to connect to.
+ @discussion
+ The URL must be the base URL of the site, e.g. "http://www.livejournal.com/".
  */
 - (void)setURL:(NSURL *)url;
 
 /*!
- @method hostname
- @abstract Obtain the hostname of the receiver.
+ @method url
+ @abstract Obtain the url of host the receiver communicates with.
  */
 - (NSURL *)url;
-
-/*!
- @method setProxyURL:
- @abstract Set the URL of a proxy server.
- @discussion
- To enable proxy support, call this method with the URL of the proxy server.
- To disable proxy support, set proxyHostname to nil.
- */
-- (void)setProxyURL:(NSURL *)url;
-
-/*!
- @method proxyURL
- @abstract Obtain the URL of the proxy server.
- @result The URL of a the proxy server, or nil if proxy is disabled.
- */
-- (NSURL *)proxyURL;
-
-- (void)setUseFastServers:(BOOL)flag;
 
 /*!
  @method isUsingFastServers
@@ -78,7 +99,34 @@
  */
 - (BOOL)isUsingFastServers;
 
-- (void)setLoginInfo:(NSDictionary *)loginDict;
+/*!
+ @method enableReachabilityMonitoring
+ @abstract Enables reachability monitoring.
+ @discussion
+ Description forthcoming.
+ */
+- (void)enableReachabilityMonitoring;
+
+/*!
+ @method disableReachabilityMonitoring
+ @abstract Disables reachability monitoring.
+ @discussion
+ Description forthcoming.
+ */
+- (void)disableReachabilityMonitoring;
+
+/*!
+ @method getReachability:
+ @discussion Determines if the receiver's target server is reachable using the 
+	current network configuration.  See SCNetwork.h in the SystemConfiguration
+    framework for an explanation.
+ @abstract Determines the reachability of the server.
+ @param flags A pointer to memory that will be filled with a
+	set of SCNetworkConnectionFlags detailing the reachability
+	of the specified node name.
+ @returns YES if the flags are valid; NO if the status could not be determined.
+ */
+- (BOOL)getReachability:(SCNetworkConnectionFlags *)flags;
 
 /*!
  @method getReplyForMode:parameters:
