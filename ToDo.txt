@@ -1,70 +1,60 @@
-This is my To Do List for the LJKit.  Not everything here is guaranteed to be 
-done.  You have the source, so feel free to tackle any of these yourself.
+Here is the To Do List for LJKit.  Everything is subject to change.  Some of the items are To Be Done, others are merely To Be Mulled Over.  Some are probably To Be Ignored.
 
-TO BE DONE I-DON'T-KNOW-WHEN
+Got comments?  Email benzado@livejournal.com.
 
-TODO: Prioritize the rest of the TODO items.
 
-TODO: Use CFNetwork.  I understand that it can use run loops for background
-    processing.  Investigate the possibility of using this to make LJKit 
-    single threaded.  That would be nice.
+*** STYLE & DOCUMENTATION ***
 
-TODO: Use Panther's new NSXMLParser class to read and write journal entries
-    in an XML format.  <lj user="evan"> has drafted a DTD that logjam uses,
-    and has promised to email it to me.  That would be a good start for a
-    common format.
+: Review all HeaderDoc comments.  Some of it was hastily written.  Decide how comments should be indented; Project Builder has some funny ideas about that.
 
-TODO: Remove calls to [NSString cString]; to be deprecated in the future.
-    Only used in MD5HexDigest() function.
+: Prefix ALL class-private methods with an underscore.
 
-TODO: Have methods that accept enumerators.
-  Move others into convenience categories?
+: Replace ALL references to class member variables with calls to an accessor method when one exists.  This will make subclassing and debugging more logical.
 
-TODO: Add notifications
-  - LJGroupCreatedNotification
-  - LJGroupDeletedNotification
-  - LJGroupChangedNotification
-    object: the LJGroup instance
-  - LJFriend(Of)AddedNotification
-  - LJFriend(Of)RemovedNotification
-  - LJFriendChangedNotification
-    object: the LJFriend instance
-  - LJAccount(Will/Did/DidNot)(Upload/Download)(Friends/Groups)
-    object: the LJAccount instance
+: Record changes in a comment at the top of each file.
 
-TODO: Code Style: Review all HeaderDoc comments
-    Some of it was hastily written.
-    Project Builder doesn't like the way I've indented the comments, but I don't
-    know what it wants.
+: Document LJHttpURLs
 
-TODO: LJServer Proxy Code
-  - CFHTTPReadStreamSetProxy() is deprecated.  It should be replaced with a call
-    to CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, info) where
-    info is a CFDictionary.  The info object can be acquired from the
-    SystemConfiguration.framework and passed to this function without
-    modification.
-  - Add a setProxyInfo: method which will save the proxy info dictionary.
-  - Modify setProxyURL: to internally create a proxyInfo CFDictionary.
-  - Create a detectProxyInfo method which will automatically pull the proxy
-    settings from SystemConfiguration.framework.
+: Write a style guide?  "The Elements of Objective-C Style"  Topics could include: identation, braces, order of methods in an object, use of categories, variable/class naming (capitalization, word meanings), accessor behavior (make return values immutable), line breaks/length, when to use objects/functions.
 
-TODO: Code Style: Private Methods
-  - Prefix all private methods with an underscore (_)
-  - Move all private methods declarations into a PrivateMethods category.
+*** MINOR CHANGES ***
 
-TODO: Implement syncitems
-    It's the only thing we don't do.
-    There was a post a while back on lj_dev (I'm too lazy to look it up right now)
-    which mentioned that syncitems is going to be replaced with something else.
-    It may be worth holding off on syncitems until the new protocol is developed.
-    
-TODO: Use accessor methods wherever possible, to make subclassing and debugging more 
-    logical.
+: Use NSEnumerator as the standard type for methods that accept a set of things.  Create a category of convenience methods which accept NSSet and NSArray objects.
 
-TODO: Add property list methods to codable objects.
-    - (id)propertyList;
-    - (id)initWithPropertyList:;
-    Could we make an archiver to do this?  Didn't somebody already do that?
+: Change references to NSCalendarDate to use NSDate instead.  Use an NSDateFormatter to convert to and from NSString representations.  The only place NSCalendarDate is used in the interface is for birthdate.  birthDate might have a zero (unspecified) year.  (Perhaps make an NSDate subclass, LJBirthDate?)
 
-TODO: Incorporate Fraser's LJPoll objects.
+: Add an account reference to LJServer.  Then use this (1) so the reachability notification object is the account instead of the server, and (2) so all exceptions are raised via an account method.
 
+*** MAJOR CHANGES ***
+
+: Use more CFNetwork.  Investigate the possibility of using run loops for background processing.  This might be a good way to remove the background thread from LJCheckFriendsSession and make LJKit single threaded.
+
+: Use WebServices framework to communicate via XML-RPC instead of the "flat" interface.  The primary advantage will be moving functionality out of LJKit and into the system code, making the framework smaller.
+
+*** NEW FEATURES ***
+
+: Use Panther's new NSXMLParser class to read and write journal entries in an XML format.  <lj user="evan"> has drafted a DTD that logjam uses, and has promised to email it to me.  That would be a good start for a common format.
+
+: Add notifications
+name = LJGroup(Created/Deleted/Changed)Notification, object = the LJGroup instance
+name = LJ(Friend/FriendOf)(Added/Removed)Notification, object = the LJFriend instance
+name = LJFriendChangedNotification, object = the LJFriend instance
+name = LJAccount(Will/Did/DidNot)(Upload/Download)FriendsAndGroups, object = the LJAccount instance
+There is some weirdness when posting notifications to a queue from a non-main thread.  I really want to use the queue, though, because coalescing makes things easier.
+
+: Add property list methods to codable objects.
+- (id)propertyList;
+- (id)initWithPropertyList:plist;
+Could we make an archiver to do this?  Didn't somebody already do that?
+
+: Incorporate Fraser's LJPoll objects.
+
+: Implement getchallenge mode.
+
+: Implement getcomments mode.
+
+*** BACKBURNER ***
+
+: Implement syncitems mode.  It's the only thing we don't do.  There was a post a while back on lj_dev (I'm too lazy to look it up right now) which mentioned that syncitems is going to be replaced with something else.  It may be worth holding off on syncitems until the new protocol is developed.
+
+*** END OF FILE ***
