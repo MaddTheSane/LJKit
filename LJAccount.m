@@ -29,6 +29,7 @@
  */
 
 #import "LJAccount_EditFriends.h"
+#import "LJUserEntity_Private.h"
 #import "LJAccount_Private.h"
 #import "LJJournal_Private.h"
 #import "LJMenu.h"
@@ -61,8 +62,8 @@ static LJAccount *gAccountListHead = nil;
 @implementation LJAccount
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_3
-- (void)willChangeValueForKey:(id)key { }
-- (void)didChangeValueForKey:(id)key { }
+- (void)willChangeValueForKey:(id)key {}
+- (void)didChangeValueForKey:(id)key {}
 #endif
 
 /*
@@ -203,19 +204,27 @@ static LJAccount *gAccountListHead = nil;
     return self;
 }
 
+- (void)_setUsername:(NSString *)newUsername
+{
+    LJJournal *journal;
+
+    [super _setUsername:newUsername];
+    if ([self username]) {
+        journal = [LJJournal _journalWithName:[self username] account:self];
+        _journalArray = [[NSArray alloc] initWithObjects:&journal count:1];
+    }
+}
+
 - (id)initWithUsername:(NSString *)username
 {
     NSURL *defaultURL;
-    LJJournal *journal;
     
     if ([self init]) {
         NSParameterAssert(username);
-        _username = [[username lowercaseString] retain];
-        _fullname = [_username copy];
+        [self _setUsername:username];
+        [self _setFullname:username];
         defaultURL = [NSURL URLWithString:@"http://www.livejournal.com"];
         _server = [[LJServer alloc] initWithURL:defaultURL account:self];
-        journal = [LJJournal _journalWithName:_username account:self];
-        _journalArray = [[NSArray alloc] initWithObjects:&journal count:1];
     }
     return self;
 }
@@ -275,8 +284,6 @@ static LJAccount *gAccountListHead = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:nil name:nil
                                                   object:self];
     // General account variables:
-    [_username release];
-    [_fullname release];
     [_server release];
     [_menu release];
     [_journalArray release];
@@ -323,14 +330,9 @@ static LJAccount *gAccountListHead = nil;
     return [NSKeyedArchiver archiveRootObject:self toFile:path];
 }
 
-- (NSString *)username
+- (LJAccount *)account
 {
-    return _username;
-}
-
-- (NSString *)fullname
-{
-    return _fullname;
+    return self;
 }
 
 - (LJServer *)server
@@ -480,7 +482,7 @@ static LJAccount *gAccountListHead = nil;
     _isLoggedIn = NO;
     loginInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
         MD5HexDigest(password), @"hpassword",
-        _username, @"user", @"1", @"ver", nil];
+        [self username], @"user", @"1", @"ver", nil];
     [_server setLoginInfo:loginInfo];
     [loginInfo release];
     // Set up parameters
@@ -507,7 +509,7 @@ static LJAccount *gAccountListHead = nil;
         [localException raise];
     NS_ENDHANDLER
     // get the full name of the account
-    _fullname = [[reply objectForKey:@"name"] retain];
+    [self _setFullname:[reply objectForKey:@"name"]];
     // get the login message, if present
     _loginMessage = [[reply objectForKey:@"message"] retain];
     // inform server object if we are allow to use the fast servers
@@ -673,7 +675,7 @@ static LJAccount *gAccountListHead = nil;
     NSURL *serverURL = [_server URL];
     int p = [[serverURL port] intValue];
     return [NSString stringWithFormat:@"%@@%@:%u",
-        _username, [serverURL host], (p != 0 ? p : 80)];
+        [self username], [serverURL host], (p != 0 ? p : 80)];
 }
 
 - (id)delegate

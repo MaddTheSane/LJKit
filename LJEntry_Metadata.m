@@ -24,6 +24,8 @@
 
 @implementation LJEntry (Metadata)
 
+// Generic Property Access
+
 - (void)setString:(NSString *)string forProperty:(NSString *)property
 {
     if (string) {
@@ -47,6 +49,8 @@
 {
     return [[_properties objectForKey:property] intValue] != 0;
 }
+
+// Specific Property Access
 
 - (NSString *)currentMood
 {
@@ -117,6 +121,48 @@
 - (void)setOptionNoEmail:(BOOL)flag
 {
     [self setBoolean:flag forProperty:@"opt_noemail"];
+}
+
+- (BOOL)hasUnknown8bitData
+{
+    return [self booleanForProperty:@"unknown8bit"];
+}
+
+- (unichar)optionScreenReplies
+{
+    return [[_properties objectForKey:@"opt_screening"] characterAtIndex:0];
+}
+
+- (BOOL)hasScreenedReplies
+{
+    return [self booleanForProperty:@"hasscreened"];
+}
+
+- (int)revisionNumber
+{
+    return [[_properties objectForKey:@"revnum"] intValue];
+}
+
+- (NSDate *)revisionDate
+{
+    int unixtime = [[_properties objectForKey:@"revtime"] intValue];
+    return [NSDate dateWithTimeIntervalSince1970:unixtime];
+}
+
+- (NSDate *)commentsAlteredDate
+{
+    int unixtime = [[_properties objectForKey:@"commentalter"] intValue];
+    return [NSDate dateWithTimeIntervalSince1970:unixtime];
+}
+
+- (NSString *)syndicatedItemID
+{
+    return [self stringForProperty:@"syn_id"];
+}
+
+- (NSURL *)syndicatedItemURL
+{
+    return [NSURL URLWithString:[_properties objectForKey:@"syn_link"]];
 }
 
 @end

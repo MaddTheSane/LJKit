@@ -23,6 +23,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <LJKit/LJUserEntity.h>
 
 @class LJServer, LJMoods, LJJournal;
 
@@ -147,9 +148,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
  accessor methods.  The an account's customInfo dictionary can be used
  to store client specific information with the account.
  */
-@interface LJAccount : NSObject <NSCoding>
+@interface LJAccount : LJUserEntity <NSCoding>
 {
-    NSString *_username, *_fullname;
     NSMenu *_menu;
     NSArray *_journalArray;
     LJServer *_server;
@@ -282,25 +282,6 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
  @result YES on success; NO otherwise.
  */ 
 - (BOOL)writeToFile:(NSString *)path;
-
-/*!
- @method username
- @abstract Returns the username associated with the receiver.
- @discussion
- This property is preserved during archiving.
- */
-- (NSString *)username;
-
-/*!
- @method fullname
- @abstract Returns full name associated with the receiver.
- @discussion
- Returns the user's long name as reported by the server.  If the receiver
- has never been logged in, this method will return the username.
-
- This property is preserved during archiving.
-*/
-- (NSString *)fullname;
 
 /*!
  @method server

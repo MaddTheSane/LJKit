@@ -279,8 +279,8 @@ static NSString *entrySummaryLength = nil;
     while (key = [enumerator nextObject]) {
         NSCalendarDate *date = [[NSCalendarDate alloc] initWithString:key calendarFormat:@"%Y-%m-%d"];
         if (date) {
-            NSNumber *count = [NSNumber numberWithInt:[[reply objectForKey:key] intValue]];
-            [workingCounts setObject:count forKey:date];
+            int c = [[reply objectForKey:key] intValue];
+            [workingCounts setObject:[NSNumber numberWithInt:c] forKey:date];
             [date release];
         }
     }

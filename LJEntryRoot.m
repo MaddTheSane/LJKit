@@ -39,6 +39,10 @@ NSString * const LJEntryDidRemoveFromJournalNotification =
 NSString * const LJEntryDidNotRemoveFromJournalNotification =
 @"LJEntryDidNotRemoveFromJournal";
 
+@interface LJEntryRoot (ClassPrivate)
+- (void)_setSecurityMode:(int)newMode;
+@end
+
 @implementation LJEntryRoot
 
 - (id)initWithReply:(NSDictionary *)info prefix:(NSString *)prefix
@@ -66,12 +70,12 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
         _allowGroupMask = [obj intValue];
         obj = [info objectForKey:[prefix stringByAppendingString:@"security"]];
         if (obj == nil || [obj isEqualToString:@"public"]) {
-            _security = LJPublicSecurityMode;
+            [self _setSecurityMode:LJPublicSecurityMode];
         } else if ([obj isEqualToString:@"private"]) {
-            _security = LJPrivateSecurityMode;
+            [self _setSecurityMode:LJPrivateSecurityMode];
         } else if ([obj isEqualToString:@"usemask"]) {
-            _security = ((_allowGroupMask == 1) ? LJFriendSecurityMode
-                                                : LJGroupSecurityMode);
+            [self _setSecurityMode:(_allowGroupMask == 1) ? LJFriendSecurityMode
+                                                          : LJGroupSecurityMode];
         } else {
             NSAssert1(NO, @"Unknown entry security mode: %@", obj);
         }
@@ -169,10 +173,18 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     return _date;
 }
 
+
 - (int)securityMode
 {
     return _security;
 }
+
+
+- (void)_setSecurityMode:(int)newMode
+{
+    _security = newMode;
+}
+
 
 - (BOOL)accessAllowedForGroup:(LJGroup *)group
 {

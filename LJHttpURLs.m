@@ -19,30 +19,11 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
+#import "LJAccount.h"
+#import "LJServer.h"
 #import "LJHttpURLs.h"
+#import "LJUserEntity_Private.h"
 
-@implementation LJAccount (LJHttpURLs)
-
-- (NSURL *)userProfileHttpURL
-{
-    NSString *s;
-    s = [NSString stringWithFormat:@"/userinfo.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[_server URL]] absoluteURL];
-}
-
-- (NSURL *)memoriesHttpURL
-{
-    NSString *s = [NSString stringWithFormat:@"/tools/memories.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[_server URL]] absoluteURL];
-}
-
-- (NSURL *)toDoListHttpURL
-{
-    NSString *s = [NSString stringWithFormat:@"/todo/?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[_server URL]] absoluteURL];
-}
-
-@end
 
 @implementation LJJournal (LJHttpURLs)
 
@@ -68,12 +49,12 @@
 - (NSURL *)calendarHttpURLForDay:(NSDate *)date
 {
     NSString *s;
-    // New URL Code: remove "day" from URL
-    s = [date descriptionWithCalendarFormat:@"day/%Y/%m/%d/" timeZone:nil locale:nil];
+    s = [date descriptionWithCalendarFormat:@"%Y/%m/%d/" timeZone:nil locale:nil];
     return [[NSURL URLWithString:s relativeToURL:[self recentEntriesHttpURL]] absoluteURL];
 }
 
 @end
+
 
 @implementation LJEntryRoot (LJHttpURLs)
 
@@ -114,6 +95,7 @@
 
 @end
 
+
 @implementation LJGroup (LJHttpURLs)
 
 - (NSURL *)membersEntriesHttpURL
@@ -124,60 +106,71 @@
 
 @end
 
-@implementation LJFriend (LJHttpURLs)
+
+@interface LJUserEntity (PrivateLJHttpURLs)
+
+- (NSURL *)_URLWithUsernameFormat:(NSString *)format;
+
+@end
+
+
+@implementation LJUserEntity (LJHttpURLs)
+
+- (NSURL *)_URLWithUsernameFormat:(NSString *)format
+{
+    NSString *string = [NSString stringWithFormat:format, [self username]];
+    NSURL *serverURL = [[[self account] server] URL];
+    return [[NSURL URLWithString:string relativeToURL:serverURL] absoluteURL];
+}
 
 - (NSURL *)userProfileHttpURL
 {
-    NSString *s = [NSString stringWithFormat:@"/userinfo.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
+    return [self _URLWithUsernameFormat:@"/userinfo.bml?user=%@"];
 }
 
 - (NSURL *)memoriesHttpURL
 {
-    NSString *s = [NSString stringWithFormat:@"/tools/memories.bml?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
+    return [self _URLWithUsernameFormat:@"/tools/memories.bml?user=%@"];
 }
 
 - (NSURL *)toDoListHttpURL
 {
-    NSString *s = [NSString stringWithFormat:@"/todo/?user=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
+    return [self _URLWithUsernameFormat:@"/todo/?user=%@"];
 }
 
 - (NSURL *)rssFeedURL
 {
-    NSString *s = [NSString stringWithFormat:@"/users/%@/data/rss", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];	
+    return [self _URLWithUsernameFormat:@"/users/%@/data/rss"];
 }
 
 - (NSURL *)atomFeedURL
 {
-    NSString *s = [NSString stringWithFormat:@"/users/%@/data/atom", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];		
+    return [self _URLWithUsernameFormat:@"/users/%@/data/atom"];
 }
 
 - (NSURL *)foafURL 
 {
-    NSString *s = [NSString stringWithFormat:@"/users/%@/data/foaf", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];		
+    return [self _URLWithUsernameFormat:@"/users/%@/data/foaf"];
 }
 
 - (NSURL *)recentEntriesHttpURL
 {
-    NSString *s = [NSString stringWithFormat:@"/users/%@/", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
+    return [self _URLWithUsernameFormat:@"/users/%@/"];
 }
+
+@end
+
+
+@implementation LJFriend (LJHttpURLs)
 
 - (NSURL *)joinCommunityHttpURL
 {
-    NSString *s = [NSString stringWithFormat:@"/community/join.bml?comm=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
+    return [self _URLWithUsernameFormat:@"/community/join.bml?comm=%@"];
 }
 
 - (NSURL *)leaveCommunityHttpURL
 {
-    NSString *s = [NSString stringWithFormat:@"/community/leave.bml?comm=%@", _username];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
+    return [self _URLWithUsernameFormat:@"/community/leave.bml?comm=%@"];
 }
 
 @end

@@ -20,6 +20,7 @@
  */
 
 #import "LJFriend_Private.h"
+#import "LJUserEntity_Private.h"
 #import "LJGroup.h"
 #import "LJAccount_EditFriends.h"
 #import "Miscellaneous.h"
@@ -41,7 +42,7 @@
     }
     // Parse field common to friendof and getfriends modes
     key = [prefix stringByAppendingString:@"name"];
-    SafeSetString(&amigo->_fullname, [reply objectForKey:key]);
+    [amigo _setFullname:[reply objectForKey:key]];
     key = [prefix stringByAppendingString:@"type"];
     SafeSetString(&amigo->_accountType, [reply objectForKey:key]);
     key = [prefix stringByAppendingString:@"status"];
@@ -149,8 +150,7 @@
         // equal, we can use member: to retrieve the friend object.
         LJFriend *amigo = [friends member:[reply objectForKey:userKey]];
         if (amigo) {
-            NSString *fullname = [reply objectForKey:nameKey];
-            SafeSetObject(&amigo->_fullname, fullname);
+            [amigo _setFullname:[reply objectForKey:nameKey]];
         } else {
             NSLog(@"Server says friend %@ was added, but friend doesn't appear"
                   @" in set.", [reply objectForKey:userKey]);
@@ -164,8 +164,8 @@
     if (self) {
         NSParameterAssert(username);
         _account = account;
-        _username = [[username lowercaseString] retain];
-        _fullname = [_username copy];
+        [self _setUsername:username];
+        [self _setFullname:username];
         _bgColor = [[NSColor whiteColor] retain];
         _fgColor = [[NSColor blackColor] retain];
         _bgColorForYou = [[NSColor whiteColor] retain];
@@ -177,8 +177,6 @@
 
 - (void)dealloc
 {
-    [_username release];
-    [_fullname release];
     [_bgColor release];
     [_fgColor release];
     [_birthDate release];
@@ -195,16 +193,11 @@
     self = [super init];
     if (self) {
         _account = [decoder decodeObjectForKey:@"LJFriendAccount"];
-        _username = [decoder decodeObjectForKey:@"LJFriendUsername"];
-        [_username retain];
-        _fullname = [decoder decodeObjectForKey:@"LJFriendFullname"];
-        [_fullname retain];
-        _birthDate = [decoder decodeObjectForKey:@"LJFriendBirthdate"];
-        [_birthDate retain];
-        _fgColor = [decoder decodeObjectForKey:@"LJFriendForegroundColor"];
-        [_fgColor retain];
-        _bgColor = [decoder decodeObjectForKey:@"LJFriendBackgroundColor"];
-        [_bgColor retain];
+        _username = [[decoder decodeObjectForKey:@"LJFriendUsername"] retain];
+        _fullname = [[decoder decodeObjectForKey:@"LJFriendFullname"] retain];
+        _birthDate = [[decoder decodeObjectForKey:@"LJFriendBirthdate"] retain];
+        _fgColor = [[decoder decodeObjectForKey:@"LJFriendForegroundColor"] retain];
+        _bgColor = [[decoder decodeObjectForKey:@"LJFriendBackgroundColor"] retain];
         _fgColorForYou = [[decoder decodeObjectForKey:@"LJFriendForegroundColorForYou"] retain];
         _bgColorForYou = [[decoder decodeObjectForKey:@"LJFriendBackgroundColorForYou"] retain];
         _groupMask = [decoder decodeInt32ForKey:@"LJFriendGroupMask"];
@@ -241,15 +234,12 @@
     }
 }
 
-- (NSString *)username
+
+- (LJAccount *)account
 {
-    return _username;
+    return _account;
 }
 
-- (NSString *)fullname
-{
-    return _fullname;
-}
 
 - (NSCalendarDate *)birthDate
 {
@@ -337,7 +327,7 @@
 
 - (unsigned)hash
 {
-    return [_username hash];
+    return [[self username] hash];
 }
 
 - (BOOL)isEqual:(id)object
@@ -370,7 +360,7 @@
 
     // editfriend_add_i_user
     key = [NSString stringWithFormat:@"editfriend_add_%d_user", i];
-    [parameters setObject:_username forKey:key];
+    [parameters setObject:[self username] forKey:key];
     // editfriend_add_i_fg
     key = [NSString stringWithFormat:@"editfriend_add_%d_fg", i];
     [parameters setObject:HTMLCodeForColor(_fgColor) forKey:key];
@@ -386,7 +376,7 @@
 {
     NSString *key;
 
-    key = [NSString stringWithFormat:@"editfriend_delete_%@", _username];
+    key = [NSString stringWithFormat:@"editfriend_delete_%@", [self username]];
     [parameters setObject:@"1" forKey:key];
 }
 

@@ -99,7 +99,7 @@
 - (NSArray *)getEntriesLastN:(int)n beforeDate:(NSDate *)date;
 
 /*!
- @method getEntriesLastN:beforeDate:
+ @method getEntriesLastN:
  @abstract Obtain an array of the n most recent entries before a specified date.
  @param n The number of entries to download.
  @result An array of LJEntry objects.

@@ -20,6 +20,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <LJKit/LJUserEntity.h>
 
 @class LJAccount, LJGroup;
 
@@ -46,10 +47,9 @@ enum {
  @class LJFriend
  @abstract Represents a LiveJournal friend.
  */
-@interface LJFriend : NSObject <NSCoding>
+@interface LJFriend : LJUserEntity <NSCoding>
 {
     LJAccount *_account;
-    NSString *_username, *_fullname;
     NSCalendarDate *_birthDate;
     NSColor *_fgColor, *_bgColor, *_fgColorForYou, *_bgColorForYou;
     unsigned int _groupMask;
@@ -63,21 +63,6 @@ enum {
 
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
-
-/*!
- @method username
- @abstract Obtain the username of the receiver.
- */
-- (NSString *)username;
-
-/*!
- @method fullname
- @abstract Obtain the full name of the receiver.
- @discussion
- Returns the receiver's full name, as reported by the server.  If not
- available, this method returns the receiver's username.
- */
-- (NSString *)fullname;
 
 /*!
  @method birthDate

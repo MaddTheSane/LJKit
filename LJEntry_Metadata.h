@@ -111,7 +111,7 @@
 - (BOOL)optionNoComments;
 
 /*!
- @method setOptionsNoComments:
+ @method setOptionNoComments:
  @abstract Set the don't allow comments setting of the receiver.
  @discussion
  If you don't want to allow users to write comments about the receiver,
@@ -165,5 +165,46 @@
  journal.  This method allows you to override this option for this one entry.
  */
 - (void)setOptionNoEmail:(BOOL)flag;
+
+/*!
+ @method hasUnknown8bitData
+ @abstract Post contains unknown 8-bit data.
+ */
+- (BOOL)hasUnknown8bitData;
+
+/*!
+ @method optionScreenReplies
+ */
+- (unichar)optionScreenReplies;
+
+/*!
+ @method hasScreenedReplies
+ */
+- (BOOL)hasScreenedReplies;
+
+/*!
+ @method revisionNumber
+ */
+- (int)revisionNumber;
+
+/*!
+ @method revisionDate
+ */
+- (NSDate *)revisionDate;
+
+/*!
+ @method commentsAlteredDate
+ */
+- (NSDate *)commentsAlteredDate;
+
+/*!
+ @method syndicatedItemID
+ */
+- (NSString *)syndicatedItemID;
+
+/*!
+ @method syndicatedItemURL
+ */
+- (NSURL *)syndicatedItemURL;
 
 @end

@@ -26,26 +26,15 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "LJServer.h"
-#import "LJAccount.h"
+
 #import "LJJournal.h"
-#import "LJEntry.h"
-#import "LJEntrySummary.h"
+#import "LJEntryRoot.h"
 #import "LJGroup.h"
+#import "LJUserEntity.h"
 #import "LJFriend.h"
 
-/*!
- @category LJAccount(LJHttpURLs)
- */
-@interface LJAccount (LJHttpURLs)
-/*!
- @method userProfileHttpURL
- @abstract Returns the URL of the receiver's user profile webpage.
- */
-- (NSURL *)userProfileHttpURL;
-- (NSURL *)memoriesHttpURL;
-- (NSURL *)toDoListHttpURL;
-@end
+
+@class LJJournal, LJEntryRoot, LJGroup, LJUserEntity, LJFriend;
 
 /*!
  @category LJJournal(LJHttpURLs)
@@ -73,6 +62,7 @@
 - (NSURL *)calendarHttpURLForDay:(NSDate *)date;
 @end
 
+
 /*!
  @category LJEntryRoot(LJHttpURLs)
  */
@@ -90,6 +80,7 @@
 - (NSURL *)addToMemoriesHttpURL;
 @end
 
+
 /*!
  @category LJGroup(LJHttpURLs)
 */
@@ -105,25 +96,64 @@
 - (NSURL *)membersEntriesHttpURL;
 @end
 
+
 /*!
-@category LJFriend(LJHttpURLs)
+ @category LJUserEntity(LJHttpURLs)
  */
-@interface LJFriend (LJHttpURLs)
+@interface LJUserEntity (LJHttpURLs)
 /*!
-@method userProfileHttpURL
+ @method userProfileHttpURL
  @abstract Returns the URL of the receiver's user profile page.
  */
 - (NSURL *)userProfileHttpURL;
+/*!
+ @method memoriesHttpURL
+ @abstract Returns the URL of the receiver's memories page.
+ */
 - (NSURL *)memoriesHttpURL;
+/*!
+ @method toDoListHttpURL
+ @abstract Returns the URL of the receiver's to do list page.
+ */
 - (NSURL *)toDoListHttpURL;
+/*!
+ @method rssFeedURL
+ @abstract Returns the URL of the receiver's RSS feed.
+ */
 - (NSURL *)rssFeedURL;
+/*!
+ @method atomFeedURL
+ @abstract Returns the URL of the receiver's Atom feed.
+ */
 - (NSURL *)atomFeedURL;
+/*!
+ @method foafURL
+ @abstract Returns the URL of the receiver's FOAF information.
+ @discussion
+ If the user has set an external FOAF URL this method will NOT reflect that 
+ preference.
+ */
 - (NSURL *)foafURL;
 /*!
  @method recentEntriesHttpURL
  @abstract Returns the URL of the receiver's recent entries view.
  */
 - (NSURL *)recentEntriesHttpURL;
+@end
+
+
+/*!
+ @category LJFriend(LJHttpURLs)
+ */
+@interface LJFriend (LJHttpURLs)
+/*!
+ @method joinCommunityHttpURL
+ @abstract Returns the URL of the receiver's join community page.
+ */
 - (NSURL *)joinCommunityHttpURL;
+/*!
+ @method leaveCommunityHttpURL
+ @abstract Returns the URL of the receiver's leave community page.
+ */
 - (NSURL *)leaveCommunityHttpURL;
 @end

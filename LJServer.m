@@ -242,6 +242,9 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     CFRelease(url);
 }
 
+
+#define STREAM_BUFFER_SIZE 256
+
 - (NSDictionary *)getReplyForMode:(NSString *)mode parameters:(NSDictionary *)parameters
 {
     CFHTTPMessageRef request, response;
@@ -251,7 +254,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     NSMutableData *contentData;
     NSString *tmpString;
     UInt32 statusCode;
-    UInt8 bytes[64];
+    UInt8 bytes[STREAM_BUFFER_SIZE];
 
     // Compile HTTP POST variables into a data object.
     contentData = [NSMutableData data];
@@ -267,35 +270,35 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     tmpString = [NSString stringWithFormat:@"%u", [contentData length]];
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Content-Length"), (CFStringRef)tmpString);
     
-    // Connect to the server.
-    stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
-    if (gProxyInfo) {
-        CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, gProxyInfo);
-    }
-    CFReadStreamOpen(stream);
-    
-    // Build an HTTP response from the data read.
-    response = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
-    while (bytesRead = CFReadStreamRead(stream, bytes, 64)) {
-        if (bytesRead == -1) {
-            CFStreamError err = CFReadStreamGetError(stream);
-            [[_account _exceptionWithFormat:@"LJStreamError_%d_%d", err.domain, err.error] raise];
-        } else if (!CFHTTPMessageAppendBytes(response, bytes, bytesRead)) {
-            CFReadStreamClose(stream);
-            [[_account _exceptionWithName:@"LJHTTPParseError"] raise];
-        }
-    }
-    statusCode = CFHTTPMessageGetResponseStatusCode(response);
-    if (statusCode == 200) {
-        CFDataRef responseData = CFHTTPMessageCopyBody(response);
-        replyDictionary = ParseLJReplyData((NSData *)responseData);
-        if (responseData) CFRelease(responseData);
-    } else {
-        [[_account _exceptionWithFormat:@"LJHTTPStatusError_%d", statusCode] raise];
-    }
-    if (stream) CFRelease(stream);
-    if (response) CFRelease(response);
-    if (request) CFRelease(request);
+	// Connect to the server.
+	stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
+	if (gProxyInfo) {
+		CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, gProxyInfo);
+	}
+	CFReadStreamOpen(stream);
+	
+	// Build an HTTP response from the data read.
+	response = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
+	while (bytesRead = CFReadStreamRead(stream, bytes, STREAM_BUFFER_SIZE)) {
+		if (bytesRead == -1) {
+			CFStreamError err = CFReadStreamGetError(stream);
+			[[_account _exceptionWithFormat:@"LJStreamError_%d_%d", err.domain, err.error] raise];
+		} else if (!CFHTTPMessageAppendBytes(response, bytes, bytesRead)) {
+			CFReadStreamClose(stream);
+			[[_account _exceptionWithName:@"LJHTTPParseError"] raise];
+		}
+	}
+	statusCode = CFHTTPMessageGetResponseStatusCode(response);
+	if (statusCode == 200) {
+		CFDataRef responseData = CFHTTPMessageCopyBody(response);
+		replyDictionary = ParseLJReplyData((NSData *)responseData);
+		if (responseData) CFRelease(responseData);
+	} else {
+		[[_account _exceptionWithFormat:@"LJHTTPStatusError_%d", statusCode] raise];
+	}
+	if (stream) CFRelease(stream);
+	if (response) CFRelease(response);
+	if (request) CFRelease(request);
     return replyDictionary;
 }
 
