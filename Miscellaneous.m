@@ -19,8 +19,14 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
-#import "Miscellaneous.h"
+/*
+ 2004-01-06 [BPR] Replaced cString with UTF8String in MD5HexDigest().
+ 2004-01-06 [BPR] Removed ImmutablizeObject()
+ */
+
 #include <openssl/md5.h>
+
+#import "Miscellaneous.h"
 
 /*
  * This is a convenience function for setter methods.  The variable
@@ -51,37 +57,23 @@ BOOL SafeSetString(NSString **stringPtr, NSString *newString)
 }
 
 /*
- * This "converts" a mutable object into an immutable one by copying the
- * object, then releasing it and autoreleasing the copy.  This is a convenience
- * function, and violates the "don't release it if you don't own it" rule.
- */
-id ImmutablizeObject(id object)
-{
-    id immutableObject = [object copy];
-    [object release];
-    return [immutableObject autorelease];
-}
-
-/*
  * Returns the MD5 digest of the given NSString object as a hex
  * encoded string.  Uses the crypto library distributed with OS X.
  */
 NSString *MD5HexDigest(NSString *string)
 {
-    unsigned char md5Digest[MD5_DIGEST_LENGTH];
-    char hexChars[MD5_DIGEST_LENGTH * 2];
-    char digit;
+    const char *utfString;
+    unsigned char digest[MD5_DIGEST_LENGTH];
     int i;
-
-    MD5([string cString], [string length], md5Digest);
-
+    NSMutableString *hexString;
+    
+    utfString = [string UTF8String];
+    MD5(utfString, strlen(utfString), digest);
+    hexString = [NSMutableString stringWithCapacity:MD5_DIGEST_LENGTH * 2];
     for (i = 0; i < MD5_DIGEST_LENGTH; i++) {
-        digit = md5Digest[i] >> 4;
-        hexChars[i * 2] = (digit < 10 ? '0' + digit : 'A' + (digit - 10));
-        digit = md5Digest[i] & 0x0F;
-        hexChars[i * 2 + 1] = (digit < 10 ? '0' + digit : 'A' + (digit - 10));
+        [hexString appendFormat:@"%02x", digest[i]];
     }
-    return [NSString stringWithCString:hexChars length:MD5_DIGEST_LENGTH*2];
+    return hexString;
 }
 
 /*

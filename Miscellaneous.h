@@ -21,12 +21,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-//#define LJKitBundle [NSBundle bundleWithIdentifier:@"com.livejournal.benzado.LJKit"]
-#define LJKitBundle [NSBundle bundleForClass:[LJAccount class]]
-
 BOOL SafeSetObject(id *variablePtr, id newValue);
 BOOL SafeSetString(NSString **stringPtr, NSString *newString);
-id ImmutablizeObject(id object);
 NSString *MD5HexDigest(NSString *string);
 char ValueForHexDigit(char digit);
 NSColor *ColorForHTMLCode(NSString *code);
