@@ -39,7 +39,7 @@
     NSString *_name;
     BOOL _isNotDefault;
 }
-- (id)initWithName:(NSString *)name account:(LJAccount *)account;
+
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
@@ -158,8 +158,4 @@
  */
 - (NSDictionary *)getDayCounts;
 
-@end
-
-@interface LJJournal (Private)
-+ (NSArray *)_journalArrayFromLoginReply:(NSDictionary *)reply account:(LJAccount *)account;
 @end
