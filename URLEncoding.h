@@ -21,10 +21,10 @@
 
 #import <Foundation/Foundation.h>
 
-void AppendURLEncodingOfStringToData(NSString *string, NSMutableData *data);
+void LJAppendURLEncodingOfStringToData(NSString *string, NSMutableData *data);
 
-NSString *URLDecodeString(NSString *es);
+NSString *LJURLDecodeString(NSString *es);
 
-NSData *CreateURLEncodedFormData(NSDictionary *dict);
+NSData *LJCreateURLEncodedFormData(NSDictionary *dict);
 
 NSDictionary *ParseLJReplyData(NSData *data);

@@ -19,13 +19,17 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
+/*
+ 2004-01-06 [BPR] Functions renamed to include LJ prefix.
+ */
+
 #import "URLEncoding.h"
 #import "Miscellaneous.h"
 
 /*
  URL encodes the string argument and appends the result to data.
  */
-void AppendURLEncodingOfStringToData(NSString *string, NSMutableData *data)
+void LJAppendURLEncodingOfStringToData(NSString *string, NSMutableData *data)
 {
     const char *bytes;
     unsigned char c, digit;
@@ -54,7 +58,7 @@ void AppendURLEncodingOfStringToData(NSString *string, NSMutableData *data)
 /*
  Decodes an URL encoded string and returns the result as a string.
  */
-NSString *URLDecodeString(NSString *string)
+NSString *LJURLDecodeString(NSString *string)
 {
     const char *encodedBytes;
     char *decodedBytes;
@@ -95,7 +99,7 @@ NSString *URLDecodeString(NSString *string)
  * to the LJKit, since the mode key and value will always be prepended
  * to the result.
  */
-NSData *CreateURLEncodedFormData(NSDictionary *dict)
+NSData *LJCreateURLEncodedFormData(NSDictionary *dict)
 {
     NSMutableData *data;
     NSEnumerator *enumerator;
@@ -105,9 +109,9 @@ NSData *CreateURLEncodedFormData(NSDictionary *dict)
     enumerator = [dict keyEnumerator];
     while (key = [enumerator nextObject]) {
         [data appendBytes:"&" length:1];
-        AppendURLEncodingOfStringToData(key, data);
+        LJAppendURLEncodingOfStringToData(key, data);
         [data appendBytes:"=" length:1];
-        AppendURLEncodingOfStringToData([dict objectForKey:key], data);
+        LJAppendURLEncodingOfStringToData([dict objectForKey:key], data);
     }
     return data;
 }
