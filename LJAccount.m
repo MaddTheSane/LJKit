@@ -420,8 +420,14 @@ static LJAccount *gAccountListHead = nil;
     [info setObject:mode forKey:@"LJMode"];
     if (parameters) [info setObject:parameters forKey:@"LJParameters"];
     [info setObject:[NSNumber numberWithInt:(connectionID++)] forKey:@"LJConnection"];
-    [noticeCenter postNotificationName:LJAccountWillConnectNotification
-                                object:self userInfo:info];
+	
+	// [FS] Fire notification with -performSelectorOnMainThread:
+	NSNotification *willLoginNote = [NSNotification notificationWithName: LJAccountWillConnectNotification object: self userInfo: info];
+    [noticeCenter performSelectorOnMainThread: @selector(postNotification:)
+								   withObject: willLoginNote
+								waitUntilDone: YES];
+	// End change.
+	
     // Do the dirty deed.
     NS_DURING
         reply = [_server getReplyForMode:mode parameters:parameters];
@@ -448,8 +454,16 @@ static LJAccount *gAccountListHead = nil;
     // Post LJAccountDidConnectNotification
     if (reply) [info setObject:reply forKey:@"LJReply"];
     if (exception) [info setObject:exception forKey:@"LJException"];
-    [noticeCenter postNotificationName:LJAccountDidConnectNotification
-                                object:self userInfo:info];
+
+    // [FS] Change to fire notification onMainThread.
+	NSNotification *didLoginNote = [NSNotification notificationWithName: LJAccountDidConnectNotification
+																 object: self
+															   userInfo: info];
+	[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
+								   withObject: didLoginNote
+								waitUntilDone: YES];
+	// end
+	
     [info release];
     [exception raise]; // will do nothing if no exception was set
     return reply;
@@ -489,8 +503,17 @@ static LJAccount *gAccountListHead = nil;
 
     NSAssert(password != nil, @"Password must not be nil.");
     NSAssert((loginFlags & LJReservedLoginFlags) == 0, @"A reserved login flag was set."); 
-    [noticeCenter postNotificationName:LJAccountWillLoginNotification
-                                object:self userInfo:nil];
+
+    // [FS] Convert to fire notification onMainThread
+	NSNotification *loginNote = [NSNotification notificationWithName: LJAccountWillLoginNotification
+															  object: self
+															userInfo: nil];
+	[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
+								   withObject: loginNote
+								waitUntilDone: YES];
+	
+	// [FS] end change.
+	
     [self willChangeValueForKey:@"isLoggedIn"];
     // Configure server object with login information.
     _isLoggedIn = NO;
@@ -518,8 +541,16 @@ static LJAccount *gAccountListHead = nil;
     NS_HANDLER
         info = [NSDictionary dictionaryWithObject:localException
                                            forKey:@"LJException"];
-        [noticeCenter postNotificationName:LJAccountDidNotLoginNotification
-                                    object:self userInfo:info];
+
+		// [FS] onMainThread conversion
+		NSNotification *failureNote = [NSNotification notificationWithName: LJAccountDidNotLoginNotification
+																	object: self
+																  userInfo: info];
+		[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
+									   withObject: failureNote
+									waitUntilDone: YES];
+		// [FS] end.
+		
         [localException raise];
     NS_ENDHANDLER
     // get the full name of the account
@@ -547,8 +578,15 @@ static LJAccount *gAccountListHead = nil;
     [self updateGroupSetWithReply:reply];
     _isLoggedIn = YES;
     [self didChangeValueForKey:@"isLoggedIn"];
-    [noticeCenter postNotificationName:LJAccountDidLoginNotification
-                                object:self userInfo:nil];
+	
+	// [FS] onMainThread conversion
+	NSNotification *successNote = [NSNotification notificationWithName: LJAccountDidLoginNotification
+																object: self
+															  userInfo: nil];
+	[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
+								   withObject: successNote
+								waitUntilDone: YES];
+	// [FS] end change.
 }
 
 - (void)loginWithPassword:(NSString *)password
