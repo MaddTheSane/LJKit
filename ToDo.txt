@@ -1,11 +1,18 @@
 This is my To Do List for the LJKit.  Not everything here is guaranteed to be 
 done.  You have the source, so feel free to tackle any of these yourself.
 
-TO BE DONE FOR 1.0
+TO BE DONE I-DON'T-KNOW-WHEN
 
-TO BE DONE FOR 1.1
+TODO: Prioritize the rest of the TODO items.
 
-TODO: Update HTTP URL methods
+TODO: Use CFNetwork.  I understand that it can use run loops for background
+    processing.  Investigate the possibility of using this to make LJKit 
+    single threaded.  That would be nice.
+
+TODO: Use Panther's new NSXMLParser class to read and write journal entries
+    in an XML format.  <lj user="evan"> has drafted a DTD that logjam uses,
+    and has promised to email it to me.  That would be a good start for a
+    common format.
 
 TODO: Remove calls to [NSString cString]; to be deprecated in the future.
     Only used in MD5HexDigest() function.
@@ -47,6 +54,9 @@ TODO: Code Style: Private Methods
 
 TODO: Implement syncitems
     It's the only thing we don't do.
+    There was a post a while back on lj_dev (I'm too lazy to look it up right now)
+    which mentioned that syncitems is going to be replaced with something else.
+    It may be worth holding off on syncitems until the new protocol is developed.
     
 TODO: Use accessor methods wherever possible, to make subclassing and debugging more 
     logical.
@@ -56,6 +66,5 @@ TODO: Add property list methods to codable objects.
     - (id)initWithPropertyList:;
     Could we make an archiver to do this?  Didn't somebody already do that?
 
-TO BE DONE FOR 1.2
+TODO: Incorporate Fraser's LJPoll objects.
 
-TODO: Implement LJPoll, LJPollQuestion objects
