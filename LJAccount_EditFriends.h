@@ -142,6 +142,15 @@
 - (NSEnumerator *)friendOfEnumerator;
 
 /*!
+ @method relationshipArray
+ @abstract Returns all the friends with which the receiver has a relationship
+ @discussion
+ In contrast to -friendArray and -friendOfArray, this method returns
+ a sorted array in which are mixed mutual, incoming and outgoing relationships.
+ */
+- (NSArray *)relationshipArray;
+
+/*!
  @method watchedCommunityArray
  @abstract Returns the communities the receiver is watching.
  If the friends list hasn't been downloaded, returns nil.

@@ -51,6 +51,11 @@
 
 - (void)downloadFriends
 {
+	// [FS]
+	NSNotification *note = [NSNotification notificationWithName: LJAccountWillDownloadFriendsNotification object: self];
+	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread: @selector(postNotification:)
+														   withObject: note
+														waitUntilDone: YES];
     NSDictionary *parameters, *reply;
 
     parameters = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -67,6 +72,11 @@
     [_friendsSyncDate release];
     _friendsSyncDate = [[NSDate alloc] init];
     [self updateGroupSetWithReply:reply];
+	
+	note = [NSNotification notificationWithName: LJAccountDidDownloadFriendsNotification object: self];
+	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread: @selector(postNotification:)
+														   withObject: note
+														waitUntilDone: NO];
 }
 
 - (BOOL)_uploadFriends
@@ -201,6 +211,14 @@
     return [[_friendOfSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 }
 
+- (NSArray *)relationshipArray {
+	NSMutableSet *set = [[NSMutableSet alloc] init];
+	[set addObjectsFromArray: [self friendArray]];
+	[set addObjectsFromArray: [self friendOfArray]];
+	
+	return [[set allObjects] sortedArrayUsingSelector: @selector(compare:)];
+}
+
 - (NSEnumerator *)friendOfEnumerator
 {
     return [_friendOfSet objectEnumerator];
@@ -302,8 +320,9 @@
     buddy = [[LJFriend alloc] initWithUsername:username account:self];
     [buddy _setOutgoingFriendship:YES];
     [_friendSet addObject:buddy];
-    [buddy release];
 	
+    [buddy release];
+
 	if(_orderedFriendArrayCache) {
 		// The underlying set changed, so change the cache
 		[self willChangeValueForKey: @"friendArray"];

@@ -132,6 +132,22 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
 FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
 
 /*!
+ @const LJAccountWillDownloadFriendsNotification
+ @discussion
+ Posted before an account object downloads friend/group info.
+ The notification object is the account instance.
+ */
+FOUNDATION_EXPORT NSString * const LJAccountWillDownloadFriendsNotification;
+
+/*!
+@const LJAccountDidDownloadFriendsNotification
+ @discussion
+ Posted after an account object downloads friend/group info.
+ The notification object is the account instance.
+ */
+FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
+
+/*!
  @class LJAccount
  
  @abstract Represents an account on a LiveJournal server.
@@ -450,6 +466,14 @@ FOUNDATION_EXPORT NSString * const LJAccountDidNotLoginNotification;
  This property is preserved during archiving.
  */
 - (NSURL *)defaultUserPictureURL;
+
+/*!
+	@method defaultUserPictureURL
+ @abstract Returns the URL of the default user picture.
+ @discussion
+ This property is preserved during archiving.
+ */
+- (NSString *)defaultUserPictureKeyword;
 
 /*!
  @method userPicturesMenu

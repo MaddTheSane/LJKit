@@ -47,6 +47,10 @@ NSString * const LJAccountDidLoginNotification =    @"LJAccountDidLogin";
 NSString * const LJAccountDidNotLoginNotification = @"LJAccountDidNotLogin";
 NSString * const LJAccountDidLogoutNotification =   @"LJAccountDidLogout";
 
+// [FS] These are handy if we're doing asynchronous login and download
+NSString * const LJAccountWillDownloadFriendsNotification = @"LJAccountWillDownloadFriends";
+NSString * const LJAccountDidDownloadFriendsNotification = @"LJAccountDidDownloadFriends";
+
 static NSString *gClientVersion = nil;
 
 /*
@@ -602,6 +606,18 @@ static LJAccount *gAccountListHead = nil;
     return _defaultUserPictureURL;
 }
 
+- (NSString *)defaultUserPictureKeyword {
+	// This may potentially be expensive
+	NSEnumerator *en = [[_userPicturesDictionary allKeys] objectEnumerator];
+	NSURL *defaultURL = [self defaultUserPictureURL];
+	NSString *key;
+	while(key = [en nextObject]) {
+		if([[_userPicturesDictionary objectForKey: key] isEqualTo: defaultURL])
+			return key;
+	}
+	return nil;
+}
+
 - (NSMenu *)userPicturesMenu
 {
     NSMenu *pMenu = [[NSMenu alloc] initWithTitle:@"User Pictures"];
@@ -760,4 +776,18 @@ static LJAccount *gAccountListHead = nil;
     return [self identifier];
 }
 
+// [FS] KVO - there may be simplifcations to be made here.
+ + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey {
+	BOOL automatic;
+    if ([theKey isEqualToString:@"friendArray"]) {
+        automatic=NO;
+    } 
+	else if ([theKey isEqualToString:@"groupArray"]) {
+        automatic=NO;
+    }
+	else {
+        automatic=[super automaticallyNotifiesObserversForKey:theKey];
+    }
+    return automatic;
+}
 @end
