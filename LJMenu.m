@@ -39,9 +39,7 @@
 #define LJ_MENU_URL(m,i) [NSString stringWithFormat:@"menu_%@_%d_url", m, i]
 #define LJ_MENU_SUB(m,i) [NSString stringWithFormat:@"menu_%@_%d_sub", m, i]
 
-- (void)populateMenu:(NSMenu *)menu
-              number:(NSString *)number
-          loginReply:(NSDictionary *)reply
+- (void)populateMenu:(NSMenu *)menu number:(NSString *)number loginReply:(NSDictionary *)reply
 {
     int itemCount, i;
     NSString *itemText, *itemSub, *itemUrl;
@@ -54,7 +52,7 @@
         itemUrl = [reply objectForKey:LJ_MENU_URL(number, i)];
         itemSub = [reply objectForKey:LJ_MENU_SUB(number, i)];
         if ([itemText isEqualToString:@"-"]) {
-            item = [NSMenuItem separatorItem];
+            item = (NSMenuItem *)[NSMenuItem separatorItem];
         } else {
             item = [[NSMenuItem alloc] initWithTitle:itemText
                                               action:@selector(launchMenuItemUrl:)
