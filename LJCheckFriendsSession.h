@@ -18,6 +18,10 @@
 
  You may contact the author via email at benzado@livejournal.com.
  */
+/*
+ 2004-02-20 [BPR] Documentation correction: LJCheckFriendsSession is 
+                  the object for the notifications.
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -27,9 +31,9 @@
 @const LJFriendsPageUpdatedNotification
  Posted when the friends page has been updated.
  Checking is stopped before posting this notification; you must call
- startCheckingFriends to resume friends checking.
- You can determine which account posted the notification by sending
- the object message to the notification object.
+ startChecking to resume friends checking.
+ The notification object is the LJCheckFriendsSession instance that
+ posted the notification.
  */
 FOUNDATION_EXPORT NSString * const LJFriendsPageUpdatedNotification;
 
@@ -39,9 +43,9 @@ FOUNDATION_EXPORT NSString * const LJFriendsPageUpdatedNotification;
  The exception that caused the error is available in the exception's
  userInfo dictionary for the key "LJException".
  Checking is stopped before posting this notification; you must call
- startCheckingFriends to resume friends checking.
- You can determine which account posted the notification by sending
- the object message to the notification object.
+ startChecking to resume friends checking.
+ The notification object is the LJCheckFriendsSession instance that
+ posted the notification.
  */
 FOUNDATION_EXPORT NSString * const LJCheckFriendsErrorNotification;
 
@@ -52,8 +56,8 @@ FOUNDATION_EXPORT NSString * const LJCheckFriendsErrorNotification;
  and start checking again with a shorter interval.
  Checking is not stopped after posting; no action is needed to continue
  checking.
- You can determine which account posted the notification by sending
- the object message to the notification object.
+ The notification object is the LJCheckFriendsSession instance that
+ posted the notification.
  */
 FOUNDATION_EXPORT NSString * const LJCheckFriendsIntervalChangedNotification;
 

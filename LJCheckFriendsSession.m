@@ -27,8 +27,7 @@
 
 NSString * const LJFriendsPageUpdatedNotification = @"LJFriendsPageUpdated";
 NSString * const LJCheckFriendsErrorNotification = @"LJCheckFriendsError";
-NSString * const LJCheckFriendsIntervalChangedNotification =
-	@"LJCheckFriendsIntervalChanged";
+NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsIntervalChanged";
 
 @interface LJCheckFriendsSession (Private)
 - (void)_checkThread:(id)object;
