@@ -23,6 +23,7 @@
  2004-01-09 [BPR] 	Removed proxyURL and setProxyURL:.
  					Added proxy detection and reachability stuff.
  2004-01-10 [BPR]	Added account reference.  Moved exception code into LJAccount.
+ 2004-01-12 [BPR]	Used processName to identify self to SystemConfiguration.fmwk
  */
 
 #import "LJServer_Private.h"
@@ -146,7 +147,8 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
         CFStringRef proxiesKey;
         CFArrayRef keyArray;
         
-        gStore = SCDynamicStoreCreate(kCFAllocatorDefault, CFSTR("LJKit"), 
+        gStore = SCDynamicStoreCreate(kCFAllocatorDefault, 
+                                      (CFStringRef)[[NSProcessInfo processInfo] processName], 
                                       LJServerStoreCallback, &gStoreContext);
         proxiesKey = SCDynamicStoreKeyCreateProxies(kCFAllocatorDefault);
         keyArray = CFArrayCreate(kCFAllocatorDefault, (const void * *)&proxiesKey, 1, NULL);
