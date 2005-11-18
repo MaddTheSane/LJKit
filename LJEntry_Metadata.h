@@ -207,4 +207,15 @@
  */
 - (NSURL *)syndicatedItemURL;
 
+/*!
+ @method setTags:
+ @abstract Set the tag string of the receiver.
+ */
+- (NSString *)tags;
+
+/*!
+ @method setTags:
+ @abstract Set the tag string of the receiver.
+ */
+- (void)setTags:(NSString *)newTags;
 @end

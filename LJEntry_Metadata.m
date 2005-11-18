@@ -165,4 +165,13 @@
     return [NSURL URLWithString:[_properties objectForKey:@"syn_link"]];
 }
 
+- (NSString *)tags
+{
+	return [self stringForProperty: @"taglist"];
+}
+
+- (void)setTags:(NSString *)newTags
+{
+	[self setString: newTags forProperty: @"taglist"];
+}
 @end
