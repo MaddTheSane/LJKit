@@ -17,11 +17,17 @@ LJNoSuccessKeyError =
 LJNoErrMsgKeyError =
 "Could not complete operation.  The server reported that an error occurred but did not provide a message explaining why.\n\nPlease wait and try again later.";
 
+LJReservedLoginFlagSetError =
+"Could not log in.  The application enabled a reserved login flag, meaning there is a bug in the application.\n\nPlease report this problem to the developer.";
+
 LJAccountDelegateDidVetoConnection =
 "The application aborted the connection to the server.";
 
 LJGroupLimitReached =
 "You cannot create a new group because you already have 30, which is the maximum number of groups allowed by the server.  You will have to delete an existing group before you can make a new one.";
+
+LJInitializedMessage =
+"LJKit initialized for client %@.";
 
 /*
     The numbers following LJStreamError refer to an error domain and error code, 

@@ -80,7 +80,7 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
 {
     [_account release];
     [_parameters release];
-    [self dealloc];
+    [super dealloc];
 }
 
 - (LJAccount *)account
