@@ -621,9 +621,11 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				OBJROOT = ../Build/Intermediate;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SYMROOT = ../Build/Products;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Default;
