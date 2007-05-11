@@ -72,6 +72,12 @@
 - (NSString *)IDStringForMoodName:(NSString *)moodName;
 
 /*!
+	@method - MoodNameFromIDString:
+	@abstract Obtain the mood name for a given mood id.
+*/
+- (NSString *)MoodNameFromID:(NSString *)moodID;
+
+/*!
  @method moodNames
  @abstract Obtain a sorted array of all known moods.
  */

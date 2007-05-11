@@ -75,7 +75,23 @@
  */
 - (void)setCurrentMood:(NSString *)moodName;
 
-/*!
+	/*!
+	@method currentMoodName
+	 @abstract Obtain the mood name associated with the receiver.
+	 @result The mood name, or nil if none is set.
+	 */
+- (NSString *)currentMoodName;
+
+	/*!
+	@method setCurrentMoodName:
+	 @abstract Set the mood name associated with the receiver.
+	 @discussion
+	 Sets the current mood name for this entry.  Set moodName to nil to remove the
+	 mood property.
+	 */
+- (void)setCurrentMoodName:(NSString *)moodName;
+
+	/*!
  @method currentMusic
  @abstract Obtain the music associated with the receiver.
  */
@@ -202,12 +218,24 @@
  */
 - (NSString *)syndicatedItemID;
 
-/*!
- @method syndicatedItemURL
- */
+	/*!
+	@method syndicatedItemURL
+	 */
 - (NSURL *)syndicatedItemURL;
 
-/*!
+	/*!
+	@method currentLocation
+	@abstract Get the location of the receiver.
+	 */
+- (NSString *)currentLocation;
+
+	/*!
+	@method setCurrentLocation
+	@abstract Set the location of the receiver.
+	 */
+- (void)setCurrentLocation:(NSString *)locationName;
+
+	/*!
  @method setTags:
  @abstract Set the tag string of the receiver.
  */

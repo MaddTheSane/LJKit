@@ -54,10 +54,21 @@
 
 - (NSString *)currentMood
 {
-    return [self stringForProperty:@"current_mood"];
+    return [self stringForProperty:@"current_mood_id_name"];
 }
 
 - (void)setCurrentMood:(NSString *)moodName
+{
+    [self setString:moodName forProperty:@"current_mood_id_name"];
+    // The mood ID is set in [LJEntry saveToJournal]
+}
+
+- (NSString *)currentMoodName
+{
+    return [self stringForProperty:@"current_mood"];
+}
+
+- (void)setCurrentMoodName:(NSString *)moodName
 {
     [self setString:moodName forProperty:@"current_mood"];
     // The mood ID is set in [LJEntry saveToJournal]
@@ -163,6 +174,16 @@
 - (NSURL *)syndicatedItemURL
 {
     return [NSURL URLWithString:[_properties objectForKey:@"syn_link"]];
+}
+
+- (NSString *)currentLocation
+{
+    return [self stringForProperty:@"current_location"];
+}
+
+- (void)setCurrentLocation:(NSString *)locationName
+{
+    [self setString:locationName forProperty:@"current_location"];
 }
 
 - (NSString *)tags
