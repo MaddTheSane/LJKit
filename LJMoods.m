@@ -122,7 +122,33 @@
 - (NSString *)IDStringForMoodName:(NSString *)moodName
 {
     int index = [self _indexForMoodName:moodName hypothetical:NO];
-    return (index > 0) ? [_moodIDs objectAtIndex:index] : nil;
+    return (index > -1) ? [_moodIDs objectAtIndex:index] : nil;
+}
+
+- (int)_indexForMoodID:(NSString *)moodID
+{
+    int min, i, max;
+    NSString *ID;
+    
+    min = 0;
+    max = [_moodIDs count] - 1;
+	for (i = min; i <= max; i++) {
+		ID = [_moodIDs objectAtIndex:i];
+        if ([ID compare:moodID] == NSOrderedSame) {
+			return i;
+        }
+    }
+    return nil;
+}
+
+- (NSString *)MoodNameFromID:(NSString *)moodID
+{
+	NSString *moodName = nil;
+	int index = [self _indexForMoodID: moodID];
+	if (index != nil) {
+		moodName = [_moodNames objectAtIndex: index];
+	}
+	return moodName;
 }
 
 - (void)updateMoodsWithLoginReply:(NSDictionary *)reply
