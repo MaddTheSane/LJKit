@@ -89,6 +89,13 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
                 [scanner release];
             }
         }
+		if ([_properties objectForKey:@"current_moodid"] != nil) {
+			// Save Mood Name for this ID
+			NSString *moodName = [[[_journal account] moods] MoodNameFromID: [_properties objectForKey:@"current_moodid"]];
+			if (moodName != nil ) {
+				[_properties setObject:moodName forKey:@"current_mood_id_name"];
+			}
+		}
     }
     return self;
 }
@@ -272,7 +279,8 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
     // have a conflicting mood name and ID --- but we assume nobody would want that.
     // We can't do this in the setCurrentMood: method because the entry's journal
     // may not be set, or may change afterwards.
-    moodName = [_properties objectForKey:@"current_mood"];
+	// This has been split out now. The mood name *can* be different from the ID.
+    moodName = (NSString *)[_properties objectForKey:@"current_mood_id_name"];
     if (moodName) {
         moodID = [[[_journal account] moods] IDStringForMoodName:moodName];
     } else {
@@ -283,6 +291,7 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
     } else {
         [_properties removeObjectForKey:@"current_moodid"];
     }
+	[_properties removeObjectForKey:@"current_mood_id_name"]; // Never sent to the server
     // properties: must prefix "prop_" before keys
     propertyKeys = [_properties keyEnumerator];
     while (propertyKey = [propertyKeys nextObject]) {
