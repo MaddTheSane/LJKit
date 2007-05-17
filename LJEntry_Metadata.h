@@ -236,14 +236,20 @@
 - (void)setCurrentLocation:(NSString *)locationName;
 
 	/*!
- @method setTags:
- @abstract Set the tag string of the receiver.
+ @method tags:
+ @abstract Get the tag string of the receiver.
  */
 - (NSString *)tags;
 
-/*!
- @method setTags:
- @abstract Set the tag string of the receiver.
- */
+	/*!
+	@method setTags:
+	 @abstract Set the tag string of the receiver.
+	 */
 - (void)setTags:(NSString *)newTags;
+
+	/*!
+	@method addTag:
+	 @abstract If the new tag isn't already in the tag list, add it
+	 */
+- (void)addTag:(NSString *)newTag;
 @end

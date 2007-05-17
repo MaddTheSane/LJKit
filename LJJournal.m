@@ -307,4 +307,41 @@ static NSString *entrySummaryLength = nil;
     return _name;
 }
 
+- (NSMutableArray *)tags
+{
+    return _tags;
+}
+
+- (void) updateTagsArray:(NSString *)newTag
+{
+	if ([_tags indexOfObject:newTag] != NSNotFound) {
+		[_tags addObject:newTag];
+	}
+}
+
+- (NSDictionary *)getTagsReplyForThisJournal
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    [parameters setObject:@"unix" forKey:@"lineendings"];
+    if (_isNotDefault) [parameters setObject:_name forKey:@"usejournal"];
+    return [_account getReplyForMode:@"getusertags" parameters:parameters];
+}
+
+- (int)createJournalTagsArray:(NSDictionary *)reply
+{
+    int count, i;
+    NSString *key, *tagName;
+	
+    count = [[reply objectForKey:@"tag_count"] intValue];
+    NSMutableArray *tagArray = [[NSMutableArray alloc] initWithCapacity:count];
+    for (i = 1; i <= count; i++) {
+        key = [NSString stringWithFormat:@"tag_%d_name", i];
+        tagName = [reply objectForKey:key];
+        [tagArray addObject:tagName];
+    }
+	_tags = [(NSMutableArray *)[tagArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
+	NSLog(@"Found %d tag%s for journal %@", count, (count == 1 ? "" : "s"), [self name]);
+	return count;
+}
+
 @end
