@@ -475,7 +475,7 @@ static LJAccount *gAccountListHead = nil;
     int count, i;
     NSString *key, *keyword;
     NSURL *url;
-
+	
     count = [[reply objectForKey:@"pickw_count"] intValue];
     userPics = [[NSMutableDictionary alloc] initWithCapacity:count];
     for (i = 1; i <= count; i++) {
@@ -488,7 +488,7 @@ static LJAccount *gAccountListHead = nil;
     key = [reply objectForKey:@"defaultpicurl"];
     url = (key != nil ? [NSURL URLWithString:key] : nil);
     SafeSetObject(&_defaultUserPictureURL, url);
-
+	
 	// [FS] Added use of accessor here
 	[self setUserPicturesDictionary: [userPics copy]];
     [userPics release];
@@ -499,7 +499,7 @@ static LJAccount *gAccountListHead = nil;
     NSDictionary *loginInfo, *reply, *info;
     NSMutableDictionary *parameters;
     NSNotificationCenter *noticeCenter = [NSNotificationCenter defaultCenter];
-    NSArray *journals;
+    NSArray *journals;	
 
     NSAssert(password != nil, @"Password must not be nil.");
     NSAssert((loginFlags & LJReservedLoginFlags) == 0, @"A reserved login flag was set."); 
@@ -578,6 +578,10 @@ static LJAccount *gAccountListHead = nil;
     [self updateGroupSetWithReply:reply];
     _isLoggedIn = YES;
     [self didChangeValueForKey:@"isLoggedIn"];
+	// Get tag lists for main journal
+	LJJournal *j = [self defaultJournal];
+	NSDictionary *tagsReply = [j getTagsReplyForThisJournal];
+	[j createJournalTagsArray: tagsReply];
 	
 	// [FS] onMainThread conversion
 	NSNotification *successNote = [NSNotification notificationWithName: LJAccountDidLoginNotification

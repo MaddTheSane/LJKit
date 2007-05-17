@@ -193,6 +193,26 @@
 
 - (void)setTags:(NSString *)newTags
 {
-	[self setString: newTags forProperty: @"taglist"];
+	[self setString:newTags forProperty:@"taglist"];
 }
+
+- (void)addTag:(NSString *)newTag
+{
+	NSString *currentTags, *newTags;
+
+	currentTags = [self tags];
+	if (currentTags == nil || [currentTags length] == 0) {
+		[self setTags: newTag];		// There are no tags so just set it
+		return;
+	}
+	else {
+//		NSLog(@"Current tags: %@", currentTags);
+		NSRange r = [currentTags rangeOfString:newTag options:NSCaseInsensitiveSearch];
+		if (r.length == 0) {
+			newTags = [currentTags stringByAppendingFormat:@", %@", newTag];	// It isn't found so add it.
+			[self setTags: newTags];
+		}
+	}
+}
+
 @end

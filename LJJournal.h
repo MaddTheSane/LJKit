@@ -38,6 +38,7 @@
     LJAccount *_account;
     NSString *_name;
     BOOL _isNotDefault;
+	NSMutableArray *_tags;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;
@@ -157,5 +158,40 @@
  representing the number of entries available for the given date.
  */
 - (NSDictionary *)getDayCounts;
+
+	/*!
+	@method tags
+	 @abstract Obtain an array of user tags for this journal.
+	 @discussion
+	 This method returns an array of tags that are defined for
+	 this journal. Setting new tags should add to this array.
+	 */
+- (NSMutableArray *)tags;
+
+	/*!
+	@method updateTagsArray
+	 @abstract updates the array of user tags for this journal
+	 @discussion
+	 This method update the array of tags for this journal with the new tag.
+	 We will ignore tags already in the array.
+	 */
+- (void) updateTagsArray:(NSString *)newTag;
+
+	/*!
+	@method getTagsReplyForThisJournal
+	 @abstract gets the tags for journal from the server
+	 @discussion
+	 This method gets the list of tags for this journal from the server
+	 */
+- (NSDictionary *) getTagsReplyForThisJournal;
+
+	/*!
+	@method createJournalTagsArray
+	 @abstract creates the tags array from a server reply
+	 @discussion
+	 This method parses through a reply from the server and creates the tags array. It
+	 returns the number of tags it found.
+	 */
+- (int)createJournalTagsArray:(NSDictionary *)reply;
 
 @end
