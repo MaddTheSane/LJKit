@@ -73,7 +73,7 @@
 		BC72DB1B058B2AFA00784C4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC72DB1C058B2AFA00784C4A /* LJKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LJKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC72DB6C058B2D2000784C4A /* Changes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Changes.html; sourceTree = "<group>"; };
-		BC72DCA3058B315E00784C4A /* LJKitDocumentation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LJKitDocumentation; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC72DCA3058B315E00784C4A /* LJKitDocumentation */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = LJKitDocumentation; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCBC6A3505AB8C5F000EFE4A /* LJAccount_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJAccount_Private.h; sourceTree = "<group>"; };
 		BCBC6A7705AB9348000EFE4A /* LJServer_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJServer_Private.h; sourceTree = "<group>"; };
 		BCBC6A7905AB9409000EFE4A /* LJMoods_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMoods_Private.h; sourceTree = "<group>"; };
@@ -434,6 +434,7 @@
 					ppc,
 					i386,
 				);
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../Xjournal/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -466,6 +467,7 @@
 		5FBE9E11092E685C0071F534 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../Xjournal/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -494,6 +496,7 @@
 		5FBE9E12092E685C0071F534 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../Xjournal/build/$(CONFIGURATION)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -504,6 +507,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				OBJROOT = build;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
@@ -511,6 +515,7 @@
 				);
 				PRODUCT_NAME = LJKit;
 				SECTORDER_FLAGS = "";
+				SYMROOT = build;
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 			};
