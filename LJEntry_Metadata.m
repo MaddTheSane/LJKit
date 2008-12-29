@@ -144,6 +144,11 @@
     return [[_properties objectForKey:@"opt_screening"] characterAtIndex:0];
 }
 
+- (void)setOptionScreenReplies:(NSString *)singleChar
+{
+	[self setString:singleChar forProperty:@"opt_screening"];
+}
+
 - (BOOL)hasScreenedReplies
 {
     return [self booleanForProperty:@"hasscreened"];

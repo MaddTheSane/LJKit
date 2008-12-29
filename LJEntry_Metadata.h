@@ -194,6 +194,11 @@
 - (unichar)optionScreenReplies;
 
 /*!
+ @method setOptionScreenReplies
+ */
+- (void)setOptionScreenReplies:(NSString *)singleChar;
+
+/*!
  @method hasScreenedReplies
  */
 - (BOOL)hasScreenedReplies;
