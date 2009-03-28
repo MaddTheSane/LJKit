@@ -496,7 +496,7 @@ static LJAccount *gAccountListHead = nil;
 
 - (void)loginWithPassword:(NSString *)password flags:(int)loginFlags
 {
-    NSDictionary *loginInfo, *reply, *info;
+    NSDictionary *loginInfo, *reply = nil, *info;
     NSMutableDictionary *parameters;
     NSNotificationCenter *noticeCenter = [NSNotificationCenter defaultCenter];
     NSArray *journals;	

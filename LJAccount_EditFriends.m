@@ -213,6 +213,7 @@
 
 - (NSArray *)relationshipArray {
 	NSMutableSet *set = [[NSMutableSet alloc] init];
+	[set autorelease];
 	[set addObjectsFromArray: [self friendArray]];
 	[set addObjectsFromArray: [self friendOfArray]];
 	

@@ -67,6 +67,7 @@
             }
         }
         [menu addItem:item];
+		[item release];
     }
 }
 

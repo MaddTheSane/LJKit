@@ -47,7 +47,7 @@
                 // If it is new to us, create a group object
                 group = [[LJGroup alloc] initWithNumber:n account:account];
                 [groups addObject:group];
-//                [group release];
+                [group autorelease];
             }
             // Update the group object
             [group setName:name];

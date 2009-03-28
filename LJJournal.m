@@ -265,7 +265,7 @@ static NSString *entrySummaryLength = nil;
 
 - (NSDictionary *)getDayCounts
 {
-    NSDictionary *parameters = nil, *reply;
+    NSDictionary *parameters = nil, *reply = nil;
     NSMutableDictionary *workingCounts;
     NSEnumerator *enumerator;
     NSString *key;
@@ -340,6 +340,7 @@ static NSString *entrySummaryLength = nil;
         [tagArray addObject:tagName];
     }
 	_tags = [(NSMutableArray *)[tagArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
+	[tagArray release];
 	NSLog(@"Found %d tag%s for journal %@", count, (count == 1 ? "" : "s"), [self name]);
 	return count;
 }
