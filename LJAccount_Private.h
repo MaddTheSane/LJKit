@@ -25,9 +25,17 @@
 
 #import "LJAccount.h"
 
-@interface LJAccount (FrameworkPrivate)
+@interface LJAccount ()
 + (NSString *)_clientVersionForBundle:(NSBundle *)bundle;
 - (NSException *)_exceptionWithName:(NSString *)name;
 - (NSException *)_exceptionWithFormat:(NSString *)format, ...;
 @end
 
+static inline void RunOnMainThreadSync(dispatch_block_t theBlock)
+{
+    if ([NSThread isMainThread]) {
+        theBlock();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), theBlock);
+    }
+}

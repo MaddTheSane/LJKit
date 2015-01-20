@@ -44,17 +44,17 @@
  @method recentEntriesHttpURL
  @abstract Returns the URL of the receiver's recent entries view.
  */
-- (NSURL *)recentEntriesHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *recentEntriesHttpURL;
 /*!
  @method friendsEntriesHttpURL
  @abstract Returns the URL of the receiver's friends entries view.
  */
-- (NSURL *)friendsEntriesHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *friendsEntriesHttpURL;
 /*!
  @method calendarHttpURL
  @abstract Returns the URL of the receiver's calendar view.
  */
-- (NSURL *)calendarHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *calendarHttpURL;
 /*!
  @method calendarHttpURLForDay:
  @abstract Returns the URL of the receiver's calendar view for a given day.
@@ -71,13 +71,15 @@
  @method readCommentsHttpURL
  @abstract Returns the URL of the receiver's read comments view.
  */
-- (NSURL *)readCommentsHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *readCommentsHttpURL;
 /*!
  @method postCommentsHttpURL
  @abstract Returns the URL of the receiver's post comments view.
  */
-- (NSURL *)postCommentHttpURL;
-- (NSURL *)addToMemoriesHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *postCommentHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *addToMemoriesHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly) int webItemID;
+
 @end
 
 
@@ -93,7 +95,7 @@
  This method returns an URL of the friends view showing entries
  only by members of this group.
  */
-- (NSURL *)membersEntriesHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *membersEntriesHttpURL;
 @end
 
 
@@ -105,27 +107,27 @@
  @method userProfileHttpURL
  @abstract Returns the URL of the receiver's user profile page.
  */
-- (NSURL *)userProfileHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *userProfileHttpURL;
 /*!
  @method memoriesHttpURL
  @abstract Returns the URL of the receiver's memories page.
  */
-- (NSURL *)memoriesHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *memoriesHttpURL;
 /*!
  @method toDoListHttpURL
  @abstract Returns the URL of the receiver's to do list page.
  */
-- (NSURL *)toDoListHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *toDoListHttpURL;
 /*!
  @method rssFeedURL
  @abstract Returns the URL of the receiver's RSS feed.
  */
-- (NSURL *)rssFeedURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *rssFeedURL;
 /*!
  @method atomFeedURL
  @abstract Returns the URL of the receiver's Atom feed.
  */
-- (NSURL *)atomFeedURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *atomFeedURL;
 /*!
  @method foafURL
  @abstract Returns the URL of the receiver's FOAF information.
@@ -133,12 +135,12 @@
  If the user has set an external FOAF URL this method will NOT reflect that 
  preference.
  */
-- (NSURL *)foafURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *foafURL;
 /*!
  @method recentEntriesHttpURL
  @abstract Returns the URL of the receiver's recent entries view.
  */
-- (NSURL *)recentEntriesHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *recentEntriesHttpURL;
 @end
 
 
@@ -150,10 +152,10 @@
  @method joinCommunityHttpURL
  @abstract Returns the URL of the receiver's join community page.
  */
-- (NSURL *)joinCommunityHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *joinCommunityHttpURL;
 /*!
  @method leaveCommunityHttpURL
  @abstract Returns the URL of the receiver's leave community page.
  */
-- (NSURL *)leaveCommunityHttpURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *leaveCommunityHttpURL;
 @end

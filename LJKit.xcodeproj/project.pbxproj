@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */; };
+		55D087201A6CCE9200E0A00A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC71787905AD5484000355FC /* Localizable.strings */; };
 		5F548C4C07133B7600515272 /* LJUserEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F548C4A07133B7600515272 /* LJUserEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F548C4D07133B7600515272 /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
 		BC296EFF058B62EF00874810 /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC296EFE058B62EF00874810 /* ToDo.txt */; };
@@ -59,21 +61,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		438B206903BD273D00067F6D /* License.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCheckFriendsSession.h; sourceTree = "<group>"; };
 		43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJCheckFriendsSession.m; sourceTree = "<group>"; };
+		5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity_Private.h; sourceTree = "<group>"; };
 		5F548C4A07133B7600515272 /* LJUserEntity.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJUserEntity.h; sourceTree = "<group>"; };
 		5F548C4B07133B7600515272 /* LJUserEntity.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJUserEntity.m; sourceTree = "<group>"; };
 		BC296EFE058B62EF00874810 /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
-		BC71787A05AD5484000355FC /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BC72DB1B058B2AFA00784C4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC71787A05AD5484000355FC /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC72DB1B058B2AFA00784C4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC72DB1C058B2AFA00784C4A /* LJKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LJKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC72DB6C058B2D2000784C4A /* Changes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Changes.html; sourceTree = "<group>"; };
-		BC72DCA3058B315E00784C4A /* LJKitDocumentation */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = LJKitDocumentation; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC72DCA3058B315E00784C4A /* LJKitDocumentation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LJKitDocumentation; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCBC6A3505AB8C5F000EFE4A /* LJAccount_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJAccount_Private.h; sourceTree = "<group>"; };
 		BCBC6A7705AB9348000EFE4A /* LJServer_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJServer_Private.h; sourceTree = "<group>"; };
 		BCBC6A7905AB9409000EFE4A /* LJMoods_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMoods_Private.h; sourceTree = "<group>"; };
@@ -81,7 +84,7 @@
 		BCBC6AA605AB96F9000EFE4A /* LJEntry_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJEntry_Private.h; sourceTree = "<group>"; };
 		BCBC6AA805AB976B000EFE4A /* LJFriend_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJFriend_Private.h; sourceTree = "<group>"; };
 		BCBC6AAA05AB9849000EFE4A /* LJGroup_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJGroup_Private.h; sourceTree = "<group>"; };
-		BCBC6B0A05ABB098000EFE4A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		BCBC6B0A05ABB098000EFE4A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F51DE21F02E293C501745AE7 /* LJAccount.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJAccount.m; sourceTree = "<group>"; };
 		F51DE22002E293C501745AE7 /* LJAccount.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJAccount.h; sourceTree = "<group>"; };
 		F51DE22702E293FB01745AE7 /* LJKit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJKit.h; sourceTree = "<group>"; };
@@ -105,12 +108,12 @@
 		F52AFB7202E37FBE01ECE1AA /* LJMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJMenu.h; sourceTree = "<group>"; };
 		F52AFB7602E381BC01ECE1AA /* LJMoods.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJMoods.m; sourceTree = "<group>"; };
 		F52AFB7702E381BC01ECE1AA /* LJMoods.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJMoods.h; sourceTree = "<group>"; };
-		F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		F52E1F010357A538010C7683 /* LJHttpURLs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJHttpURLs.h; sourceTree = "<group>"; };
 		F52E1F020357A538010C7683 /* LJHttpURLs.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJHttpURLs.m; sourceTree = "<group>"; };
 		F53614270304A86B0100006B /* LJEntry_Metadata.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJEntry_Metadata.m; sourceTree = "<group>"; };
 		F53614280304A86B0100006B /* LJEntry_Metadata.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJEntry_Metadata.h; sourceTree = "<group>"; };
-		F5992D0C03786BB6012C19B1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
+		F5992D0C03786BB6012C19B1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		F5A55BDE03686C84015CD356 /* LJEntrySummary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJEntrySummary.h; sourceTree = "<group>"; };
 		F5A55BDF03686C84015CD356 /* LJEntrySummary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJEntrySummary.m; sourceTree = "<group>"; };
 		F5BD1B0C03A5597201805C1D /* LJEntryRoot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJEntryRoot.h; sourceTree = "<group>"; };
@@ -149,13 +152,14 @@
 				F51DE22502E293D301745AE7 /* Public */,
 				F51DE22602E293E501745AE7 /* Private */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				0867D69AFE84028FC02AAC07 /* Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = LJKit;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
-		0867D69AFE84028FC02AAC07 /* Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				F5992D0C03786BB6012C19B1 /* CoreServices.framework */,
@@ -165,7 +169,7 @@
 				BCBC6B0A05ABB098000EFE4A /* SystemConfiguration.framework */,
 				F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */,
 			);
-			name = "Frameworks and Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
@@ -225,6 +229,7 @@
 				BCBC6AA405AB95D8000EFE4A /* LJJournal_Private.h */,
 				BCBC6A7905AB9409000EFE4A /* LJMoods_Private.h */,
 				BCBC6A7705AB9348000EFE4A /* LJServer_Private.h */,
+				5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */,
 				F52AFB7202E37FBE01ECE1AA /* LJMenu.h */,
 				F52AFB7102E37FBE01ECE1AA /* LJMenu.m */,
 				F52AFB6D02E36F5701ECE1AA /* URLEncoding.h */,
@@ -250,6 +255,7 @@
 				BC72DAF4058B2AFA00784C4A /* LJEntry.h in Headers */,
 				BC72DAF5058B2AFA00784C4A /* LJEntry_Metadata.h in Headers */,
 				BC72DAF6058B2AFA00784C4A /* LJEntrySummary.h in Headers */,
+				552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */,
 				BC72DAF7058B2AFA00784C4A /* LJServer.h in Headers */,
 				BC72DAF8058B2AFA00784C4A /* LJCheckFriendsSession.h in Headers */,
 				BC72DAF9058B2AFA00784C4A /* LJMoods.h in Headers */,
@@ -282,7 +288,6 @@
 				BC72DB00058B2AFA00784C4A /* Resources */,
 				BC72DB04058B2AFA00784C4A /* Sources */,
 				BC72DB15058B2AFA00784C4A /* Frameworks */,
-				BC72DB19058B2AFA00784C4A /* Rez */,
 			);
 			buildRules = (
 			);
@@ -315,11 +320,20 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+			};
 			buildConfigurationList = 5FBE9E17092E685C0071F534 /* Build configuration list for PBXProject "LJKit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* LJKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				BC72DAED058B2AFA00784C4A /* LJKit */,
 				BC72DCA0058B315D00784C4A /* Documentation */,
@@ -333,22 +347,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC72DB01058B2AFA00784C4A /* InfoPlist.strings in Resources */,
+				55D087201A6CCE9200E0A00A /* Localizable.strings in Resources */,
 				BC72DB03058B2AFA00784C4A /* License.txt in Resources */,
 				BC296EFF058B62EF00874810 /* ToDo.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXRezBuildPhase section */
-		BC72DB19058B2AFA00784C4A /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		58E700E20A259E2F00EB5E27 /* ShellScript */ = {
@@ -427,30 +432,28 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5FBE9E10092E685C0071F534 /* Development */ = {
+		5FBE9E10092E685C0071F534 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../Xjournal/build/$(CONFIGURATION)";
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rbase";
 				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DDEBUG";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
@@ -460,21 +463,23 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
-				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		5FBE9E11092E685C0071F534 /* Deployment */ = {
+		5FBE9E11092E685C0071F534 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../Xjournal/build/$(CONFIGURATION)";
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rbase";
 				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
@@ -489,39 +494,10 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
-				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		5FBE9E12092E685C0071F534 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../Xjournal/build/$(CONFIGURATION)";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "";
-				FRAMEWORK_VERSION = A;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				OBJROOT = build;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x10000000,
-				);
-				PRODUCT_NAME = LJKit;
-				SECTORDER_FLAGS = "";
-				SYMROOT = build;
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Default;
-		};
-		5FBE9E14092E685C0071F534 /* Development */ = {
+		5FBE9E14092E685C0071F534 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -541,9 +517,9 @@
 				WARNING_CFLAGS = "-Wmost";
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		5FBE9E15092E685C0071F534 /* Deployment */ = {
+		5FBE9E15092E685C0071F534 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -559,81 +535,66 @@
 				WARNING_CFLAGS = "-Wmost";
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		5FBE9E16092E685C0071F534 /* Default */ = {
+		5FBE9E18092E685C0071F534 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = LJKitDocumentation;
-				REZ_EXECUTABLE = NO;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Default;
-		};
-		5FBE9E18092E685C0071F534 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = Development;
+			name = Debug;
 		};
-		5FBE9E19092E685C0071F534 /* Deployment */ = {
+		5FBE9E19092E685C0071F534 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = Deployment;
-		};
-		5FBE9E1A092E685C0071F534 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				OBJROOT = ../Build/Intermediate;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
-				SYMROOT = ../Build/Products;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Default;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -641,32 +602,29 @@
 		5FBE9E0F092E685C0071F534 /* Build configuration list for PBXNativeTarget "LJKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5FBE9E10092E685C0071F534 /* Development */,
-				5FBE9E11092E685C0071F534 /* Deployment */,
-				5FBE9E12092E685C0071F534 /* Default */,
+				5FBE9E10092E685C0071F534 /* Debug */,
+				5FBE9E11092E685C0071F534 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		5FBE9E13092E685C0071F534 /* Build configuration list for PBXNativeTarget "Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5FBE9E14092E685C0071F534 /* Development */,
-				5FBE9E15092E685C0071F534 /* Deployment */,
-				5FBE9E16092E685C0071F534 /* Default */,
+				5FBE9E14092E685C0071F534 /* Debug */,
+				5FBE9E15092E685C0071F534 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 		5FBE9E17092E685C0071F534 /* Build configuration list for PBXProject "LJKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5FBE9E18092E685C0071F534 /* Development */,
-				5FBE9E19092E685C0071F534 /* Deployment */,
-				5FBE9E1A092E685C0071F534 /* Default */,
+				5FBE9E18092E685C0071F534 /* Debug */,
+				5FBE9E19092E685C0071F534 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

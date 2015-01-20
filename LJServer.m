@@ -57,19 +57,20 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 @end
 
 @implementation LJServer
+@synthesize URL = _serverURL;
 
 + (void)initialize
 {
     if (gUserAgent == nil) {
         NSBundle *myBundle = LJKitBundle;
-        gUserAgent = [[NSString alloc] initWithFormat:@"%@/%@ (Mac_PowerPC)",
+        gUserAgent = [[NSString alloc] initWithFormat:@"%@/%@ (Mac_x86-64)",
             [myBundle objectForInfoDictionaryKey:@"CFBundleName"],
             [LJAccount _clientVersionForBundle:myBundle]];
         NSLog(@"LJKit User-Agent: %@", gUserAgent);
     }
 }
 
-- (id)initWithURL:(NSURL *)url account:(LJAccount *)account
+- (instancetype)initWithURL:(NSURL *)url account:(LJAccount *)account
 {
     self = [super init];
     if (self) {
@@ -82,17 +83,14 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 
 - (void)dealloc
 {
-    [_serverURL release];
-    [_loginData release];
     if (_requestTemplate) CFRelease(_requestTemplate);
 #ifdef ENABLE_REACHABILITY_MONITORING
     [self disableReachabilityMonitoring];
 #endif
     [self disableProxyDetection];
-    [super dealloc];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     return [self initWithURL:[decoder decodeObjectForKey:@"LJServerURL"]
                      account:[decoder decodeObjectForKey:@"LJServerAccount"]];
@@ -112,7 +110,9 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 - (void)setURL:(NSURL *)url
 {
     NSAssert([[url scheme] isEqualToString:@"http"], @"URL scheme must be http");
-    if (SafeSetObject(&_serverURL, url)) {
+    
+    if (![_serverURL isEqual:url]) {
+		_serverURL = url;
         if (_requestTemplate) CFRelease(_requestTemplate);
         _requestTemplate = NULL;
 #ifdef ENABLE_REACHABILITY_MONITORING
@@ -146,10 +146,8 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 
 - (void)setLoginInfo:(NSDictionary *)loginDict
 {
-    [_loginData release];
     if (loginDict != nil) {
         _loginData = LJCreateURLEncodedFormData(loginDict);
-        [_loginData retain];
     } else {
         _loginData = nil;
     }
@@ -162,7 +160,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
         CFArrayRef keyArray;
         
         gStore = SCDynamicStoreCreate(kCFAllocatorDefault, 
-                                      (CFStringRef)[[NSProcessInfo processInfo] processName], 
+                                      (__bridge CFStringRef)[[NSProcessInfo processInfo] processName], 
                                       LJServerStoreCallback, &gStoreContext);
         proxiesKey = SCDynamicStoreKeyCreateProxies(kCFAllocatorDefault);
         keyArray = CFArrayCreate(kCFAllocatorDefault, (const void * *)&proxiesKey, 1, NULL);
@@ -192,15 +190,13 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 - (void)enableReachabilityMonitoring
 {
     if (_target == NULL) {
-        _reachContext.info = self;
-        _target = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [[[self url] host] UTF8String]);
+        _reachContext.info = (__bridge void *)(self);
+        _target = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [[[self URL] host] UTF8String]);
         SCNetworkReachabilitySetCallback(_target, LJServerReachabilityCallback, &_reachContext);
         SCNetworkReachabilityScheduleWithRunLoop(_target, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     }
 }
-#endif
 
-#ifdef ENABLE_REACHABILITY_MONITORING
 - (void)disableReachabilityMonitoring
 {
     if (_target != NULL) {
@@ -214,7 +210,14 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 - (BOOL)getReachability:(SCNetworkConnectionFlags *)flags
 {
     NSAssert(flags != NULL, @"Flags must not be NULL.");
-    return SCNetworkCheckReachabilityByName([[[self URL] host] UTF8String], flags);
+	SCNetworkReachabilityRef	target;
+	Boolean						ok;
+	
+	target = SCNetworkReachabilityCreateWithName(NULL, [[[self URL] host] UTF8String]);
+	ok = SCNetworkReachabilityGetFlags(target, flags);
+	CFRelease(target);
+
+    return ok;
 }
 
 - (void)updateRequestTemplate
@@ -229,11 +232,11 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
                                                   kCFHTTPVersion1_0);
     CFRetain(_requestTemplate);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Host"),
-                                     (CFStringRef)[_serverURL host]);
+                                     (__bridge CFStringRef)[_serverURL host]);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Content-Type"),
                                      CFSTR("application/x-www-form-urlencoded"));
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("User-Agent"),
-                                     (CFStringRef)gUserAgent);
+                                     (__bridge CFStringRef)gUserAgent);
     if (_isUsingFastServers) {
         CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Set-Cookie"),
                                          CFSTR("ljfastservers=1"));
@@ -252,11 +255,11 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     NSDictionary *replyDictionary = nil;
     NSMutableData *contentData;
     NSString *tmpString;
-    UInt32 statusCode;
+    CFIndex statusCode;
     UInt8 bytes[STREAM_BUFFER_SIZE];
 
     // Compile HTTP POST variables into a data object.
-    contentData = [NSMutableData data];
+    contentData = [[NSMutableData alloc] init];
     tmpString = [NSString stringWithFormat:@"mode=%@", mode];
     [contentData appendData:[tmpString dataUsingEncoding:NSUTF8StringEncoding]];
     if (_loginData) [contentData appendData:_loginData];
@@ -265,9 +268,9 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     // Copy the template HTTP message and set the data and content length.
     if (_requestTemplate == NULL) [self updateRequestTemplate];
     request = CFHTTPMessageCreateCopy(kCFAllocatorDefault, _requestTemplate);
-    CFHTTPMessageSetBody(request, (CFDataRef)contentData);
-    tmpString = [NSString stringWithFormat:@"%u", [contentData length]];
-    CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Content-Length"), (CFStringRef)tmpString);
+    CFHTTPMessageSetBody(request, (__bridge CFDataRef)contentData);
+    tmpString = [NSString stringWithFormat:@"%lu", (unsigned long)[contentData length]];
+    CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Content-Length"), (__bridge CFStringRef)tmpString);
     
 	// Connect to the server.
 	stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
@@ -278,7 +281,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 	
 	// Build an HTTP response from the data read.
 	response = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
-	while (bytesRead = CFReadStreamRead(stream, bytes, STREAM_BUFFER_SIZE)) {
+	while ((bytesRead = CFReadStreamRead(stream, bytes, STREAM_BUFFER_SIZE))) {
 		if (bytesRead == -1) {
 			CFStreamError err = CFReadStreamGetError(stream);
 			[[_account _exceptionWithFormat:@"LJStreamError_%d_%d", err.domain, err.error] raise];
@@ -290,7 +293,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 	statusCode = CFHTTPMessageGetResponseStatusCode(response);
 	if (statusCode == 200) {
 		CFDataRef responseData = CFHTTPMessageCopyBody(response);
-		replyDictionary = ParseLJReplyData((NSData *)responseData);
+		replyDictionary = ParseLJReplyData((__bridge NSData *)responseData);
 		if (responseData) CFRelease(responseData);
 	} else {
 		[[_account _exceptionWithFormat:@"LJHTTPStatusError_%d", statusCode] raise];
@@ -316,12 +319,10 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     NSDictionary *userInfo;
     NSNotificationCenter *center;
 
-    userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInt:flags]
-                                           forKey:@"ConnectionFlags"];
+    userInfo = @{@"ConnectionFlags": @(flags)};
     center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:LJServerReachabilityDidChangeNotification
-                          object:(LJServer *)info
+                          object:(__bridge LJServer *)info
                         userInfo:userInfo];
-    [userInfo release];
 }
 #endif

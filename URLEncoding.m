@@ -38,7 +38,7 @@ void LJAppendURLEncodingOfStringToData(NSString *string, NSMutableData *data)
 
     hex[0] = '%';
     bytes = [string UTF8String];
-    for ( i = 0; c = bytes[i]; i++ ) {
+    for ( i = 0; (c = bytes[i]); i++ ) {
         if (c == ' ') {
             [data appendBytes:"+" length:1];
         } else if (((c >= 'a') && (c <= 'z')) ||
@@ -73,7 +73,7 @@ NSString *LJURLDecodeString(NSString *string)
     decodedBytes = (char *)[decodedData mutableBytes];
     encodedBytes = [string UTF8String];
     di = 0;
-    for ( si = 0; c = encodedBytes[si]; si++ ) {
+    for ( si = 0; (c = encodedBytes[si]); si++ ) {
         if (c == '+') {
             decodedBytes[di++] = ' ';
         } else if (c == '%') {
@@ -88,8 +88,7 @@ NSString *LJURLDecodeString(NSString *string)
     [decodedData setLength:di];
     decodedString = [[NSString alloc] initWithData:decodedData
                                           encoding:NSUTF8StringEncoding];
-    [decodedData release];
-    return [decodedString autorelease];
+    return decodedString;
 }
 
 /*
@@ -111,7 +110,7 @@ NSData *LJCreateURLEncodedFormData(NSDictionary *dict)
         [data appendBytes:"&" length:1];
         LJAppendURLEncodingOfStringToData(key, data);
         [data appendBytes:"=" length:1];
-        LJAppendURLEncodingOfStringToData([dict objectForKey:key], data);
+        LJAppendURLEncodingOfStringToData(dict[key], data);
     }
     return data;
 }
@@ -125,7 +124,7 @@ NSDictionary *ParseLJReplyData(NSData *data)
     NSString *string;
     NSArray *lines;
     NSMutableDictionary *dict = nil;
-    int count, i;
+    NSInteger count, i;
     
     NSCParameterAssert(data);
     string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -135,12 +134,10 @@ NSDictionary *ParseLJReplyData(NSData *data)
                             @"encoded string.")];
     }
     lines = [string componentsSeparatedByString:@"\n"];
-    [string release];
     count = [lines count];
     dict = [NSMutableDictionary dictionaryWithCapacity:(count / 2)];
     for ( i = 1; i < count; i += 2 ) {
-        [dict setObject:[lines objectAtIndex:(i)]
-                 forKey:[lines objectAtIndex:(i - 1)]];
+        dict[lines[(i - 1)]] = lines[(i)];
     }
     return dict;
 }

@@ -29,7 +29,7 @@
 - (void)setString:(NSString *)string forProperty:(NSString *)property
 {
     if (string) {
-        [_properties setObject:string forKey:property];
+        _properties[property] = string;
     } else {
         [_properties removeObjectForKey:property];
     }
@@ -37,17 +37,17 @@
 
 - (NSString *)stringForProperty:(NSString *)property
 {
-    return [_properties objectForKey:property];
+    return _properties[property];
 }
 
 - (void)setBoolean:(BOOL)flag forProperty:(NSString *)property
 {
-    [_properties setObject:(flag ? @"1" : @"0") forKey:property];
+    _properties[property] = (flag ? @"1" : @"0");
 }
 
 - (BOOL)booleanForProperty:(NSString *)property
 {
-    return [[_properties objectForKey:property] intValue] != 0;
+    return [_properties[property] intValue] != 0;
 }
 
 // Specific Property Access
@@ -141,7 +141,7 @@
 
 - (unichar)optionScreenReplies
 {
-    return [[_properties objectForKey:@"opt_screening"] characterAtIndex:0];
+    return [_properties[@"opt_screening"] characterAtIndex:0];
 }
 
 - (void)setOptionScreenReplies:(NSString *)singleChar
@@ -156,18 +156,18 @@
 
 - (int)revisionNumber
 {
-    return [[_properties objectForKey:@"revnum"] intValue];
+    return [_properties[@"revnum"] intValue];
 }
 
 - (NSDate *)revisionDate
 {
-    int unixtime = [[_properties objectForKey:@"revtime"] intValue];
+    int unixtime = [_properties[@"revtime"] intValue];
     return [NSDate dateWithTimeIntervalSince1970:unixtime];
 }
 
 - (NSDate *)commentsAlteredDate
 {
-    int unixtime = [[_properties objectForKey:@"commentalter"] intValue];
+    int unixtime = [_properties[@"commentalter"] intValue];
     return [NSDate dateWithTimeIntervalSince1970:unixtime];
 }
 
@@ -178,7 +178,7 @@
 
 - (NSURL *)syndicatedItemURL
 {
-    return [NSURL URLWithString:[_properties objectForKey:@"syn_link"]];
+    return [NSURL URLWithString:_properties[@"syn_link"]];
 }
 
 - (NSString *)currentLocation

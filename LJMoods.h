@@ -31,7 +31,7 @@
  autocompleting mood names, so it can be used as a data source for
  NSComboBoxes in your human interface.
  */
-@interface LJMoods : NSObject <NSCoding>
+@interface LJMoods : NSObject <NSCoding, NSComboBoxDataSource>
 {
     int _highestMoodID;
     NSMutableArray *_moodNames;
@@ -42,22 +42,22 @@
  @method init
  @abstract Initialize an LJMoods object.
  */
-- (id)init;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 
-- (id)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
  @method highestMoodID
  @abstract Obtain the highest value mood ID.
  */
-- (int)highestMoodID;
+@property (NS_NONATOMIC_IOSONLY, readonly) int highestMoodID;
 
 /*!
  @method highestMoodIDString
  @abstract Obtain the highest value mood ID as a string.
  */
-- (NSString *)highestMoodIDString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *highestMoodIDString;
 
 /*!
  @method IDForMoodName:
@@ -81,13 +81,7 @@
  @method moodNames
  @abstract Obtain a sorted array of all known moods.
  */
-- (NSArray *)moodNames;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *moodNames;
 
 @end
 
-@interface LJMoods (NSComboBoxDelegate)
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox;
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index;
-- (unsigned int)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)aString;
-- (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)aString;
-@end

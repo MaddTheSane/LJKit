@@ -27,20 +27,20 @@
 /*!
  @enum Friendship Constants
 
- @constant LJOutgoingFriendship
+ @constant LJFriendshipOutgoing
  You list the user as a friend.
 
- @constant LJIncomingFriendship
+ @constant LJFriendshipIncoming
  The friend lists you as a friend.
 
- @constant LJMutualFriendship
+ @constant LJFriendshipMutual
  You list the user as a friend and he lists you as a friend.
  This is equal to the bitwise OR of the two other constants.
  */
-enum {
-    LJOutgoingFriendship = 1,
-    LJIncomingFriendship = 2,
-    LJMutualFriendship = 3,
+typedef NS_OPTIONS(int, LJFriendship) {
+    LJFriendshipOutgoing = 1,
+    LJFriendshipIncoming = 2,
+    LJFriendshipMutual = 3,
 };
 
 /*!
@@ -49,26 +49,26 @@ enum {
  */
 @interface LJFriend : LJUserEntity <NSCoding>
 {
-    LJAccount *_account;
+    LJAccount *__weak _account;
     NSCalendarDate *_birthDate;
     NSColor *_fgColor, *_bgColor, *_fgColorForYou, *_bgColorForYou;
     unsigned int _groupMask;
     NSString *_accountType;
     NSString *_accountStatus;
-    int _friendship;
+    LJFriendship _friendship;
     NSDate *_addedIncomingDate;
     NSDate *_addedOutgoingDate;
     NSDate *_modifiedDate;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
  @method birthDate
  @abstract Obtain the birthdate of the receiver.
  */
-- (NSCalendarDate *)birthDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSCalendarDate *birthDate;
 
 /*!
  @method accountType
@@ -77,7 +77,7 @@ enum {
  This property is blank if the receiver represents a regular user account.
  If the receiver is a community, this will return the string "community".
  */
-- (NSString *)accountType;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *accountType;
 
 /*!
  @method accountStatus
@@ -85,7 +85,7 @@ enum {
  This property is blank if the receiver has normal active status.
  Other possible values are are "deleted", "suspended", and "purged". 
  */
-- (NSString *)accountStatus;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *accountStatus;
 
 /*!
  @method modifiedDate
@@ -96,37 +96,34 @@ enum {
  downloaded then its changes will be committed next time
  [LJAccount uploadFriends] is called.
  */
-- (NSDate *)modifiedDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *modifiedDate;
 
-- (NSDate *)addedIncomingDate;
-- (NSDate *)addedOutgoingDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *addedIncomingDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *addedOutgoingDate;
 
 /*!
  @method backgroundColor
  @abstract Obtain the background color of the receiver.
  */
-- (NSColor *)backgroundColor;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *backgroundColor;
 
 /*!
  @method setBackgroundColor:
  @abstract Sets the background color of the receiver.
  */
-- (void)setBackgroundColor:(NSColor *)bgColor;
 
 /*!
  @method foregroundColor
  @abstract Obtain the foreground color of the receiver.
  */
-- (NSColor *)foregroundColor;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *foregroundColor;
 
 /*!
  @method setForegroundColor:
  @abstract Sets the foreground color of the receiver.
  */
-- (void)setForegroundColor:(NSColor *)fgColor;
 
-- (unsigned int)groupMask;
-- (void)setGroupMask:(unsigned int)newMask;
+@property (NS_NONATOMIC_IOSONLY) unsigned int groupMask;
 
 /*!
  @method friendship
@@ -138,18 +135,18 @@ enum {
  mutual.  The result is one of the Friendship constants defined in the LJFriend
  header.
  */
-- (int)friendship;
+@property (NS_NONATOMIC_IOSONLY, readonly) LJFriendship friendship;
 
 /*!
  @method backgroundColorForYou
  @result The color this friend uses for your background.
  */
-- (NSColor *)backgroundColorForYou;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *backgroundColorForYou;
 
 /*!
  @method foregroundColorForYou
  @result The color this friend uses for your foreground.
  */
-- (NSColor *)foregroundColorForYou;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *foregroundColorForYou;
 
 @end

@@ -82,9 +82,9 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  Initializes a new journal entry.  The date is set to the current date and time.
  All other fields are left blank.
  */
-- (id)init;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 
-- (id)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
@@ -131,25 +131,23 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  @method subject
  @abstract Obtain the subject of the receiver.
  */
-- (NSString *)subject;
+@property (nonatomic, copy) NSString *subject;
 
 /*!
  @method setSubject:
  @abstract Set the subject of the receiver.
  */
-- (void)setSubject:(NSString *)subject;
 
 /*!
  @method content
  @abstract Obtain the content of the receiver.
  */
-- (NSString *)content;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *content;
 
 /*!
  @method setContent:
  @abstract Set the content of the receiver.
  */
-- (void)setContent:(NSString *)content;
 
 /*!
  @method isEdited
@@ -159,7 +157,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  otherwise.  The edited flag is set whenever any of the set... methods are
  called, and reset when saveToJournal completes successfully.
  */
-- (BOOL)isEdited;
+@property (NS_NONATOMIC_IOSONLY, getter=isEdited) BOOL edited;
 
 /*!
  @method setEdited:
@@ -168,7 +166,6 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  You can call this method to mark this entry as edited or unedited as you see
  fit.
  */
-- (void)setEdited:(BOOL)flag;
 
 /*!
  @method setSecurityMode:
@@ -176,19 +173,20 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  @discussion
  The security modes are explained in the LJEntry Security Modes enumeration.
 
- You cannot set the security mode to LJGroupSecurityMode unless the receiver
+ You cannot set the security mode to LJSecurityModeGroup unless the receiver
  has been associated with a journal.  This is because groups only have meaning
  in the context of a particular account, and an unassociated entry has no
  connection to an account object.
  */
-- (void)setSecurityMode:(int)security;
+@property LJSecurityMode securityMode;
+- (void)setSecurityMode:(LJSecurityMode)security;
 
 /*!
  @method setAccessAllowed:forGroup:
  @abstract Allow or deny access for a specific group.
  @discussion
  Set whether a group is allowed to access this journal if the security mode is
- set to LJGroupSecurityMode.  If the security mode is something else, an
+ set to LJSecurityModeGroup.  If the security mode is something else, an
  exception is raised.
 
  You cannot use this and other group security related methods on unassociated
@@ -202,7 +200,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  @method setGroupsAllowedAccessMask:
  @discussion
  Set the bitmask which defines the groups allowed to access this entry.
- This value is ignored if not in LJGroupSecurityMode.
+ This value is ignored if not in LJSecurityModeGroup.
  */
 - (void)setGroupsAllowedAccessMask:(unsigned int)mask;
 
@@ -227,6 +225,6 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
 
  This property is preserved during archiving.
  */
-- (NSMutableDictionary *)customInfo;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableDictionary *customInfo;
 
 @end

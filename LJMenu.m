@@ -23,7 +23,7 @@
 
 @implementation LJMenu
 
-- (id)initWithTitle:(NSString *)title loginReply:(NSDictionary *)reply
+- (instancetype)initWithTitle:(NSString *)title loginReply:(NSDictionary *)reply
 {
     self = [super initWithTitle:title];
     if (self) {
@@ -35,22 +35,22 @@
 
 // These macros make the following code easier to read.
 #define LJ_MENU_COUNT(m) [NSString stringWithFormat:@"menu_%@_count", m]
-#define LJ_MENU_TEXT(m,i) [NSString stringWithFormat:@"menu_%@_%d_text", m, i]
-#define LJ_MENU_URL(m,i) [NSString stringWithFormat:@"menu_%@_%d_url", m, i]
-#define LJ_MENU_SUB(m,i) [NSString stringWithFormat:@"menu_%@_%d_sub", m, i]
+#define LJ_MENU_TEXT(m,i) [NSString stringWithFormat:@"menu_%@_%ld_text", m, (long)i]
+#define LJ_MENU_URL(m,i) [NSString stringWithFormat:@"menu_%@_%ld_url", m, (long)i]
+#define LJ_MENU_SUB(m,i) [NSString stringWithFormat:@"menu_%@_%ld_sub", m, (long)i]
 
 - (void)populateMenu:(NSMenu *)menu number:(NSString *)number loginReply:(NSDictionary *)reply
 {
-    int itemCount, i;
+    NSInteger itemCount, i;
     NSString *itemText, *itemSub, *itemUrl;
     NSMenuItem *item;
     NSMenu *submenu;
 
-    itemCount = [[reply objectForKey:LJ_MENU_COUNT(number)] intValue];
+    itemCount = [reply[LJ_MENU_COUNT(number)] integerValue];
     for (i = 1; i <= itemCount; i++) {
-        itemText = [reply objectForKey:LJ_MENU_TEXT(number, i)];
-        itemUrl = [reply objectForKey:LJ_MENU_URL(number, i)];
-        itemSub = [reply objectForKey:LJ_MENU_SUB(number, i)];
+        itemText = reply[LJ_MENU_TEXT(number, i)];
+        itemUrl = reply[LJ_MENU_URL(number, i)];
+        itemSub = reply[LJ_MENU_SUB(number, i)];
         if ([itemText isEqualToString:@"-"]) {
             item = (NSMenuItem *)[NSMenuItem separatorItem];
         } else {
@@ -67,7 +67,6 @@
             }
         }
         [menu addItem:item];
-		[item release];
     }
 }
 

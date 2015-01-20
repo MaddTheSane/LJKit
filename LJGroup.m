@@ -30,6 +30,12 @@
 #import "Miscellaneous.h"
 
 @implementation LJGroup
+@synthesize number = _number;
+@synthesize mask = _mask;
+@synthesize createdDate = _createdDate;
+@synthesize name = _name;
+@synthesize sortOrder = _sortOrder;
+@synthesize modifiedDate = _modifiedDate;
 
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account
 {
@@ -38,23 +44,22 @@
     NSString *key, *name;
 
     for ( n = 1; n <= 30; n++ ) {
-        group = [groups member:[NSNumber numberWithInt:n]];
+        group = [groups member:@(n)];
         key = [NSString stringWithFormat:@"frgrp_%d_name", n];
-        name = [reply objectForKey:key];
+        name = reply[key];
         if (name) {
             // Group exists on server
             if (group == nil) {
                 // If it is new to us, create a group object
                 group = [[LJGroup alloc] initWithNumber:n account:account];
                 [groups addObject:group];
-                [group autorelease];
             }
             // Update the group object
             [group setName:name];
             key = [NSString stringWithFormat:@"frgrp_%d_public", n];
-            [group setPublic:([[reply objectForKey:key] intValue] != 0)];
+            [group setPublic:([reply[key] intValue] != 0)];
             key = [NSString stringWithFormat:@"frgrp_%d_sortorder", n];
-            [group setSortOrder:[[reply objectForKey:key] intValue]];
+            [group setSortOrder:[reply[key] intValue]];
         } else {
             // Group doesn't exist on server
             if (group != nil) {
@@ -65,7 +70,7 @@
     }
 }
 
-- (id)initWithNumber:(int)number account:(LJAccount *)account
+- (instancetype)initWithNumber:(int)number account:(LJAccount *)account
 {
     self = [super init];
     if (self) {
@@ -75,31 +80,24 @@
         _mask = (1 << _number);
         _sortOrder = 50; // LiveJournal default
         _createdDate = [[NSDate alloc] init];
-        _modifiedDate = [_createdDate retain];
+        _modifiedDate = _createdDate;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [_name release];
-    [_createdDate release];
-    [_modifiedDate release];
-    [super dealloc];
-}
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
     if (self) {
         _account = [decoder decodeObjectForKey:@"LJGroupAccount"];
         _number = [decoder decodeIntForKey:@"LJGroupNumber"];
         _mask = (1 << _number);
-        _name = [[decoder decodeObjectForKey:@"LJGroupName"] retain];
+        _name = [decoder decodeObjectForKey:@"LJGroupName"];
         _sortOrder = (unsigned char)[decoder decodeIntForKey:@"LJGroupSortOrder"];
         _isPublic = [decoder decodeBoolForKey:@"LJGroupIsPublic"];
-        _createdDate = [[decoder decodeObjectForKey:@"LJGroupCreatedDate"] retain];
-        _modifiedDate = [[decoder decodeObjectForKey:@"LJGroupModifiedDate"] retain];
+        _createdDate = [decoder decodeObjectForKey:@"LJGroupCreatedDate"];
+        _modifiedDate = [decoder decodeObjectForKey:@"LJGroupModifiedDate"];
     }
     return self;
 }
@@ -115,29 +113,12 @@
     [encoder encodeObject:_modifiedDate forKey:@"LJGroupModifiedDate"];
 }
 
-- (unsigned int)number
-{
-    return _number;
-}
-
-- (unsigned int)mask
-{
-    return _mask;
-}
-
-- (NSString *)name
-{
-    return _name;
-}
-
 - (void)setName:(NSString *)name
 {
-    if (SafeSetString(&_name, name)) [self _updateModifiedDate];
-}
-
-- (unsigned char)sortOrder
-{
-    return _sortOrder;
+	if (![_name isEqualToString:name]) {
+		_name = name;
+		[self _updateModifiedDate];
+	}
 }
 
 - (void)setSortOrder:(unsigned char)sortOrder
@@ -161,32 +142,21 @@
     }
 }
 
-- (NSDate *)createdDate
-{
-    return _createdDate;
-}
-
-- (NSDate *)modifiedDate
-{
-    return _modifiedDate;
-}
-
 - (void)_updateModifiedDate
 {
-    [_modifiedDate release];
     _modifiedDate = [[NSDate alloc] init];
 }
 
 - (void)addFriend:(LJFriend *)amigo
 {
-    NSAssert(([amigo friendship] & LJOutgoingFriendship) != 0,
+    NSAssert(([amigo friendship] & LJFriendshipOutgoing) != 0,
              @"Must add friend to friend list before adding to a group.");
     [amigo setGroupMask:([amigo groupMask] | _mask)];
 }
 
 - (void)removeFriend:(LJFriend *)amigo
 {
-    NSAssert(([amigo friendship] & LJOutgoingFriendship) != 0,
+    NSAssert(([amigo friendship] & LJFriendshipOutgoing) != 0,
              @"Must add friend to friend list before removing from a group.");
     [amigo setGroupMask:([amigo groupMask] & ~_mask)];
 }
@@ -242,7 +212,7 @@
     return nonMembers;
 }
 
-- (unsigned)hash
+- (NSUInteger)hash
 {
     return _number;
 }
@@ -276,7 +246,7 @@
         else return NSOrderedSame;
     }
     NSAssert1(NO, @"Can't compare an LJGroup to %@", object);
-    return nil;
+    return NSOrderedSame;
 }
 
 - (NSString *)description
@@ -290,14 +260,14 @@
 
     // efg_set_groupnum_name
     key = [NSString stringWithFormat:@"efg_set_%d_name", _number];
-    [parameters setObject:_name forKey:key];
+    parameters[key] = _name;
     // efg_set_groupnum_sort
     key = [NSString stringWithFormat:@"efg_set_%d_sort", _number];
     value = [NSString stringWithFormat:@"%u", _sortOrder];
-    [parameters setObject:value forKey:key];
+    parameters[key] = value;
     // efg_set_groupnum_public
     key = [NSString stringWithFormat:@"efg_set_%d_public", _number];
-    [parameters setObject:(_isPublic ? @"1" : @"0") forKey:key];
+    parameters[key] = (_isPublic ? @"1" : @"0");
 }
 
 - (void)_addDeleteFieldsToParameters:(NSMutableDictionary *)parameters
@@ -306,7 +276,7 @@
     
     // efg_delete_groupnum
     key = [NSString stringWithFormat:@"efg_delete_%d", _number];
-    [parameters setObject:@"1" forKey:key];
+    parameters[key] = @"1";
 }
 
 @end

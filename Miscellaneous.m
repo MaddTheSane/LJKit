@@ -29,34 +29,6 @@
 #import "Miscellaneous.h"
 
 /*
- * This is a convenience function for setter methods.  The variable
- * pointed to by variablePtr will be set to the object newValue.
- * The old value will be sent a release message and the new one
- * a retain message.  The function returns YES if the variable did
- * change and NO if it did not.
- */
-BOOL SafeSetObject(id *variablePtr, id newValue)
-{
-    if ( (*variablePtr) == newValue )
-        return NO;
-    if ( [(*variablePtr) respondsToSelector:@selector(isEqual:)] &&
-         [(*variablePtr) isEqual:newValue] )
-        return NO;
-    [newValue retain];
-    [(*variablePtr) release];
-    (*variablePtr) = newValue;
-    return YES;
-}
-
-/*
- * This converts empty strings into nil references.
- */
-BOOL SafeSetString(NSString **stringPtr, NSString *newString)
-{
-    return SafeSetObject(stringPtr, ([newString length] > 0 ? newString : nil));
-}
-
-/*
  * Returns the MD5 digest of the given NSString object as a hex
  * encoded string.  Uses the crypto library distributed with OS X.
  */
@@ -68,12 +40,12 @@ NSString *MD5HexDigest(NSString *string)
     NSMutableString *hexString;
     
     utfString = [string UTF8String];
-    MD5(utfString, strlen(utfString), digest);
+    MD5((const unsigned char*)utfString, strlen(utfString), digest);
     hexString = [NSMutableString stringWithCapacity:MD5_DIGEST_LENGTH * 2];
     for (i = 0; i < MD5_DIGEST_LENGTH; i++) {
         [hexString appendFormat:@"%02x", digest[i]];
     }
-    return hexString;
+    return [NSString stringWithString: hexString];
 }
 
 /*

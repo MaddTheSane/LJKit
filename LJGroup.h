@@ -40,58 +40,55 @@
 }
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account;
 
-- (id)initWithNumber:(int)number account:(LJAccount *)account;
+- (instancetype)initWithNumber:(int)number account:(LJAccount *)account NS_DESIGNATED_INITIALIZER;
 
-- (id)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
  @method number
  @abstract Obtain the group's number.
  */
-- (unsigned int)number;
+@property (NS_NONATOMIC_IOSONLY, readonly) unsigned int number;
 
 /*!
  @method mask
  @abstract Obtain the group's bit mask.
  */
-- (unsigned int)mask;
+@property (NS_NONATOMIC_IOSONLY, readonly) unsigned int mask;
 
 /*!
  @method name
  @abstract Obtain the name of the receiver.
  */
-- (NSString *)name;
+@property (nonatomic, copy) NSString *name;
 
 /*!
  @method setName:
  @abstract Sets the name of the receiver.
  */
-- (void)setName:(NSString *)name;
 
 /*!
  @method sortOrder
  @abstract Obtain the sort order index of the receiver.
  */
-- (unsigned char)sortOrder;
+@property (nonatomic) unsigned char sortOrder;
 
 /*!
  @method setSortOrder:
  @abstract Sets the sort order index of the receiver.
  */
-- (void)setSortOrder:(unsigned char)sortOrder;
 
 /*!
  @method isPublic
  @abstract Determine whether the receiver is visible to other users.
  */
-- (BOOL)isPublic;
+@property (NS_NONATOMIC_IOSONLY, getter=isPublic) BOOL public;
 
 /*!
  @method setPublic:
  @abstract Sets whether the receiver is visible to other users.
  */
-- (void)setPublic:(BOOL)flag;
 
 /*!
  @method createdDate
@@ -106,7 +103,7 @@
  it will appear to be the same group.  For this reason it is advised
  that users not manipulate groups outside of the LJKit.
  */
-- (NSDate *)createdDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *createdDate;
 
 /*!
  @method modifiedDate
@@ -116,7 +113,7 @@
  It is used to determine which groups have changes that need to be
  synchronized with the server.
  */
-- (NSDate *)modifiedDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *modifiedDate;
 
 - (void)_updateModifiedDate;
 
@@ -147,14 +144,14 @@
  @abstract Returns the members of the receiver as a sorted array.
  @result An NSArray of LJFriend objects.
  */
-- (NSArray *)memberArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *memberArray;
 
 /*!
  @method memberSet
  @abstract Returns the members of the receiver as a set.
  @result An NSSet of LJFriend objects.
  */
-- (NSSet *)memberSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *memberSet;
 
 /*!
  @method nonMemberArray
@@ -164,7 +161,7 @@
  This method returns users who are friends of the parent account but are not
  members of this group.
  */
-- (NSArray *)nonMemberArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *nonMemberArray;
 
 /*!
  @method nonMemberSet
@@ -174,6 +171,6 @@
  This method returns users who are friends of the parent account but are not
  members of this group.
  */
-- (NSSet *)nonMemberSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *nonMemberSet;
 
 @end

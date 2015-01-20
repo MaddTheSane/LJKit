@@ -25,7 +25,7 @@
 {
     // nothing to declare
 }
-- (id)initWithTitle:(NSString *)title loginReply:(NSDictionary *)reply;
+- (instancetype)initWithTitle:(NSString *)title loginReply:(NSDictionary *)reply;
 - (void)populateMenu:(NSMenu *)menu
               number:(NSString *)number
           loginReply:(NSDictionary *)reply;

@@ -33,16 +33,15 @@
  The getEntry... methods will return LJEntry objects.
  The getSummary... methods will return LJEntrySummary objects.
  */
-@interface LJJournal : NSObject
+@interface LJJournal : NSObject <NSCoding>
 {
-    LJAccount *_account;
+    LJAccount *__weak _account;
     NSString *_name;
     BOOL _isNotDefault;
 	NSMutableArray *_tags;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder;
-- (void)encodeWithCoder:(NSCoder *)encoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
 /*!
  @method setEntrySummaryLength:
@@ -57,13 +56,13 @@
  @method account
  @abstract Obtain the account the receiver belongs to.
  */
-- (LJAccount *)account;
+@property (NS_NONATOMIC_IOSONLY, readonly, weak) LJAccount *account;
 
 /*!
  @method name
  @abstract Obtain the name of the receiver.
  */
-- (NSString *)name;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
 
 /*!
  @method isDefault
@@ -88,7 +87,7 @@
  @discussion
  This method returns the most recent entry posted to the receiver.
  */
-- (LJEntry *)getMostRecentEntry;
+@property (NS_NONATOMIC_IOSONLY, getter=getMostRecentEntry, readonly, strong) LJEntry *mostRecentEntry;
 
 /*!
  @method getEntriesLastN:beforeDate:
@@ -157,7 +156,7 @@
  Returns an NSDictionary with NSCalendarDate objects as keys and NSNumbers as values,
  representing the number of entries available for the given date.
  */
-- (NSDictionary *)getDayCounts;
+@property (NS_NONATOMIC_IOSONLY, getter=getDayCounts, readonly, copy) NSDictionary *dayCounts;
 
 	/*!
 	@method tags
@@ -166,7 +165,7 @@
 	 This method returns an array of tags that are defined for
 	 this journal. Setting new tags should add to this array.
 	 */
-- (NSMutableArray *)tags;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableArray *tags;
 
 	/*!
 	@method updateTagsArray
@@ -183,7 +182,7 @@
 	 @discussion
 	 This method gets the list of tags for this journal from the server
 	 */
-- (NSDictionary *) getTagsReplyForThisJournal;
+@property (NS_NONATOMIC_IOSONLY, getter=getTagsReplyForThisJournal, readonly, copy) NSDictionary *tagsReplyForThisJournal;
 
 	/*!
 	@method createJournalTagsArray

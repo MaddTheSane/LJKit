@@ -49,7 +49,7 @@
  and saved.  Other information, such as birthdays, won't be updated until
  the next call to downloadFriends.
  */
-- (BOOL)uploadFriends;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL uploadFriends;
 
 /*!
  @method friendSet
@@ -59,7 +59,7 @@
  If the friends list hasn't been downloaded, returns nil.
  This property is preserved during archiving.
 */
-- (NSSet *)friendSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *friendSet;
 
 /*!
  @method friendArray
@@ -70,7 +70,7 @@
  If the friends list hasn't been downloaded, returns nil.
  This property is preserved during archiving.
 */
-- (NSArray *)friendArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *friendArray;
 
 /*!
  @method friendEnumerator
@@ -79,7 +79,7 @@
  Returns an NSEnumerator which traverses the user's friends, returning LJFriend
  objects.
  */
-- (NSEnumerator *)friendEnumerator;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSEnumerator *friendEnumerator;
 
 /*!
  @method groupSet
@@ -90,7 +90,7 @@
 
  This property is preserved during archiving.
 */
-- (NSSet *)groupSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *groupSet;
 
 /*!
  @method groupArray
@@ -101,7 +101,7 @@
 
  This property is preserved during archiving.
 */
-- (NSArray *)groupArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *groupArray;
 
 /*!
  @method groupEnumerator
@@ -110,7 +110,7 @@
  Returns an NSEnumerator which traverses the user's groups, returning
  LJGroup objects.
  */
-- (NSEnumerator *)groupEnumerator;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSEnumerator *groupEnumerator;
 
 /*!
  @method friendOfSet
@@ -120,7 +120,7 @@
  This property is preserved during archiving.
  @result An NSSet of LJFriend objects.
  */
-- (NSSet *)friendOfSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *friendOfSet;
 
 /*!
  @method friendOfArray
@@ -130,7 +130,7 @@
  This property is preserved during archiving.
  @result A sorted NSArray of LJFriend objects.
  */
-- (NSArray *)friendOfArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *friendOfArray;
 
 /*!
  @method friendOfEnumerator
@@ -139,7 +139,7 @@
  Returns an NSEnumerator which traverses users who list the receiver as a
  friend, returning LJFriend objects.
  */
-- (NSEnumerator *)friendOfEnumerator;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSEnumerator *friendOfEnumerator;
 
 /*!
  @method relationshipArray
@@ -148,7 +148,7 @@
  In contrast to -friendArray and -friendOfArray, this method returns
  a sorted array in which are mixed mutual, incoming and outgoing relationships.
  */
-- (NSArray *)relationshipArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *relationshipArray;
 
 /*!
  @method watchedCommunityArray
@@ -156,7 +156,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result A sorted NSArray of LJFriend objects.
  */
-- (NSArray *)watchedCommunityArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *watchedCommunityArray;
 
 /*!
  @method watchedCommunitySet
@@ -164,7 +164,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result An NSSet of LJFriend objects.
 */
-- (NSSet *)watchedCommunitySet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *watchedCommunitySet;
 
 /*!
  @method joinedCommunityArray
@@ -172,7 +172,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result A sorted NSArray of LJFriend objects.
  */
-- (NSArray *)joinedCommunityArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *joinedCommunityArray;
 
 /*!
  @method joinedCommunitySet
@@ -180,7 +180,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result An NSSet of LJFriend objects.
  */
-- (NSSet *)joinedCommunitySet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *joinedCommunitySet;
 
 /*!
  @method friendNamed:

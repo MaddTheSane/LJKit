@@ -29,6 +29,8 @@
 
 #define LJKitBundle [NSBundle bundleForClass:[LJAccount class]]
 
+@protocol LJAccountDelegate;
+
 /*!
  @enum Login Flags
 
@@ -64,7 +66,7 @@
  @constant LJReservedLoginFlags
  These bits are reserved and must be set to zero.
  */
-enum {
+typedef NS_OPTIONS(unsigned int, LJLoginFlag) {
     LJNoLoginFlags                 = 0,
     LJGetMoodsLoginFlag            = 0x00000001,
     LJGetMenuLoginFlag             = 0x00000002,
@@ -175,7 +177,6 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
     NSString *_loginMessage;
     NSMutableDictionary *_customInfo;
     BOOL _isLoggedIn;
-    id _delegate;
     // for friends editing
     NSMutableSet *_friendSet;
     NSMutableSet *_removedFriendSet;
@@ -267,6 +268,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  */
 - (BOOL)isDefault;
 
+@property (NS_NONATOMIC_IOSONLY, setter=setDefault:) BOOL isDefault;
 
 /*!
  @method initWithUsername:
@@ -277,9 +279,9 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  with the LiveJournal server you must call the loginWithPassword:
  method.  This is the designated initializer for the class.
  */
-- (id)initWithUsername:(NSString *)username;
+- (instancetype)initWithUsername:(NSString *)username;
 
-- (id)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder;
 
 /*!
  @method initWithContentsOfFile:
@@ -289,7 +291,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  Initializes an account object using information previously saved
  to a file.  This method uses NSKeyedUnarchiver to read the file.
  */
-- (id)initWithContentsOfFile:(NSString *)path;
+- (instancetype)initWithContentsOfFile:(NSString *)path;
 
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
@@ -311,7 +313,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  @discussion
  This property is preserved during archiving.
  */
-- (LJServer *)server;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LJServer *server;
 
 /*!
  @method getReplyForMode:parameters:
@@ -360,7 +362,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  If the username/password combination is incorrect, an exception will
  be raised.
  */
-- (void)loginWithPassword:(NSString *)password flags:(int)loginFlags;
+- (void)loginWithPassword:(NSString *)password flags:(LJLoginFlag)loginFlags;
 
 /*!
  @method loginWithPassword:
@@ -389,7 +391,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  should call this method after loginWithPassword: and if it returns
  a string, display the string to the user.
  */
-- (NSString *)loginMessage;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *loginMessage;
 
 /*!
  @method isLoggedIn
@@ -397,7 +399,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  @result YES if the account has successfully logged in, NO otherwise.
  @discussion
  */
-- (BOOL)isLoggedIn;
+@property (NS_NONATOMIC_IOSONLY, getter=isLoggedIn, readonly) BOOL loggedIn;
 
 /*!
  @method menu
@@ -410,7 +412,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  will direct the system default web browser to the correct web site.
  Thus, all you need to do is display the menu in your interface.
  */
-- (NSMenu *)menu;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *menu;
 
 /*!
  @method moods
@@ -423,7 +425,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  This property is preserved during archiving.
 */
-- (LJMoods *)moods;
+@property (NS_NONATOMIC_IOSONLY, strong) LJMoods *moods;
 
 /*!
  @method setMoods:
@@ -433,7 +435,6 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  mood list can be saved between sessions.  If so, only new moods will be
  downloaded from the server, to save on bandwidth.
  */
-- (void)setMoods:(LJMoods *)moods;
 
 /*!
  @method userPictureKeywords
@@ -444,7 +445,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 	 
 	 This property is preserved during archiving.
 	 */
-- (NSArray *)userPictureKeywords;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *userPictureKeywords;
 
 
 /*!
@@ -457,7 +458,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  This property is preserved during archiving.
 */
-- (NSDictionary *)userPicturesDictionary;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *userPicturesDictionary;
 
 /*!
  @method defaultUserPictureURL
@@ -483,7 +484,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  has the picture's URL as a its represented object, so you can retrieve the
  NSURL object by calling [menuItem representedObject].
  */
-- (NSMenu *)userPicturesMenu;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *userPicturesMenu;
 
 /*!
  @method journalArray
@@ -496,7 +497,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  This property is preserved during archiving.
 */
-- (NSArray *)journalArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *journalArray;
 
 /*!
  @method defaultJournal
@@ -527,7 +528,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  you may retrieve a journal by sending the representedObject message
  to any of the menu items.
  */
-- (NSMenu *)journalMenu;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *journalMenu;
 
 /*!
  @method customInfo
@@ -539,7 +540,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  This property is preserved during archiving.
 */
-- (NSMutableDictionary *)customInfo;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableDictionary *customInfo;
 
 /*!
  @method identifier
@@ -548,13 +549,13 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  Returns a unique identifier for the receiver.  It is of the form
  "username&#64;hostname:port".
  */
-- (NSString *)identifier;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *identifier;
 
 /*!
- @method delegate
+ @property delegate
  @abstract Returns the receiver's delegate.
  */
-- (id)delegate;
+@property (nonatomic, weak) id<LJAccountDelegate> delegate;
 
 /*!
  @method setDelegate:
@@ -563,17 +564,17 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  Sets the delegate of the receiver.  The delegate is automatically registered to
  receive notifications if it implements the methods below.
  */
-- (void)setDelegate:(id)delegate;
 
 @end
 
 
 /*!
- @category NSObject(LJAccountDelegate)
+ @protocol LJAccountDelegate
  @abstract Methods implemented by the delegate
  */
-@interface NSObject(LJAccountDelegate)
+@protocol LJAccountDelegate <NSObject>
 
+@optional
 /*!
  @method accountShouldConnect:
  @discussion

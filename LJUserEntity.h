@@ -32,7 +32,7 @@
  @method username
  @abstract Obtain the username of the receiver.
  */
-- (NSString *)username;
+@property (nonatomic, readonly, copy) NSString *username;
 
 /*!
  @method fullname
@@ -41,6 +41,6 @@
  Returns the receiver's full name, as reported by the server.  If not
  available, this method returns the receiver's username.
  */
-- (NSString *)fullname;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *fullname;
 
 @end

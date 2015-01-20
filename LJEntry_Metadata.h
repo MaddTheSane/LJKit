@@ -61,7 +61,7 @@
  @abstract Obtain the mood associated with the receiver.
  @result The mood name, or nil if none is set.
  */
-- (NSString *)currentMood;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMood;
 
 /*!
  @method setCurrentMood:
@@ -73,14 +73,13 @@
  [LJEntry saveToJournal]; this allows LiveJournal to display the graphic
  for that mood on the web.
  */
-- (void)setCurrentMood:(NSString *)moodName;
 
 	/*!
 	@method currentMoodName
 	 @abstract Obtain the mood name associated with the receiver.
 	 @result The mood name, or nil if none is set.
 	 */
-- (NSString *)currentMoodName;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMoodName;
 
 	/*!
 	@method setCurrentMoodName:
@@ -89,25 +88,23 @@
 	 Sets the current mood name for this entry.  Set moodName to nil to remove the
 	 mood property.
 	 */
-- (void)setCurrentMoodName:(NSString *)moodName;
 
 	/*!
  @method currentMusic
  @abstract Obtain the music associated with the receiver.
  */
-- (NSString *)currentMusic;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMusic;
 
 /*!
  @method setCurrentMusic:
  @abstract Sets the music associated with the receiver.
  */
-- (void)setCurrentMusic:(NSString *)music;
 
 /*!
  @method optionPreformatted
  @abstract Obtain the preformatted setting of the receiver.
  */
-- (BOOL)optionPreformatted;
+@property (NS_NONATOMIC_IOSONLY) BOOL optionPreformatted;
 
 /*!
  @method setOptionPreformatted:
@@ -118,13 +115,12 @@
  to control the receivers appearance with HTML tags.
  You may still include HTML in your entry if this option is disabled.
  */
-- (void)setOptionPreformatted:(BOOL)flag;
 
 /*!
  @method optionNoComments
  @abstract Obtain the don't allow comments setting of the receiver.
  */
-- (BOOL)optionNoComments;
+@property (NS_NONATOMIC_IOSONLY) BOOL optionNoComments;
 
 /*!
  @method setOptionNoComments:
@@ -133,13 +129,12 @@
  If you don't want to allow users to write comments about the receiver,
  set this to true.
  */
-- (void)setOptionNoComments:(BOOL)flag;
 
 /*!
  @method pictureKeyword
  @abstract Obtain the picture keyword associated with the receiver.
  */
-- (NSString *)pictureKeyword;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *pictureKeyword;
 
 /*!
  @method setPictureKeyword:
@@ -149,13 +144,12 @@
  [LJAccount userPicturesDictionary] method, using the keys from the
  resulting NSDictionary.
  */
-- (void)setPictureKeyword:(NSString *)keyword;
 
 /*!
  @method optionBackdated
  @abstract Obtain the backdated setting of the receiver.
  */
-- (BOOL)optionBackdated;
+@property (NS_NONATOMIC_IOSONLY) BOOL optionBackdated;
 
 /*!
  @method setOptionBackdated:
@@ -165,13 +159,12 @@
  You must backdate an entry if it bears a date earlier than the latest entry
  posted to the journal.
  */
-- (void)setOptionBackdated:(BOOL)flag;
 
 /*!
  @method optionNoEmail
  @abstract Obtain the don't email comments setting of the receiver.
  */
-- (BOOL)optionNoEmail;
+@property (NS_NONATOMIC_IOSONLY) BOOL optionNoEmail;
 
 /*!
  @method setOptionNoEmail
@@ -180,13 +173,12 @@
  LiveJournal provides to option to email a copy of comments that are posted to your
  journal.  This method allows you to override this option for this one entry.
  */
-- (void)setOptionNoEmail:(BOOL)flag;
 
 /*!
  @method hasUnknown8bitData
  @abstract Post contains unknown 8-bit data.
  */
-- (BOOL)hasUnknown8bitData;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasUnknown8bitData;
 
 /*!
  @method optionScreenReplies
@@ -201,56 +193,54 @@
 /*!
  @method hasScreenedReplies
  */
-- (BOOL)hasScreenedReplies;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasScreenedReplies;
 
 /*!
  @method revisionNumber
  */
-- (int)revisionNumber;
+@property (NS_NONATOMIC_IOSONLY, readonly) int revisionNumber;
 
 /*!
  @method revisionDate
  */
-- (NSDate *)revisionDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *revisionDate;
 
 /*!
  @method commentsAlteredDate
  */
-- (NSDate *)commentsAlteredDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *commentsAlteredDate;
 
 /*!
  @method syndicatedItemID
  */
-- (NSString *)syndicatedItemID;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *syndicatedItemID;
 
 	/*!
 	@method syndicatedItemURL
 	 */
-- (NSURL *)syndicatedItemURL;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *syndicatedItemURL;
 
 	/*!
 	@method currentLocation
 	@abstract Get the location of the receiver.
 	 */
-- (NSString *)currentLocation;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentLocation;
 
 	/*!
 	@method setCurrentLocation
 	@abstract Set the location of the receiver.
 	 */
-- (void)setCurrentLocation:(NSString *)locationName;
 
 	/*!
  @method tags:
  @abstract Get the tag string of the receiver.
  */
-- (NSString *)tags;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *tags;
 
 	/*!
 	@method setTags:
 	 @abstract Set the tag string of the receiver.
 	 */
-- (void)setTags:(NSString *)newTags;
 
 	/*!
 	@method addTag:

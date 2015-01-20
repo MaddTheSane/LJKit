@@ -21,8 +21,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-BOOL SafeSetObject(id *variablePtr, id newValue);
-BOOL SafeSetString(NSString **stringPtr, NSString *newString);
 NSString *MD5HexDigest(NSString *string);
 char ValueForHexDigit(char digit);
 NSColor *ColorForHTMLCode(NSString *code);

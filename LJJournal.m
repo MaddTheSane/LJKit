@@ -32,17 +32,23 @@
 
 static NSString *entrySummaryLength = nil;
 
+@interface LJJournal ()
+- (instancetype)initWithName:(NSString *)name account:(LJAccount *)account NS_DESIGNATED_INITIALIZER;
+@end
+
 @implementation LJJournal
+@synthesize tags = _tags;
+@synthesize name = _name;
+@synthesize account = _account;
 
 + (void)initialize
 {
-    entrySummaryLength = [@"30" retain];
+    entrySummaryLength = @"30";
 }
 
 + (void)setEntrySummaryLength:(int)length
 {
     NSParameterAssert(length > 3);
-    [entrySummaryLength release];
     entrySummaryLength = [[NSString alloc] initWithFormat:@"%u", length];
 }
 
@@ -52,7 +58,7 @@ static NSString *entrySummaryLength = nil;
 
     journal = [account journalNamed:name];
     if (journal == nil) {
-        journal = [[[LJJournal alloc] initWithName:name account:account] autorelease];
+        journal = [[LJJournal alloc] initWithName:name account:account];
     }
     return journal;
 }
@@ -64,13 +70,13 @@ static NSString *entrySummaryLength = nil;
     LJJournal *journal;
     int count, i;
 
-    count = [[reply objectForKey:@"access_count"] intValue];
+    count = [reply[@"access_count"] intValue];
     array = [NSMutableArray arrayWithCapacity:(count + 1)];
     // add user's own journal (not part of login reply)
     [array addObject:[account defaultJournal]];
     // add others, if present
     for (i = 1; i <= count; i++) {
-        name = [reply objectForKey:[NSString stringWithFormat:@"access_%d", i]];
+        name = reply[[NSString stringWithFormat:@"access_%d", i]];
         journal = [account journalNamed:name];
         if (journal == nil) {
             journal = [self _journalWithName:name account:account];
@@ -80,30 +86,25 @@ static NSString *entrySummaryLength = nil;
     return array;
 }
 
-- (id)initWithName:(NSString *)name account:(LJAccount *)account
+- (instancetype)initWithName:(NSString *)name account:(LJAccount *)account
 {
     self = [super init];
     if (self) {
         NSParameterAssert(name);
         NSParameterAssert(account);
-        _name = [name retain];
+        _name = [name copy];
         _account = account; // Don't retain the account to avoid retain-release cycles
         _isNotDefault = ![_name isEqualToString:[_account username]];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [_name release];
-    [super dealloc];
-}
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
     if (self) {
-        _name = [[decoder decodeObjectForKey:@"LJJournalName"] retain];
+        _name = [decoder decodeObjectForKey:@"LJJournalName"];
         _account = [decoder decodeObjectForKey:@"LJJournalAccount"];
         NSAssert(_account != nil, @"LJJournal decoded without an account object.");
         _isNotDefault = ![_name isEqualToString:[_account username]];
@@ -115,11 +116,6 @@ static NSString *entrySummaryLength = nil;
 {
     [encoder encodeObject:_name forKey:@"LJJournalName"];
     [encoder encodeConditionalObject:_account forKey:@"LJJournalAccount"];
-}
-
-- (NSString *)name
-{
-    return _name;
 }
 
 - (LJAccount *)account
@@ -135,20 +131,20 @@ static NSString *entrySummaryLength = nil;
 - (NSMutableDictionary *)parametersForItemID:(int)itemID
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:@"one" forKey:@"selecttype"];
-    [parameters setObject:[NSString stringWithFormat:@"%d", itemID] forKey:@"itemid"];
+    parameters[@"selecttype"] = @"one";
+    parameters[@"itemid"] = [NSString stringWithFormat:@"%d", itemID];
     return parameters;
 }
 
 - (NSMutableDictionary *)parametersLastN:(int)n beforeDate:(NSDate *)date
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:@"lastn" forKey:@"selecttype"];
-    [parameters setObject:[NSString stringWithFormat:@"%u", n] forKey:@"howmany"];
+    parameters[@"selecttype"] = @"lastn";
+    parameters[@"howmany"] = [NSString stringWithFormat:@"%u", n];
     if (date) {
         NSString *s = [date descriptionWithCalendarFormat:@"%Y-%m-%d %H:%M:%S"
                                                  timeZone:nil locale:nil];
-        [parameters setObject:s forKey:@"beforedate"];
+        parameters[@"beforedate"] = s;
     }
     return parameters;
 }
@@ -158,20 +154,20 @@ static NSString *entrySummaryLength = nil;
     NSString *s;
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:@"day" forKey:@"selecttype"];
+    parameters[@"selecttype"] = @"day";
     s = [date descriptionWithCalendarFormat:@"%Y" timeZone:nil locale:nil];
-    [parameters setObject:s forKey:@"year"];
+    parameters[@"year"] = s;
     s = [date descriptionWithCalendarFormat:@"%m" timeZone:nil locale:nil];
-    [parameters setObject:s forKey:@"month"];
+    parameters[@"month"] = s;
     s = [date descriptionWithCalendarFormat:@"%d" timeZone:nil locale:nil];
-    [parameters setObject:s forKey:@"day"];
+    parameters[@"day"] = s;
     return parameters;
 }
 
 - (NSDictionary *)getEventsReplyWithParameters:(NSMutableDictionary *)parameters
 {
-    [parameters setObject:@"unix" forKey:@"lineendings"];
-    if (_isNotDefault) [parameters setObject:_name forKey:@"usejournal"];
+    parameters[@"lineendings"] = @"unix";
+    if (_isNotDefault) parameters[@"usejournal"] = _name;
     return [_account getReplyForMode:@"getevents" parameters:parameters];
 }
 
@@ -182,14 +178,12 @@ static NSString *entrySummaryLength = nil;
     int count, i;
     
     reply = [self getEventsReplyWithParameters:parameters];
-    count = [[reply objectForKey:@"events_count"] intValue];
+    count = [reply[@"events_count"] intValue];
     workingArray = [NSMutableArray arrayWithCapacity:count];
     for ( i = 1; i <= count; i++ ) {
         NSString *prefix = [[NSString alloc] initWithFormat:@"events_%d_", i];
         LJEntry *entry = [[LJEntry alloc] initWithReply:reply prefix:prefix journal:self];
         [workingArray addObject:entry];
-        [entry release];
-        [prefix release];
     }
     return workingArray;
 }
@@ -200,18 +194,16 @@ static NSString *entrySummaryLength = nil;
     NSMutableArray *workingArray;
     int count, i;
 
-    [parameters setObject:entrySummaryLength forKey:@"truncate"];
-    [parameters setObject:@"1" forKey:@"noprops"];
-    [parameters setObject:@"1" forKey:@"prefersubject"];
+    parameters[@"truncate"] = entrySummaryLength;
+    parameters[@"noprops"] = @"1";
+    parameters[@"prefersubject"] = @"1";
     reply = [self getEventsReplyWithParameters:parameters];
-    count = [[reply objectForKey:@"events_count"] intValue];
+    count = [reply[@"events_count"] intValue];
     workingArray = [NSMutableArray arrayWithCapacity:count];
     for ( i = 1; i <= count; i++ ) {
         NSString *prefix = [[NSString alloc] initWithFormat:@"events_%d_", i];
         LJEntrySummary *summary = [[LJEntrySummary alloc] initWithReply:reply prefix:prefix journal:self];
         [workingArray addObject:summary];
-        [summary release];
-        [prefix release];
     }
     return workingArray;
 }
@@ -219,7 +211,7 @@ static NSString *entrySummaryLength = nil;
 - (LJEntry *)getEntryForItemID:(int)itemID
 {
     NSArray *array = [self getEntriesWithParameters:[self parametersForItemID:itemID]];
-    return [array count] == 0 ? nil : [array objectAtIndex:0];
+    return [array count] == 0 ? nil : array[0];
 }
 
 - (LJEntry *)getMostRecentEntry
@@ -245,7 +237,7 @@ static NSString *entrySummaryLength = nil;
 - (LJEntrySummary *)getSummaryForItemID:(int)itemID
 {
     NSArray *array = [self getSummariesWithParameters:[self parametersForItemID:itemID]];
-    return [array count] == 0 ? nil : [array objectAtIndex:0];
+    return [array count] == 0 ? nil : array[0];
 }
 
 - (NSArray *)getSummariesLastN:(int)n beforeDate:(NSDate *)date
@@ -271,7 +263,7 @@ static NSString *entrySummaryLength = nil;
     NSString *key;
 
     if (_isNotDefault) {
-        parameters = [NSDictionary dictionaryWithObject:_name forKey:@"usejournal"];
+        parameters = @{@"usejournal": _name};
     }
     reply = [_account getReplyForMode:@"getdaycounts" parameters:parameters];
     workingCounts = [NSMutableDictionary dictionary];
@@ -279,15 +271,14 @@ static NSString *entrySummaryLength = nil;
     while (key = [enumerator nextObject]) {
         NSCalendarDate *date = [[NSCalendarDate alloc] initWithString:key calendarFormat:@"%Y-%m-%d"];
         if (date) {
-            int c = [[reply objectForKey:key] intValue];
-            [workingCounts setObject:[NSNumber numberWithInt:c] forKey:date];
-            [date release];
+            int c = [reply[key] intValue];
+            workingCounts[date] = @(c);
         }
     }
     return workingCounts;
 }
 
-- (unsigned)hash
+- (NSUInteger)hash
 {
     return [_name hash];
 }
@@ -307,11 +298,6 @@ static NSString *entrySummaryLength = nil;
     return _name;
 }
 
-- (NSMutableArray *)tags
-{
-    return _tags;
-}
-
 - (void) updateTagsArray:(NSString *)newTag
 {
 	if ([_tags indexOfObject:newTag] != NSNotFound) {
@@ -322,8 +308,8 @@ static NSString *entrySummaryLength = nil;
 - (NSDictionary *)getTagsReplyForThisJournal
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:@"unix" forKey:@"lineendings"];
-    if (_isNotDefault) [parameters setObject:_name forKey:@"usejournal"];
+    parameters[@"lineendings"] = @"unix";
+    if (_isNotDefault) parameters[@"usejournal"] = _name;
     return [_account getReplyForMode:@"getusertags" parameters:parameters];
 }
 
@@ -332,15 +318,14 @@ static NSString *entrySummaryLength = nil;
     int count, i;
     NSString *key, *tagName;
 	
-    count = [[reply objectForKey:@"tag_count"] intValue];
+    count = [reply[@"tag_count"] intValue];
     NSMutableArray *tagArray = [[NSMutableArray alloc] initWithCapacity:count];
     for (i = 1; i <= count; i++) {
         key = [NSString stringWithFormat:@"tag_%d_name", i];
-        tagName = [reply objectForKey:key];
+        tagName = reply[key];
         [tagArray addObject:tagName];
     }
-	_tags = [(NSMutableArray *)[tagArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
-	[tagArray release];
+	_tags = [[tagArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
 	NSLog(@"Found %d tag%s for journal %@", count, (count == 1 ? "" : "s"), [self name]);
 	return count;
 }

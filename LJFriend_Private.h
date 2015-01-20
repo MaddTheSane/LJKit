@@ -25,14 +25,19 @@
 
 #import "LJFriend.h"
 
-@interface LJFriend (FrameworkPrivate)
+@interface LJFriend ()
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSString *accountType;
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSString *accountStatus;
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSCalendarDate *birthDate;
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSColor *backgroundColorForYou;
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSColor *foregroundColorForYou;
 + (void)updateFriendSet:(NSMutableSet *)friends withReply:(NSDictionary *)reply account:(LJAccount *)account;
 + (void)updateFriendOfSet:(NSMutableSet *)friendOfs withReply:(NSDictionary *)reply account:(LJAccount *)account;
 + (void)updateFriendSet:(NSSet *)friends withEditReply:(NSDictionary *)reply;
 - (id)initWithUsername:(NSString *)username account:(LJAccount *)account;
 - (void)_addAddFieldsToParameters:(NSMutableDictionary *)parameters index:(int)i;
 - (void)_addDeleteFieldsToParameters:(NSMutableDictionary *)parameters;
-- (void)_enqueueNotificationName:(NSString *)name;
+//- (void)_enqueueNotificationName:(NSString *)name;
 - (void)_updateModifiedDate;
 - (void)_setOutgoingFriendship:(BOOL)flag;
 - (void)_setIncomingFriendship:(BOOL)flag;

@@ -26,13 +26,14 @@
 #import "LJMoods.h"
 
 @interface LJMoods (ClassPrivate)
-- (int)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag;
+- (NSInteger)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag;
 - (void)_addMoodID:(NSString *)moodID forName:(NSString *)moodName;
 @end
 
 @implementation LJMoods
+@synthesize highestMoodID = _highestMoodID;
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -42,7 +43,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
     if (self) {
@@ -71,26 +72,18 @@
 
     moodmap = [[NSDictionary alloc] initWithObjects:_moodIDs forKeys:_moodNames];
     [encoder encodeObject:moodmap forKey:@"LJMoodsDictionary"];
-    [moodmap release];
 }
 
-- (void)dealloc
+- (NSInteger)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag
 {
-    [_moodNames release];
-    [_moodIDs release];
-    [super dealloc];
-}
-
-- (int)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag
-{
-    int min, i, max;
+    NSInteger min, i, max;
     NSString *name;
     
     min = 0;
     max = [_moodNames count] - 1;
     while (min <= max) {
         i = (min + max) / 2;
-        name = [_moodNames objectAtIndex:i];
+        name = _moodNames[i];
         switch ([name compare:moodName]) {
             case NSOrderedAscending: min = i + 1; break;
             case NSOrderedDescending: max = i - 1; break;
@@ -105,7 +98,7 @@
 - (void)_addMoodID:(NSString *)moodID forName:(NSString *)moodName
 {
     if ([moodID length] > 0 && [moodName length] > 0) {
-        int index = [self _indexForMoodName:moodName hypothetical:YES];
+        NSInteger index = [self _indexForMoodName:moodName hypothetical:YES];
         [_moodNames insertObject:moodName atIndex:index];
         [_moodIDs insertObject:moodID atIndex:index];
         if ([moodID intValue] > _highestMoodID) {
@@ -121,32 +114,32 @@
 
 - (NSString *)IDStringForMoodName:(NSString *)moodName
 {
-    int index = [self _indexForMoodName:moodName hypothetical:NO];
-    return (index > -1) ? [_moodIDs objectAtIndex:index] : nil;
+    NSInteger index = [self _indexForMoodName:moodName hypothetical:NO];
+    return (index > -1) ? _moodIDs[index] : nil;
 }
 
-- (int)_indexForMoodID:(NSString *)moodID
+- (NSInteger)_indexForMoodID:(NSString *)moodID
 {
-    int min, i, max;
+    NSInteger min, i, max;
     NSString *ID;
     
     min = 0;
     max = [_moodIDs count] - 1;
 	for (i = min; i <= max; i++) {
-		ID = [_moodIDs objectAtIndex:i];
+		ID = _moodIDs[i];
         if ([ID compare:moodID] == NSOrderedSame) {
 			return i;
         }
     }
-    return nil;
+    return 0;
 }
 
 - (NSString *)MoodNameFromID:(NSString *)moodID
 {
 	NSString *moodName = nil;
-	int index = [self _indexForMoodID: moodID];
-	if (index != nil) {
-		moodName = [_moodNames objectAtIndex: index];
+	NSInteger index = [self _indexForMoodID: moodID];
+	if (index != 0) {
+		moodName = _moodNames[index];
 	}
 	return moodName;
 }
@@ -156,18 +149,13 @@
     int count, i;
     NSString *moodNameKey, *moodIDKey;
 
-    count = [[reply objectForKey:@"mood_count"] intValue];
+    count = [reply[@"mood_count"] intValue];
     for (i = 1; i <= count; i++) {
         moodNameKey = [NSString stringWithFormat:@"mood_%d_name", i];
         moodIDKey = [NSString stringWithFormat:@"mood_%d_id", i];
-        [self _addMoodID:[reply objectForKey:moodIDKey]
-                 forName:[reply objectForKey:moodNameKey]];
+        [self _addMoodID:reply[moodIDKey]
+                 forName:reply[moodNameKey]];
     }
-}
-
-- (int)highestMoodID
-{
-    return _highestMoodID;
 }
 
 - (NSString *)highestMoodIDString
@@ -177,35 +165,31 @@
 
 - (NSArray *)moodNames
 {
-    return _moodNames;
+    return [NSArray arrayWithArray:_moodNames];
 }
 
-@end
 
-
-@implementation LJMoods (NSComboBoxDelegate)
-
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox
 {
     return [_moodNames count];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index
 {
-    return [_moodNames objectAtIndex:index];
+    return _moodNames[index];
 }
 
 - (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)aString
 {
-    int index = [self _indexForMoodName:aString hypothetical:YES];
+    NSInteger index = [self _indexForMoodName:aString hypothetical:YES];
     if (index < [_moodNames count]) {
-        NSString *moodName = [_moodNames objectAtIndex:index];
+        NSString *moodName = _moodNames[index];
         if ([moodName hasPrefix:aString]) return moodName;
     }
     return nil;
 }
 
-- (unsigned int)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)aString
+- (NSUInteger)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)aString
 {
     return [self _indexForMoodName:aString hypothetical:NO];
 }

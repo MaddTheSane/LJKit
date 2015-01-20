@@ -77,14 +77,14 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
     CFHTTPMessageRef _requestTemplate;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
  @method account
  @abstract Obtain the account associated with the receiver.
  */
-- (LJAccount *)account;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LJAccount *account;
 
 /*!
  @method setURL:
@@ -93,19 +93,18 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  @discussion
  The URL must be the base URL of the site, e.g. "http://www.livejournal.com/".
  */
-- (void)setURL:(NSURL *)url;
 
 /*!
  @method URL
  @abstract Obtain the URL of host the receiver communicates with.
  */
-- (NSURL *)URL;
+@property (NS_NONATOMIC_IOSONLY, copy) NSURL *URL;
 
 /*!
  @method isUsingFastServers
  @abstract Determine if fast server access is enabled.
  */
-- (BOOL)isUsingFastServers;
+@property (NS_NONATOMIC_IOSONLY, getter=isUsingFastServers, readonly) BOOL usingFastServers;
 
 #ifdef ENABLE_REACHABILITY_MONITORING
 /*!

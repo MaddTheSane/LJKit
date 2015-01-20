@@ -85,9 +85,9 @@ send startChecking to the session object.
  @discussion
  Initializes the receiver to check the friends page for the given account.
  */
-- (id)initWithAccount:(LJAccount *)account;
+- (instancetype)initWithAccount:(LJAccount *)account NS_DESIGNATED_INITIALIZER;
 
-- (id)initWithCoder:(NSCoder *)decoder;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
@@ -95,14 +95,14 @@ send startChecking to the session object.
  @discussion
  Returns the account this session is associated with.
  */
-- (LJAccount *)account;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LJAccount *account;
 
 /*!
  @method interval
  @discussion
  Returns the number of seconds between checks.
  */
-- (NSTimeInterval)interval;
+@property (NS_NONATOMIC_IOSONLY) NSTimeInterval interval;
 
 /*!
  @method setInterval:
@@ -110,14 +110,13 @@ send startChecking to the session object.
  Sets the number of seconds between checks.  If the interval is too short, the
  server will instruct the client to change the interval.
  */
-- (void)setInterval:(NSTimeInterval)interval;
 
 /*!
  @method checkGroupMask
  @discussion
  Returns the bitmask which defines the groups to be checked.
  */
-- (unsigned int)checkGroupMask;
+@property (NS_NONATOMIC_IOSONLY) unsigned int checkGroupMask;
 
 /*!
  @method setCheckGroupMask:
@@ -125,7 +124,6 @@ send startChecking to the session object.
  Sets the bitmask which defines the groups to be checked.  This value is not
  checked against the actual groups defined for the account.
  */
-- (void)setCheckGroupMask:(unsigned int)mask;
 
 
 /*!
@@ -134,7 +132,7 @@ send startChecking to the session object.
  Returns an array containing the groups included in checking.  If an empty
  array is returned, all friends are being checked.
  */
-- (NSArray *)checkGroupArray;
+@property (NS_NONATOMIC_IOSONLY, copy) NSArray *checkGroupArray;
 
 /*!
  @method setCheckGroupArray:
@@ -142,7 +140,6 @@ send startChecking to the session object.
  Sets the groups to be checked.  If groupArray is nil, all friends will be
  checked.
  */
-- (void)setCheckGroupArray:(NSArray *)groupArray;
 
 /*!
  @method checkGroupSet
@@ -150,7 +147,7 @@ send startChecking to the session object.
  Returns a set containing the groups included in checking.  If an empty set is
  returned, all friends are being checked.
  */
-- (NSSet *)checkGroupSet;
+@property (NS_NONATOMIC_IOSONLY, copy) NSSet *checkGroupSet;
 
 /*!
  @method setCheckGroupSet:
@@ -158,7 +155,6 @@ send startChecking to the session object.
  Sets the groups to be checked.  If groupSet is nil, all friends will be
  checked.
  */
-- (void)setCheckGroupSet:(NSSet *)groupSet;
 
 /*!
  @method setChecking:forGroup:
@@ -192,7 +188,7 @@ send startChecking to the session object.
  Returns YES if the friends page checking thread is checking or waiting for to
  make its next check, NO otherwise.
  */
-- (BOOL)isChecking;
+@property (NS_NONATOMIC_IOSONLY, getter=isChecking, readonly) BOOL checking;
 
 /*!
  @method openFriendsPage
@@ -201,6 +197,6 @@ send startChecking to the session object.
  is checking certain groups, then ?filter={groupmask} will be appended to the
  URL.
  */
-- (BOOL)openFriendsPage;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL openFriendsPage;
 
 @end

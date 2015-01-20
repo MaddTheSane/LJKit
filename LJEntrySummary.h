@@ -41,7 +41,7 @@
  @method summary
  @abstract Obtain the entry's summary text.
  */
-- (NSString *)summary;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *summary;
 
 /*!
  @method descriptionWithFormat:
@@ -62,12 +62,12 @@
  Returns a string of the format: "YYYY-MM-DD HH:MM:SS: Summary text...".
  Calls descriptionWithFormat: with the format string "%Y-%m-%d %H:%M:%S: %%&#64;".
  */
-- (NSString *)description;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *description;
 
 /*!
  @method getEntry
  @abstract Obtain the entry the receiver summarizes.
  */
-- (LJEntry *)getEntry;
+@property (NS_NONATOMIC_IOSONLY, getter=getEntry, readonly, strong) LJEntry *entry;
 
 @end

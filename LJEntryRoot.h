@@ -36,24 +36,24 @@
  @discussion
  These constants define the security modes.
 
- @constant LJPublicSecurityMode
+ @constant LJSecurityModePublic
  This entry is visible by everybody.
 
- @constant LJPrivateSecurityMode
+ @constant LJSecurityModePrivate
  This entry is visible only to the author.
 
- @constant LJFriendSecurityMode
+ @constant LJSecurityModeFriend
  This entry is visible to anyone on the author's friends list.
 
- @constant LJGroupSecurityMode
+ @constant LJSecurityModeGroup
  This entry is visible to anyone in the specified friend groups.
  Specify groups using allowAccessByGroup: and denyAccessByGroup:.
  */
-enum {
-    LJPublicSecurityMode = 0,
-    LJPrivateSecurityMode,
-    LJFriendSecurityMode,
-    LJGroupSecurityMode
+typedef NS_ENUM(NSInteger, LJSecurityMode) {
+    LJSecurityModePublic = 0,
+    LJSecurityModePrivate,
+    LJSecurityModeFriend,
+    LJSecurityModeGroup
 };
 
 /*!
@@ -96,7 +96,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
     NSDate *_date;
     NSString *_posterUsername;
     NSString *_content;
-    int _security;
+    LJSecurityMode _security;
     unsigned int _allowGroupMask;
 }
 
@@ -108,7 +108,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  Loads an entry from an archived file.  This method uses NSKeyedUnarchiver
  to read the archive from disk.
  */
-- (id)initWithContentsOfFile:(NSString *)path;
+- (instancetype)initWithContentsOfFile:(NSString *)path;
 
 /*!
  @method writeToFile:
@@ -127,7 +127,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  Returns the journal that the receiver is associated with, or nil if it is
  unassociated.
  */
-- (LJJournal *)journal;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LJJournal *journal;
 
 /*!
  @method account
@@ -136,7 +136,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  Returns the account that the receiver is associated with, or nil if it is
  unassociated.
  */
-- (LJAccount *)account;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LJAccount *account;
 
 /*!
  @method posterUsername
@@ -146,7 +146,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  LiveJournal server.  You should assume that the receiver was posted by the
  currently logged in user if this method returns nil.
  */
-- (NSString *)posterUsername;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *posterUsername;
 
 /*!
  @method itemID
@@ -155,13 +155,13 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  If the entry is posted, returns its itemID as reported by the server.
  If the entry is only associated or unassociated, returns 0.
  */
-- (int)itemID;
+@property (NS_NONATOMIC_IOSONLY, readonly) int itemID;
 
 /*!
  @method date
  @abstract Obtain the date of the receiver.
  */
-- (NSDate *)date;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *date;
 
 /*!
  @method securityMode
@@ -169,7 +169,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  @discussion
  The security modes are explained in the LJEntry Security Modes enumeration.
  */
-- (int)securityMode;
+@property (NS_NONATOMIC_IOSONLY, readonly) LJSecurityMode securityMode;
 
 /*!
  @method accessAllowedForGroup:
@@ -190,9 +190,9 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  @method groupsAllowedAccessMask
  @discussion
  Returns the bitmask which defines the groups allowed to access the receiver.
- If the security mode is not LJGroupSecurityMode, the value is undefined.
+ If the security mode is not LJSecurityModeGroup, the value is undefined.
  */
-- (unsigned int)groupsAllowedAccessMask;
+@property (NS_NONATOMIC_IOSONLY, readonly) unsigned int groupsAllowedAccessMask;
 
 /*!
  @method groupsAllowedAccessArray
@@ -204,7 +204,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
   If the entry is associated but no groups are allowed access, returns an empty array.
  @result An NSArray of LJGroup objects.
  */
-- (NSArray *)groupsAllowedAccessArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *groupsAllowedAccessArray;
 
 /*!
  @method groupsAllowedAccessSet
@@ -216,7 +216,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  If the entry is associated but no groups are allowed access, returns an empty set.
  @result An NSSet of LJGroup objects.
  */
-- (NSSet *)groupsAllowedAccessSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *groupsAllowedAccessSet;
 
 /*!
  @method removeFromJournal

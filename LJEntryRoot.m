@@ -39,13 +39,19 @@ NSString * const LJEntryDidRemoveFromJournalNotification =
 NSString * const LJEntryDidNotRemoveFromJournalNotification =
 @"LJEntryDidNotRemoveFromJournal";
 
-@interface LJEntryRoot (ClassPrivate)
-- (void)_setSecurityMode:(int)newMode;
+@interface LJEntryRoot ()
+- (void)_setSecurityMode:(LJSecurityMode)newMode;
+@property (NS_NONATOMIC_IOSONLY, readwrite, setter=_setSecurityMode:) LJSecurityMode securityMode;
 @end
 
 @implementation LJEntryRoot
+@synthesize posterUsername = _posterUsername;
+@synthesize itemID = _itemID;
+@synthesize date = _date;
+@synthesize securityMode = _security;
+@synthesize journal = _journal;
 
-- (id)initWithReply:(NSDictionary *)info prefix:(NSString *)prefix
+- (instancetype)initWithReply:(NSDictionary *)info prefix:(NSString *)prefix
             journal:(LJJournal *)journal
 {
     self = [super init];
@@ -55,74 +61,62 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
         // LJJournal does not retain its parent LJAccount.  We need the account
         // to stick around, though, so we must get a reference to the account
         // and retain it ourselves.
-        _account = [[journal account] retain];
-        _journal = [journal retain];
-        obj = [info objectForKey:[prefix stringByAppendingString:@"itemid"]];
+        _account = [journal account];
+        _journal = journal;
+        obj = info[[prefix stringByAppendingString:@"itemid"]];
         _itemID = [obj intValue];
-        obj = [info objectForKey:[prefix stringByAppendingString:@"anum"]];
+        obj = info[[prefix stringByAppendingString:@"anum"]];
         _aNum = [obj intValue];
-        obj = [info objectForKey:[prefix stringByAppendingString:@"event"]];
+        obj = info[[prefix stringByAppendingString:@"event"]];
         _content = LJURLDecodeString(obj);
-        [_content retain];
-        obj = [info objectForKey:[prefix stringByAppendingString:@"poster"]];
-        _posterUsername = [obj retain];
-        obj = [info objectForKey:[prefix stringByAppendingString:@"allowmask"]];
+        obj = info[[prefix stringByAppendingString:@"poster"]];
+        _posterUsername = obj;
+        obj = info[[prefix stringByAppendingString:@"allowmask"]];
         _allowGroupMask = [obj intValue];
-        obj = [info objectForKey:[prefix stringByAppendingString:@"security"]];
+        obj = info[[prefix stringByAppendingString:@"security"]];
         if (obj == nil || [obj isEqualToString:@"public"]) {
-            [self _setSecurityMode:LJPublicSecurityMode];
+            [self _setSecurityMode:LJSecurityModePublic];
         } else if ([obj isEqualToString:@"private"]) {
-            [self _setSecurityMode:LJPrivateSecurityMode];
+            [self _setSecurityMode:LJSecurityModePrivate];
         } else if ([obj isEqualToString:@"usemask"]) {
-            [self _setSecurityMode:(_allowGroupMask == 1) ? LJFriendSecurityMode
-                                                          : LJGroupSecurityMode];
+            [self _setSecurityMode:(_allowGroupMask == 1) ? LJSecurityModeFriend
+                                                          : LJSecurityModeGroup];
         } else {
             NSAssert1(NO, @"Unknown entry security mode: %@", obj);
         }
         // parse the date
-        obj = [info objectForKey:[prefix stringByAppendingString:@"eventtime"]];
+        obj = info[[prefix stringByAppendingString:@"eventtime"]];
         _date = [[NSCalendarDate alloc] initWithString:obj
                                         calendarFormat:@"%Y-%m-%d %H:%M:%S"];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
     if (self) {
         id obj;
 
         obj = [decoder decodeObjectForKey:@"LJEntryAccountIdentifier"];
-        _account = [[LJAccount accountWithIdentifier:obj] retain];
+        _account = [LJAccount accountWithIdentifier:obj];
         obj = [decoder decodeObjectForKey:@"LJEntryJournalName"];
-        _journal = [[_account journalNamed:obj] retain];
+        _journal = [_account journalNamed:obj];
         _itemID = [decoder decodeIntForKey:@"LJEntryItemID"];
         _aNum = [decoder decodeIntForKey:@"LJEntryANum"];
-        _date = [[decoder decodeObjectForKey:@"LJEntryDate"] retain];
-        _content = [[decoder decodeObjectForKey:@"LJEntryContent"] retain];
+        _date = [decoder decodeObjectForKey:@"LJEntryDate"];
+        _content = [decoder decodeObjectForKey:@"LJEntryContent"];
         obj = [decoder decodeObjectForKey:@"LJEntryPosterUsername"];
-        _posterUsername = [obj retain];
+        _posterUsername = obj;
         _security = [decoder decodeIntForKey:@"LJEntrySecurityMode"];
         _allowGroupMask = [decoder decodeInt32ForKey:@"LJEntryGroupMask"];
     }
     return self;
 }
 
-- (id)initWithContentsOfFile:(NSString *)path
+- (instancetype)initWithContentsOfFile:(NSString *)path
 {
-    [self dealloc];
-    return [[NSKeyedUnarchiver unarchiveObjectWithFile:path] retain];
-}
-
-- (void)dealloc
-{
-    [_account release];
-    [_journal release];
-    [_date release];
-    [_posterUsername release];
-    [_content release];
-    [super dealloc];
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
@@ -148,41 +142,9 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     return [NSKeyedArchiver archiveRootObject:self toFile:path];
 }
 
-- (LJJournal *)journal
-{
-    return _journal;
-}
-
 - (LJAccount *)account
 {
     return [_journal account];
-}
-
-- (NSString *)posterUsername
-{
-    return _posterUsername;
-}
-
-- (int)itemID
-{
-    return _itemID;
-}
-
-- (NSDate *)date
-{
-    return _date;
-}
-
-
-- (int)securityMode
-{
-    return _security;
-}
-
-
-- (void)_setSecurityMode:(int)newMode
-{
-    _security = newMode;
 }
 
 
@@ -191,10 +153,10 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     NSAssert(_journal != nil, (@"Cannot use group security methods with "
                                @"unassociated entries."));
     switch (_security) {
-        case LJPublicSecurityMode: return YES;
-        case LJPrivateSecurityMode: return NO;
-        case LJFriendSecurityMode: return YES;
-        case LJGroupSecurityMode: return (_allowGroupMask & [group mask]) != 0;
+        case LJSecurityModePublic: return YES;
+        case LJSecurityModePrivate: return NO;
+        case LJSecurityModeFriend: return YES;
+        case LJSecurityModeGroup: return (_allowGroupMask & [group mask]) != 0;
     }
     return NO;
 }
@@ -208,16 +170,16 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
 {
     //NSAssert(_journal != nil, @"Cannot use group security methods with unassociated entries.");
     if (_journal == nil) return nil;
-    if (_security == LJPublicSecurityMode || _security == LJFriendSecurityMode)
+    if (_security == LJSecurityModePublic || _security == LJSecurityModeFriend)
         return [[_journal account] groupArray];
-    if (_security == LJPrivateSecurityMode)
-        return [NSArray array];
-    if (_security == LJGroupSecurityMode) {
+    if (_security == LJSecurityModePrivate)
+        return @[];
+    if (_security == LJSecurityModeGroup) {
         LJGroup *group;
         NSMutableArray *array;
         NSEnumerator *groupEnumerator;
 
-        if (_allowGroupMask == 0) return [NSArray array];
+        if (_allowGroupMask == 0) return @[];
         groupEnumerator = [[[_journal account] groupSet] objectEnumerator];
         array = [NSMutableArray arrayWithCapacity:8];
         while (group = [groupEnumerator nextObject]) {
@@ -243,16 +205,16 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     [center postNotificationName:LJEntryWillRemoveFromJournalNotification object:self];
     // Compile the request to be sent to the server
     request = [NSMutableDictionary dictionaryWithCapacity:3];
-    [request setObject:@"" forKey:@"event"];
-    [request setObject:[NSString stringWithFormat:@"%u", _itemID] forKey:@"itemid"];
+    request[@"event"] = @"";
+    request[@"itemid"] = [NSString stringWithFormat:@"%u", _itemID];
     if (![_journal isDefault]) {
-        [request setObject:[_journal name] forKey:@"usejournal"];
+        request[@"usejournal"] = [_journal name];
     }
     // Send to the server
     NS_DURING
         [[_journal account] getReplyForMode:@"editevent" parameters:request];
     NS_HANDLER
-        info = [NSDictionary dictionaryWithObject:localException forKey:@"LJException"];
+        info = @{@"LJException": localException};
         [center postNotificationName:LJEntryDidNotRemoveFromJournalNotification 
                               object:self userInfo:info];
         [localException raise];

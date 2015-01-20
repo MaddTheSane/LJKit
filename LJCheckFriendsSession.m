@@ -36,26 +36,26 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
 
 @implementation LJCheckFriendsSession
 
-- (id)initWithAccount:(LJAccount *)account
+- (instancetype)initWithAccount:(LJAccount *)account
 {
     self = [super init];
     if (self) {
         NSParameterAssert(account);
-        _account = [account retain];
+        _account = account;
         _interval = 300; // five minute default
         _parameters = [[NSMutableDictionary alloc] initWithCapacity:2];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     NSString *key;
     
     self = [super init];
     if (self) {
         key = @"LJCheckFriendsSessionAccount";
-        _account = [[decoder decodeObjectForKey:key] retain];
+        _account = [decoder decodeObjectForKey:key];
         key = @"LJCheckFriendsSessionInterval";
         _interval = [decoder decodeDoubleForKey:key];
         key = @"LJCheckFriendsSessionParameters";
@@ -76,13 +76,6 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
     [encoder encodeObject:_parameters forKey:key];
 }
 
-- (void)dealloc
-{
-    [_account release];
-    [_parameters release];
-    [super dealloc];
-}
-
 - (LJAccount *)account
 {
     return _account;
@@ -100,7 +93,7 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
 
 - (unsigned int)checkGroupMask
 {
-    return [[_parameters objectForKey:@"mask"] intValue];
+    return [_parameters[@"mask"] intValue];
 }
 
 - (void)setCheckGroupMask:(unsigned int)mask
@@ -108,7 +101,7 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
     [_parametersLock lock];
     if (mask) {
         NSString *maskString = [NSString stringWithFormat:@"%u", mask];
-        [_parameters setObject:maskString forKey:@"mask"];
+        _parameters[@"mask"] = maskString;
     } else {
         [_parameters removeObjectForKey:@"mask"];
     }
@@ -157,23 +150,19 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
 
 - (void)_checkThread:(id)object
 {
-    NSAutoreleasePool *pool;
+	@autoreleasepool {
     NSDate *wakeTime;
 
     _isChecking = YES;
-    pool = [[NSAutoreleasePool alloc] init];
     while (_isChecking) {
         [_parametersLock lock];
         [self _checkTick];
-        [pool release];
-        pool = [[NSAutoreleasePool alloc] init];
         wakeTime = [NSDate dateWithTimeIntervalSinceNow:_interval];
         [_parametersLock unlock];
         [NSThread sleepUntilDate:wakeTime];
     }
-    [_parametersLock release];
     _parametersLock = nil;
-    [pool release];
+	}
 }
 
 - (void)_checkTick
@@ -187,18 +176,18 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
         reply = [_account getReplyForMode:@"checkfriends"
                                parameters:_parameters];
         // Save the lastupdate key if it exists
-        lastUpdate = [reply objectForKey:@"lastupdate"];
+        lastUpdate = reply[@"lastupdate"];
         if (lastUpdate) {
-            [_parameters setObject:lastUpdate forKey:@"lastupdate"];
+            _parameters[@"lastupdate"] = lastUpdate;
         }
         // If the friends page has been updated...
-        if ([[reply objectForKey:@"new"] intValue] > 0) {
+        if ([reply[@"new"] intValue] > 0) {
             // ...then stop checking and post a notification
             _isChecking = NO;
             name = LJFriendsPageUpdatedNotification;
         } else {
             // If the server is asking us to slow down...
-            newInterval = [[reply objectForKey:@"interval"] doubleValue];
+            newInterval = [reply[@"interval"] doubleValue];
             if (newInterval > _interval) {
                 // ...then be a good citizen.
                 _interval = newInterval;
@@ -208,15 +197,14 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
     NS_HANDLER
         _isChecking = NO;
         name = LJCheckFriendsErrorNotification;
-        userInfo = [NSDictionary dictionaryWithObject:localException
-                                               forKey:@"LJException"];
+        userInfo = @{@"LJException": localException};
     NS_ENDHANDLER
     if (name) {
         notice = [NSNotification notificationWithName:name object:self
                                              userInfo:userInfo];
-        [[NSNotificationCenter defaultCenter]
-            performSelectorOnMainThread:@selector(postNotification:)
-                             withObject:notice waitUntilDone:NO];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotification:notice];
+        });
     }
 }
 

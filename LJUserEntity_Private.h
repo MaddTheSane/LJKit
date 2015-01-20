@@ -21,8 +21,8 @@
 
 #import "LJUserEntity.h"
 
-@interface LJUserEntity (FrameworkPrivate)
-- (void)_setUsername:(NSString *)newUsername;
-- (void)_setFullname:(NSString *)newFullname;
+@interface LJUserEntity ()
+@property (nonatomic, readwrite, setter=_setUsername:, copy) NSString *username;
+@property (NS_NONATOMIC_IOSONLY, readwrite, setter=_setFullname:, copy) NSString *fullname;
 - (LJAccount *)account;
 @end

@@ -33,18 +33,15 @@
 
 - (void)updateGroupSetWithReply:(NSDictionary *)reply
 {
-    [_removedGroupSet release];
     _removedGroupSet = nil;
     if (_groupSet == nil) _groupSet = [[NSMutableSet alloc] initWithCapacity:30];
     [LJGroup updateGroupSet:_groupSet withReply:reply account:self];
-    [_groupsSyncDate release];
     _groupsSyncDate = [[NSDate alloc] init];
 	
 	// Update the static ordered array cache
 	if(_orderedGroupArrayCache) {
 		[self willChangeValueForKey: @"groupArray"];
-		[_orderedGroupArrayCache release];
-		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+		_orderedGroupArrayCache = [[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)];
 		[self didChangeValueForKey: @"groupArray"];
 	}
 }
@@ -53,30 +50,27 @@
 {
 	// [FS]
 	NSNotification *note = [NSNotification notificationWithName: LJAccountWillDownloadFriendsNotification object: self];
-	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread: @selector(postNotification:)
-														   withObject: note
-														waitUntilDone: YES];
+    RunOnMainThreadSync(^{
+        [[NSNotificationCenter defaultCenter] postNotification:note];
+    });
     NSDictionary *parameters, *reply;
 
-    parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-        @"1", @"includebdays",
-        @"1", @"includefriendof",
-        @"1", @"includegroups", nil];
+    parameters = @{@"includebdays": @"1",
+        @"includefriendof": @"1",
+        @"includegroups": @"1"};
     reply = [self getReplyForMode:@"getfriends" parameters:parameters];
-    [_removedFriendSet release];
     _removedFriendSet = nil;
     if (_friendSet == nil) _friendSet = [[NSMutableSet alloc] init];
     [LJFriend updateFriendSet:_friendSet withReply:reply account:self];
     if (_friendOfSet == nil) _friendOfSet = [[NSMutableSet alloc] init];
     [LJFriend updateFriendOfSet:_friendOfSet withReply:reply account:self];
-    [_friendsSyncDate release];
     _friendsSyncDate = [[NSDate alloc] init];
     [self updateGroupSetWithReply:reply];
 	
 	note = [NSNotification notificationWithName: LJAccountDidDownloadFriendsNotification object: self];
-	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread: @selector(postNotification:)
-														   withObject: note
-														waitUntilDone: NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotification:note];
+    });
 }
 
 - (BOOL)_uploadFriends
@@ -108,16 +102,13 @@
     // Update the friend objects.
     [LJFriend updateFriendSet:_friendSet withEditReply:reply];
     // Clean up.
-    [_removedFriendSet release];
     _removedFriendSet = nil;
-    [_friendsSyncDate release];
     _friendsSyncDate = [[NSDate alloc] init];
 	
 	if(_orderedFriendArrayCache) {
 		// The underlying set changed, so update the cache
 		[self willChangeValueForKey: @"friendArray"];
-		[_orderedFriendArrayCache release];
-		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+		_orderedFriendArrayCache = [[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 		[self didChangeValueForKey: @"friendArray"];
 	}
 
@@ -149,9 +140,7 @@
     // Send information to the server.
     [self getReplyForMode:@"editfriendgroups" parameters:parameters];
     // Clean up.
-    [_removedGroupSet release];
     _removedGroupSet = nil;
-    [_groupsSyncDate release];
     _groupsSyncDate = [[NSDate alloc] init];
     return YES;
 }
@@ -165,17 +154,17 @@
 
 - (NSSet *)friendSet
 {
-    return [[_friendSet copy] autorelease];
+    return [_friendSet copy];
 }
         
 - (NSArray *)friendArray
 {
 	// Lazily create the cache the first time it's needed
 	 if(!_orderedFriendArrayCache)
-		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+		_orderedFriendArrayCache = [[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 	
 	// return the cached array
-	return [[_orderedFriendArrayCache copy] autorelease];
+	return [_orderedFriendArrayCache copy];
 }
 
 - (NSEnumerator *)friendEnumerator
@@ -185,15 +174,15 @@
 
 - (NSSet *)groupSet
 {
-    return [[_groupSet copy] autorelease];
+    return [_groupSet copy];
 }
 
 - (NSArray *)groupArray
 {
 	if(!_orderedGroupArrayCache)
-		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+		_orderedGroupArrayCache = [[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)];
 	
-    return [[_orderedGroupArrayCache copy] autorelease];
+    return [_orderedGroupArrayCache copy];
 }
 
 - (NSEnumerator *)groupEnumerator
@@ -203,7 +192,7 @@
 
 - (NSSet *)friendOfSet
 {
-    return [[_friendOfSet copy] autorelease];
+    return [_friendOfSet copy];
 }
 
 - (NSArray *)friendOfArray
@@ -213,7 +202,6 @@
 
 - (NSArray *)relationshipArray {
 	NSMutableSet *set = [[NSMutableSet alloc] init];
-	[set autorelease];
 	[set addObjectsFromArray: [self friendArray]];
 	[set addObjectsFromArray: [self friendOfArray]];
 	
@@ -253,7 +241,7 @@
     NSMutableArray *communities;
 
     if (_friendSet == nil) return nil;
-    communities = [NSMutableArray arrayWithCapacity:[_friendSet count]];
+    communities = [[NSMutableArray alloc] initWithCapacity:[_friendSet count]];
     [self _addFriendsToContainer:communities fromSet:_friendSet
                           ofType:@"community"];
     [communities sortUsingSelector:@selector(compare:)];
@@ -276,7 +264,7 @@
     NSMutableArray *communities;
 
     if (_friendOfSet == nil) return nil;
-    communities = [NSMutableArray arrayWithCapacity:[_friendOfSet count]];
+    communities = [[NSMutableArray alloc] initWithCapacity:[_friendOfSet count]];
     [self _addFriendsToContainer:communities fromSet:_friendOfSet
                           ofType:@"community"];
     [communities sortUsingSelector:@selector(compare:)];
@@ -322,13 +310,11 @@
     [buddy _setOutgoingFriendship:YES];
     [_friendSet addObject:buddy];
 	
-    [buddy release];
 
 	if(_orderedFriendArrayCache) {
 		// The underlying set changed, so change the cache
 		[self willChangeValueForKey: @"friendArray"];
-		[_orderedFriendArrayCache release];
-		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+		_orderedFriendArrayCache = [[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 		[self didChangeValueForKey: @"friendArray"];
 	}
 	
@@ -346,8 +332,7 @@
 	
 	if(_orderedFriendArrayCache) {
 		[self willChangeValueForKey: @"friendArray"];
-		[_orderedFriendArrayCache release];
-		_orderedFriendArrayCache = [[[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+		_orderedFriendArrayCache = [[_friendSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 		[self didChangeValueForKey: @"friendArray"];
 	}
 }
@@ -366,13 +351,11 @@
     group = [[LJGroup alloc] initWithNumber:number account:self];
     [group setName:name];
     [_groupSet addObject:group];
-    [group release];
 	
 	// Update the static ordered array cache
 	if(_orderedGroupArrayCache) {
 		[self willChangeValueForKey: @"groupArray"];
-		[_orderedGroupArrayCache release];
-		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+		_orderedGroupArrayCache = [[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)];
 		[self didChangeValueForKey: @"groupArray"];
 	}
 	
@@ -402,8 +385,7 @@
 	// Update the static ordered array cache
 	if(_orderedGroupArrayCache) {
 		[self willChangeValueForKey: @"groupArray"];
-		[_orderedGroupArrayCache release];
-		_orderedGroupArrayCache = [[[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)] retain];
+		_orderedGroupArrayCache = [[_groupSet allObjects] sortedArrayUsingSelector: @selector(compare:)];
 		[self didChangeValueForKey: @"groupArray"];
 	}
 }
@@ -441,7 +423,7 @@
 
 - (NSArray *)groupArrayFromMask:(unsigned int)groupMask
 {
-    id array = [NSMutableArray arrayWithCapacity:8];
+    id array = [[NSMutableArray alloc] initWithCapacity:8];
     [self _addGroupsWithMask:groupMask toContainer:array];
     [array sortUsingSelector:@selector(compare:)];
     return array;
@@ -449,7 +431,7 @@
 
 - (NSSet *)groupSetFromMask:(unsigned int)groupMask
 {
-    id set = [NSMutableSet setWithCapacity:8];
+    id set = [[NSMutableSet alloc] initWithCapacity:8];
     [self _addGroupsWithMask:groupMask toContainer:set];
     return set;
 }

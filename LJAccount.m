@@ -59,21 +59,20 @@ static NSString *gClientVersion = nil;
  */
 static LJAccount *gAccountListHead = nil;
 
-@interface LJAccount (ClassPrivate)
+@interface LJAccount ()
 + (NSString *)_clientVersionForBundle:(NSBundle *)bundle;
-@end
 
-@interface LJAccount (PrivateImpl)
-- (void)setJournalArray:(NSArray *)aJournalArray;
-- (void) setUserPicturesDictionary: (NSDictionary *)aDict;
+@property (NS_NONATOMIC_IOSONLY, getter=isLoggedIn, readwrite) BOOL loggedIn;
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSArray *journalArray;
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSDictionary *userPicturesDictionary;
 @end
 
 @implementation LJAccount
-
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_3
-- (void)willChangeValueForKey:(id)key {}
-- (void)didChangeValueForKey:(id)key {}
-#endif
+@synthesize loggedIn = _isLoggedIn;
+@synthesize delegate = _delegate;
+@synthesize moods = _moods;
+@synthesize journalArray = _journalArray;
+@synthesize userPicturesDictionary = _userPicturesDictionary;
 
 /*
  This method sets the client name and version to be sent to the server.
@@ -89,6 +88,11 @@ static LJAccount *gAccountListHead = nil;
     NSString *key = @"CFBundleShortVersionString";
     NSString *shortVerStr = [bundle objectForInfoDictionaryKey:key];
     return [[shortVerStr componentsSeparatedByString:@" "] lastObject];
+}
+
++(NSSet*)keyPathsForValuesAffectingUserPictureKeywords
+{
+	return [NSSet setWithObject:@"userPicturesDictionary"];
 }
 
 + (void)initialize
@@ -114,9 +118,6 @@ static LJAccount *gAccountListHead = nil;
         }
         gClientVersion = [[NSString alloc] initWithFormat:@"MacOSX-%@/%@", name, version];
         NSLog(@"LJKit Client Version: %@", gClientVersion);
-		
-		// Set up KVO for the dependent key "userPictureKeywords" which depends on userPicturesDictionary
-		[self setKeys: [NSArray arrayWithObject: @"userPicturesDictionary"] triggerChangeNotificationsForDependentKey: @"userPictureKeywords"];
     }
 }
 
@@ -200,7 +201,7 @@ static LJAccount *gAccountListHead = nil;
 }
     
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -228,11 +229,11 @@ static LJAccount *gAccountListHead = nil;
     }
 }
 
-- (id)initWithUsername:(NSString *)username
+- (instancetype)initWithUsername:(NSString *)username
 {
     NSURL *defaultURL;
     
-    if ([self init]) {
+    if (self = [self init]) {
         NSParameterAssert(username);
         [self _setUsername:username];
         [self _setFullname:username];
@@ -242,33 +243,32 @@ static LJAccount *gAccountListHead = nil;
     return self;
 }
 
-- (id)initWithContentsOfFile:(NSString *)path
+- (instancetype)initWithContentsOfFile:(NSString *)path
 {
-    [self dealloc];
-    return [[NSKeyedUnarchiver unarchiveObjectWithFile:path] retain];
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
-    if ([self init]) {
+    if (self = [self init]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *theIdentifier;
         
-        _username = [[decoder decodeObjectForKey:@"LJAccountUsername"] retain];
-        _fullname = [[decoder decodeObjectForKey:@"LJAccountFullname"] retain];
-        _server = [[decoder decodeObjectForKey:@"LJAccountServer"] retain];
-        _moods = [[decoder decodeObjectForKey:@"LJAccountMoods"] retain];
-        _userPicturesDictionary = [[decoder decodeObjectForKey:@"LJAccountUserpics"] retain];
-        _defaultUserPictureURL = [[decoder decodeObjectForKey:@"LJAccountDefaultUserpicURL"] retain];
-        _journalArray = [[decoder decodeObjectForKey:@"LJAccountJournals"] retain];
+        _username = [decoder decodeObjectForKey:@"LJAccountUsername"];
+        _fullname = [decoder decodeObjectForKey:@"LJAccountFullname"];
+        _server = [decoder decodeObjectForKey:@"LJAccountServer"];
+        _moods = [decoder decodeObjectForKey:@"LJAccountMoods"];
+        _userPicturesDictionary = [decoder decodeObjectForKey:@"LJAccountUserpics"];
+        _defaultUserPictureURL = [decoder decodeObjectForKey:@"LJAccountDefaultUserpicURL"];
+        _journalArray = [decoder decodeObjectForKey:@"LJAccountJournals"];
         // editfriends fields
-        _friendSet = [[decoder decodeObjectForKey:@"LJAccountFriends"] retain];
-        _removedFriendSet = [[decoder decodeObjectForKey:@"LJAccountExFriends"] retain];
-        _friendOfSet = [[decoder decodeObjectForKey:@"LJAccountFriendOfs"] retain];
-        _groupSet = [[decoder decodeObjectForKey:@"LJAccountGroups"] retain];
-        _removedGroupSet = [[decoder decodeObjectForKey:@"LJAccountExGroups"] retain];
+        _friendSet = [decoder decodeObjectForKey:@"LJAccountFriends"];
+        _removedFriendSet = [decoder decodeObjectForKey:@"LJAccountExFriends"];
+        _friendOfSet = [decoder decodeObjectForKey:@"LJAccountFriendOfs"];
+        _groupSet = [decoder decodeObjectForKey:@"LJAccountGroups"];
+        _removedGroupSet = [decoder decodeObjectForKey:@"LJAccountExGroups"];
         // custom info
-        _customInfo = [[decoder decodeObjectForKey:@"LJAccountCustomInfo"] retain];
+        _customInfo = [decoder decodeObjectForKey:@"LJAccountCustomInfo"];
         // check defaults to see if this is supposed to be the default account
         theIdentifier = [defaults stringForKey:@"LJDefaultAccountIdentifier"];
         if ([theIdentifier isEqualToString:[self identifier]]) {
@@ -296,21 +296,6 @@ static LJAccount *gAccountListHead = nil;
     }
     [[NSNotificationCenter defaultCenter] removeObserver:nil name:nil
                                                   object:self];
-    // General account variables:
-    [_server release];
-    [_menu release];
-    [_journalArray release];
-    [_userPicturesDictionary release];
-    [_moods release];
-    [_loginMessage release];
-    [_customInfo release];
-    // Variables for friends editing:
-    [_friendSet release];
-    [_removedFriendSet release];
-    [_groupSet release];
-    [_removedGroupSet release];
-    [_friendOfSet release];
-    [super dealloc];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
@@ -357,7 +342,7 @@ static LJAccount *gAccountListHead = nil;
 {
     NSDictionary *userInfo;
 
-    userInfo = [NSDictionary dictionaryWithObject:self forKey:@"LJAccount"];
+    userInfo = @{@"LJAccount": self};
     return [NSException exceptionWithName:name reason:reason userInfo:userInfo];
 }
 
@@ -391,11 +376,10 @@ static LJAccount *gAccountListHead = nil;
     if ([reason isEqualToString:@"?"]) {
         reason = [bundle localizedStringForKey:format value:nil table:LJKitStringsTable];
         va_start(args, format);
-        reason = [[[NSString alloc] initWithFormat:reason arguments:args] autorelease];
+        reason = [[NSString alloc] initWithFormat:reason arguments:args];
         va_end(args);
     }
     exception = [self _exceptionWithName:name reason:reason];
-    [name release];
     return exception;
 }
 
@@ -417,25 +401,25 @@ static LJAccount *gAccountListHead = nil;
     }
     // Post LJAccountWillConnectNotification
     info = [[NSMutableDictionary alloc] init];
-    [info setObject:mode forKey:@"LJMode"];
-    if (parameters) [info setObject:parameters forKey:@"LJParameters"];
-    [info setObject:[NSNumber numberWithInt:(connectionID++)] forKey:@"LJConnection"];
+    info[@"LJMode"] = mode;
+    if (parameters) info[@"LJParameters"] = parameters;
+    info[@"LJConnection"] = @(connectionID++);
 	
 	// [FS] Fire notification with -performSelectorOnMainThread:
 	NSNotification *willLoginNote = [NSNotification notificationWithName: LJAccountWillConnectNotification object: self userInfo: info];
-    [noticeCenter performSelectorOnMainThread: @selector(postNotification:)
-								   withObject: willLoginNote
-								waitUntilDone: YES];
+    RunOnMainThreadSync(^{
+        [noticeCenter postNotification:willLoginNote];
+    });
 	// End change.
 	
     // Do the dirty deed.
     NS_DURING
         reply = [_server getReplyForMode:mode parameters:parameters];
-        success = [reply objectForKey:@"success"];
+        success = reply[@"success"];
         if (success == nil) {
             exception = [self _exceptionWithName:@"LJNoSuccessKeyError"];
         } else if ( ! [success isEqualToString:@"OK"] ) {
-            errmsg = [reply objectForKey:@"errmsg"];
+            errmsg = reply[@"errmsg"];
             if (errmsg) {
                 exception = [self _exceptionWithName:@"LJServerError" reason:errmsg];
             } else {
@@ -452,19 +436,18 @@ static LJAccount *gAccountListHead = nil;
         };
     NS_ENDHANDLER
     // Post LJAccountDidConnectNotification
-    if (reply) [info setObject:reply forKey:@"LJReply"];
-    if (exception) [info setObject:exception forKey:@"LJException"];
+    if (reply) info[@"LJReply"] = reply;
+    if (exception) info[@"LJException"] = exception;
 
     // [FS] Change to fire notification onMainThread.
 	NSNotification *didLoginNote = [NSNotification notificationWithName: LJAccountDidConnectNotification
 																 object: self
 															   userInfo: info];
-	[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
-								   withObject: didLoginNote
-								waitUntilDone: YES];
+    RunOnMainThreadSync(^{
+        [noticeCenter postNotification:didLoginNote];
+    });
 	// end
 	
-    [info release];
     [exception raise]; // will do nothing if no exception was set
     return reply;
 }
@@ -476,25 +459,24 @@ static LJAccount *gAccountListHead = nil;
     NSString *key, *keyword;
     NSURL *url;
 	
-    count = [[reply objectForKey:@"pickw_count"] intValue];
+    count = [reply[@"pickw_count"] intValue];
     userPics = [[NSMutableDictionary alloc] initWithCapacity:count];
     for (i = 1; i <= count; i++) {
         key = [NSString stringWithFormat:@"pickw_%d", i];
-        keyword = [reply objectForKey:key];
+        keyword = reply[key];
         key = [NSString stringWithFormat:@"pickwurl_%d", i];
-        url = [NSURL URLWithString:[reply objectForKey:key]];
-        [userPics setObject:url forKey:keyword];
+        url = [NSURL URLWithString:reply[key]];
+        userPics[keyword] = url;
     }
-    key = [reply objectForKey:@"defaultpicurl"];
+    key = reply[@"defaultpicurl"];
     url = (key != nil ? [NSURL URLWithString:key] : nil);
-    SafeSetObject(&_defaultUserPictureURL, url);
+	_defaultUserPictureURL = url;
 	
 	// [FS] Added use of accessor here
 	[self setUserPicturesDictionary: [userPics copy]];
-    [userPics release];
 }
 
-- (void)loginWithPassword:(NSString *)password flags:(int)loginFlags
+- (void)loginWithPassword:(NSString *)password flags:(LJLoginFlag)loginFlags
 {
     NSDictionary *loginInfo, *reply = nil, *info;
     NSMutableDictionary *parameters;
@@ -508,58 +490,55 @@ static LJAccount *gAccountListHead = nil;
 	NSNotification *loginNote = [NSNotification notificationWithName: LJAccountWillLoginNotification
 															  object: self
 															userInfo: nil];
-	[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
-								   withObject: loginNote
-								waitUntilDone: YES];
+    RunOnMainThreadSync(^{
+        [noticeCenter postNotification:loginNote];
+    });
 	
 	// [FS] end change.
 	
-    [self willChangeValueForKey:@"isLoggedIn"];
+    [self willChangeValueForKey:@"loggedIn"];
     // Configure server object with login information.
     _isLoggedIn = NO;
-    loginInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-        MD5HexDigest(password), @"hpassword",
-        [self username], @"user", @"1", @"ver", nil];
+    loginInfo = @{@"hpassword": MD5HexDigest(password),
+        @"user": [self username], @"ver": @"1"};
     [_server setLoginInfo:loginInfo];
-    [loginInfo release];
     // Set up parameters
-    parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:gClientVersion forKey:@"clientversion"];
+    parameters = [[NSMutableDictionary alloc] init];
+    parameters[@"clientversion"] = gClientVersion;
     if (loginFlags & LJGetMoodsLoginFlag) {
         if (_moods == nil) { _moods = [[LJMoods alloc] init]; }
-        [parameters setObject:[_moods highestMoodIDString] forKey:@"getmoods"];
+        parameters[@"getmoods"] = [_moods highestMoodIDString];
     }
     if (loginFlags & LJGetMenuLoginFlag) {
-        [parameters setObject:@"1" forKey:@"getmenus"];
+        parameters[@"getmenus"] = @"1";
     }
     if (loginFlags & LJGetUserPicturesLoginFlag) {
-        [parameters setObject:@"1" forKey:@"getpickws"];
-        [parameters setObject:@"1" forKey:@"getpickwurls"];
+        parameters[@"getpickws"] = @"1";
+        parameters[@"getpickwurls"] = @"1";
     }
-    NS_DURING
+    @try {
         reply = [self getReplyForMode:@"login" parameters:parameters];
-    NS_HANDLER
-        info = [NSDictionary dictionaryWithObject:localException
-                                           forKey:@"LJException"];
+    } @catch (NSException *localException) {
+        info = @{@"LJException": localException};
 
 		// [FS] onMainThread conversion
 		NSNotification *failureNote = [NSNotification notificationWithName: LJAccountDidNotLoginNotification
 																	object: self
 																  userInfo: info];
-		[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
-									   withObject: failureNote
-									waitUntilDone: YES];
+        RunOnMainThreadSync(^{
+            [noticeCenter postNotification:failureNote];
+        });
 		// [FS] end.
 		
         [localException raise];
-    NS_ENDHANDLER
+    }
     // get the full name of the account
-    [self _setFullname:[reply objectForKey:@"name"]];
+    [self _setFullname:reply[@"name"]];
     // get the login message, if present
-    _loginMessage = [[reply objectForKey:@"message"] retain];
+    _loginMessage = reply[@"message"];
     // inform server object if we are allow to use the fast servers
     if (!(loginFlags & LJDoNotUseFastServersLoginFlag) &&
-        [[reply objectForKey:@"fastserver"] isEqualToString:@"1"])
+        [reply[@"fastserver"] boolValue])
     {
         [_server setUseFastServers:YES];
     }
@@ -577,7 +556,7 @@ static LJAccount *gAccountListHead = nil;
     }
     [self updateGroupSetWithReply:reply];
     _isLoggedIn = YES;
-    [self didChangeValueForKey:@"isLoggedIn"];
+    [self didChangeValueForKey:@"loggedIn"];
 	// Get tag lists for main journal
 	LJJournal *j = [self defaultJournal];
 	NSDictionary *tagsReply = [j getTagsReplyForThisJournal];
@@ -587,9 +566,9 @@ static LJAccount *gAccountListHead = nil;
 	NSNotification *successNote = [NSNotification notificationWithName: LJAccountDidLoginNotification
 																object: self
 															  userInfo: nil];
-	[noticeCenter performSelectorOnMainThread: @selector(postNotification:)
-								   withObject: successNote
-								waitUntilDone: YES];
+    RunOnMainThreadSync(^{
+        [noticeCenter postNotification:successNote];
+    });
 	// [FS] end change.
 }
 
@@ -602,22 +581,12 @@ static LJAccount *gAccountListHead = nil;
 {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     
-    [self willChangeValueForKey:@"isLoggedIn"];
-    _isLoggedIn = NO;
+    [self willChangeValueForKey:@"loggedIn"];
+    self.loggedIn = NO;
     [[self server] setLoginInfo:nil];
-    [self didChangeValueForKey:@"isLoggedIn"];
+    [self didChangeValueForKey:@"loggedIn"];
     [center postNotificationName:LJAccountDidLogoutNotification
                           object:self userInfo:nil];
-}
-
-- (NSString *)loginMessage
-{
-    return _loginMessage;
-}
-
-- (BOOL)isLoggedIn
-{
-    return _isLoggedIn;
 }
 
 - (NSMenu *)menu
@@ -638,8 +607,6 @@ static LJAccount *gAccountListHead = nil;
 // [FS] For key value observing
 - (void) setUserPicturesDictionary: (NSDictionary *)aDict {
 	NSLog(@"Setting user pictures dictionary");
-	[aDict retain];
-	[_userPicturesDictionary release];
 	_userPicturesDictionary = aDict;
 }
 
@@ -654,7 +621,7 @@ static LJAccount *gAccountListHead = nil;
 	NSURL *defaultURL = [self defaultUserPictureURL];
 	NSString *key;
 	while(key = [en nextObject]) {
-		if([[_userPicturesDictionary objectForKey: key] isEqualTo: defaultURL])
+		if([_userPicturesDictionary[key] isEqualTo: defaultURL])
 			return key;
 	}
 	return nil;
@@ -674,7 +641,6 @@ static LJAccount *gAccountListHead = nil;
                                 keyEquivalent:@""];
     [pItem setRepresentedObject:_defaultUserPictureURL];
     [pMenu addItem:pItem];
-    [pItem release];
     if ([_userPicturesDictionary count] > 0) {
         // Add separator
         [pMenu addItem:[NSMenuItem separatorItem]];
@@ -686,52 +652,22 @@ static LJAccount *gAccountListHead = nil;
         while (keyword = [keywordEnumerator nextObject]) {
             pItem = [[NSMenuItem alloc] initWithTitle:keyword action:nil
                                         keyEquivalent:@""];
-            url = [_userPicturesDictionary objectForKey:keyword];
+            url = _userPicturesDictionary[keyword];
             [pItem setRepresentedObject:url];
             [pMenu addItem:pItem];
-            [pItem release];
         }
     }
-    return [pMenu autorelease];
-}
-
-- (LJMoods *)moods
-{
-    return _moods;
-}
-
-- (void)setMoods:(LJMoods *)moods
-{
-    SafeSetObject(&_moods, moods);
-}
-
-- (NSArray *)journalArray
-{
-    return _journalArray;
-}
-
-// =========================================================== 
-// - setJournalArray:
-// =========================================================== 
-- (void)setJournalArray:(NSArray *)aJournalArray {
-    if (_journalArray != aJournalArray) {
-        [aJournalArray retain];
-        [_journalArray release];
-        _journalArray = aJournalArray;
-    }
+    return pMenu;
 }
 
 - (LJJournal *)defaultJournal
 {
-    return [_journalArray objectAtIndex:0];
+    return _journalArray[0];
 }
 
 - (LJJournal *)journalNamed:(NSString *)name
 {
-    unsigned int i;
-
-    for (i = 0; i < [_journalArray count]; i++) {
-        LJJournal *journal = [_journalArray objectAtIndex:i];
+    for (LJJournal *journal in _journalArray) {
         if ([name isEqualToString:[journal name]])
             return journal;
     }
@@ -741,19 +677,16 @@ static LJAccount *gAccountListHead = nil;
 - (NSMenu *)journalMenu
 {
     NSMenu *jMenu = [[NSMenu alloc] initWithTitle:@"Journals"];
-    int i;
 
     [jMenu setAutoenablesItems:NO];
-    for (i = 0; i < [_journalArray count]; i++) {
-        LJJournal *j = [_journalArray objectAtIndex:i];
+    for (LJJournal *j in _journalArray) {
         NSMenuItem *jItem = [[NSMenuItem alloc] initWithTitle:[j name]
                                                        action:NULL
                                                 keyEquivalent:@""];
         [jItem setRepresentedObject:j];
         [jMenu addItem:jItem];
-        [jItem release];
     }
-    return [jMenu autorelease];
+    return jMenu;
 }
 
 - (NSMutableDictionary *)customInfo
@@ -770,11 +703,6 @@ static LJAccount *gAccountListHead = nil;
         [self username], [serverURL host], (p != 0 ? p : 80)];
 }
 
-- (id)delegate
-{
-    return _delegate;
-}
-
 - (void)_registerDelegateForNotification:(NSString *)n selector:(SEL)s
 {
     static NSNotificationCenter *defaultCenter = nil;
@@ -787,7 +715,7 @@ static LJAccount *gAccountListHead = nil;
     }
 }
 
-- (void)setDelegate:(id)delegate
+- (void)setDelegate:(id<LJAccountDelegate>)delegate
 {
     if (_delegate) {
         [[NSNotificationCenter defaultCenter] removeObserver:_delegate];

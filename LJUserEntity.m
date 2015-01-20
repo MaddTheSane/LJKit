@@ -21,38 +21,15 @@
 
 #import "LJUserEntity.h"
 #import "Miscellaneous.h"
+#import "LJUserEntity_Private.h"
 
 @implementation LJUserEntity
-
-- (void)dealloc
-{
-    [_username release];
-    [_fullname release];
-    [super dealloc];
-}
-
-
-- (NSString *)username
-{
-    return _username;
-}
-
+@synthesize username = _username;
+@synthesize fullname = _fullname;
 
 - (void)_setUsername:(NSString *)newUsername
 {
-    SafeSetString(&_username, [newUsername lowercaseString]);
-}
-
-
-- (NSString *)fullname
-{
-    return _fullname;
-}
-
-
-- (void)_setFullname:(NSString *)newFullname
-{
-    SafeSetString(&_fullname,newFullname);
+	_username = [newUsername lowercaseString];
 }
 
 
