@@ -26,7 +26,7 @@
 #import "LJServer.h"
 
 @interface LJServer ()
-- (id)initWithURL:(NSURL *)url account:(LJAccount *)account;
+- (instancetype)initWithURL:(NSURL *)url account:(LJAccount *)account;
 - (void)setUseFastServers:(BOOL)flag;
 - (void)setLoginInfo:(NSDictionary *)loginDict;
 @end

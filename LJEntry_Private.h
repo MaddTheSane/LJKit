@@ -27,6 +27,6 @@
 #import "LJEntry.h"
 #import "LJEntrySummary.h"
 
-@interface LJEntryRoot (FrameworkPrivate)
-- (id)initWithReply:(NSDictionary *)info prefix:(NSString *)prefix journal:(LJJournal *)journal;
+@interface LJEntryRoot ()
+- (instancetype)initWithReply:(NSDictionary *)info prefix:(NSString *)prefix journal:(LJJournal *)journal;
 @end

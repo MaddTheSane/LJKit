@@ -25,7 +25,7 @@
 
 #import "LJMoods.h"
 
-@interface LJMoods (ClassPrivate)
+@interface LJMoods ()
 - (NSInteger)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag;
 - (void)_addMoodID:(NSString *)moodID forName:(NSString *)moodName;
 @end

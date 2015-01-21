@@ -25,6 +25,6 @@
 
 #import "LJMoods.h"
 
-@interface LJMoods (FrameworkPrivate)
+@interface LJMoods ()
 - (void)updateMoodsWithLoginReply:(NSDictionary *)reply;
 @end

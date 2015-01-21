@@ -25,7 +25,7 @@
 
 #import "LJGroup.h"
 
-@interface LJGroup (FrameworkPrivate)
+@interface LJGroup ()
 - (void)_addAddFieldsToParameters:(NSMutableDictionary *)parameters;
 - (void)_addDeleteFieldsToParameters:(NSMutableDictionary *)parameters;
 @end

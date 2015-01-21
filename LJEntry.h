@@ -179,7 +179,6 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  connection to an account object.
  */
 @property LJSecurityMode securityMode;
-- (void)setSecurityMode:(LJSecurityMode)security;
 
 /*!
  @method setAccessAllowed:forGroup:
