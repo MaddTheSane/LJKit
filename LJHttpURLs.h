@@ -41,23 +41,23 @@
  */
 @interface LJJournal (LJHttpURLs)
 /*!
- @method recentEntriesHttpURL
- @abstract Returns the URL of the receiver's recent entries view.
+ @property recentEntriesHttpURL
+ @abstract The URL of the receiver's recent entries view.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *recentEntriesHttpURL;
 /*!
- @method friendsEntriesHttpURL
- @abstract Returns the URL of the receiver's friends entries view.
+ @property friendsEntriesHttpURL
+ @abstract The URL of the receiver's friends entries view.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *friendsEntriesHttpURL;
 /*!
- @method calendarHttpURL
- @abstract Returns the URL of the receiver's calendar view.
+ @property calendarHttpURL
+ @abstract The URL of the receiver's calendar view.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *calendarHttpURL;
 /*!
- @method calendarHttpURLForDay:
- @abstract Returns the URL of the receiver's calendar view for a given day.
+ @property calendarHttpURLForDay:
+ @abstract The URL of the receiver's calendar view for a given day.
  */
 - (NSURL *)calendarHttpURLForDay:(NSDate *)date;
 @end
@@ -68,13 +68,13 @@
  */
 @interface LJEntryRoot (LJHttpURLs)
 /*!
- @method readCommentsHttpURL
- @abstract Returns the URL of the receiver's read comments view.
+ @property readCommentsHttpURL
+ @abstract The URL of the receiver's read comments view.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *readCommentsHttpURL;
 /*!
- @method postCommentsHttpURL
- @abstract Returns the URL of the receiver's post comments view.
+ @property postCommentsHttpURL
+ @abstract The URL of the receiver's post comments view.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *postCommentHttpURL;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *addToMemoriesHttpURL;
@@ -88,8 +88,8 @@
 */
 @interface LJGroup (LJHttpURLs)
 /*!
- @method membersEntriesHttpURL
- @abstract Returns the URL of the receiver's members' entries.
+ @property membersEntriesHttpURL
+ @abstract The URL of the receiver's members' entries.
  @discussion
  LiveJournal allows the friends view to be filtered by group.
  This method returns an URL of the friends view showing entries
@@ -104,41 +104,41 @@
  */
 @interface LJUserEntity (LJHttpURLs)
 /*!
- @method userProfileHttpURL
- @abstract Returns the URL of the receiver's user profile page.
+ @property userProfileHttpURL
+ @abstract The URL of the receiver's user profile page.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *userProfileHttpURL;
 /*!
- @method memoriesHttpURL
- @abstract Returns the URL of the receiver's memories page.
+ @property memoriesHttpURL
+ @abstract The URL of the receiver's memories page.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *memoriesHttpURL;
 /*!
- @method toDoListHttpURL
- @abstract Returns the URL of the receiver's to do list page.
+ @property toDoListHttpURL
+ @abstract The URL of the receiver's to do list page.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *toDoListHttpURL;
 /*!
- @method rssFeedURL
- @abstract Returns the URL of the receiver's RSS feed.
+ @property rssFeedURL
+ @abstract The URL of the receiver's RSS feed.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *rssFeedURL;
 /*!
- @method atomFeedURL
- @abstract Returns the URL of the receiver's Atom feed.
+ @property atomFeedURL
+ @abstract The URL of the receiver's Atom feed.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *atomFeedURL;
 /*!
- @method foafURL
- @abstract Returns the URL of the receiver's FOAF information.
+ @property foafURL
+ @abstract The URL of the receiver's FOAF information.
  @discussion
  If the user has set an external FOAF URL this method will NOT reflect that 
  preference.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *foafURL;
 /*!
- @method recentEntriesHttpURL
- @abstract Returns the URL of the receiver's recent entries view.
+ @property recentEntriesHttpURL
+ @abstract The URL of the receiver's recent entries view.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *recentEntriesHttpURL;
 @end
@@ -149,13 +149,13 @@
  */
 @interface LJFriend (LJHttpURLs)
 /*!
- @method joinCommunityHttpURL
- @abstract Returns the URL of the receiver's join community page.
+ @property joinCommunityHttpURL
+ @abstract The URL of the receiver's join community page.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *joinCommunityHttpURL;
 /*!
- @method leaveCommunityHttpURL
- @abstract Returns the URL of the receiver's leave community page.
+ @property leaveCommunityHttpURL
+ @abstract The URL of the receiver's leave community page.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *leaveCommunityHttpURL;
 @end

@@ -72,7 +72,6 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
     NSString *_subject;
     NSMutableDictionary *_properties;
     NSMutableDictionary *_customInfo;
-    BOOL _isEdited;
 }
 
 /*!
@@ -88,8 +87,8 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
- @method setJournal:
- @abstract Set the journal to associate the receiver with.
+ @property journal
+ @abstract The journal associated with the receiver.
  @discussion
  Sets the journal this entry is associated with.  To cause the receiver to become
  unassociated, set journal to nil.  An exception is raised if you attempt to
@@ -100,11 +99,11 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  the set of allowed groups will be cleared, as groups have no meaning outside
  of the account they exist in.
  */
-- (void)setJournal:(LJJournal *)journal;
+@property (NS_NONATOMIC_IOSONLY, readwrite, strong) LJJournal *journal;
 
 /*!
- @method setAccount:
- @abstract Set the account to associate the receiver with.
+ @property account
+ @abstract The account associated with the receiver.
  @discussion
  Sets the account this entry is associated with.  To cause the receiver to become
  unassociated, set the account to nil.  An exception is raised if you attempt to
@@ -115,60 +114,44 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  the set of allowed groups will be cleared, as groups have no meaning outside
  of the account they exist in.
  */
-- (void)setAccount:(LJAccount *)account;
+@property (NS_NONATOMIC_IOSONLY, readwrite, strong) LJAccount *account;
 
 /*!
- @method setDate:
- @abstract Set the date of the receiver.
+ @property date
+ @abstract The date of the receiver.
  @discussion
  Sets the date of the receiver.  Note that if you want to post an entry with a date
  earlier than the latest entry already in the journal the server will return an error
  asking you to set the backdate option on this entry.  See  setOptionBackdated:.
  */
-- (void)setDate:(NSDate *)date;
+@property (NS_NONATOMIC_IOSONLY, copy) NSDate *date;
 
 /*!
- @method subject
- @abstract Obtain the subject of the receiver.
+ @property subject
+ @abstract The subject of the receiver.
  */
 @property (nonatomic, copy) NSString *subject;
 
 /*!
- @method setSubject:
- @abstract Set the subject of the receiver.
- */
-
-/*!
- @method content
- @abstract Obtain the content of the receiver.
+ @property content
+ @abstract The content of the receiver.
  */
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *content;
 
 /*!
- @method setContent:
- @abstract Set the content of the receiver.
- */
-
-/*!
- @method isEdited
- @abstract Obtain the edited status of this entry.
+ @property edited
+ @abstract The edited status of this entry.
  @discussion
  Returns YES if this entry has changed since it was last downloaded or saved, NO
  otherwise.  The edited flag is set whenever any of the set... methods are
  called, and reset when saveToJournal completes successfully.
+ You can call this method to mark this entry as edited or unedited as you see
+ fit.
  */
 @property (NS_NONATOMIC_IOSONLY, getter=isEdited) BOOL edited;
 
 /*!
- @method setEdited:
- @abstract Sets the edited status of this entry.
- @discussion
- You can call this method to mark this entry as edited or unedited as you see
- fit.
- */
-
-/*!
- @method setSecurityMode:
+ @property securityMode
  @abstract Set the security mode of the receiver.
  @discussion
  The security modes are explained in the LJEntry Security Modes enumeration.
@@ -178,7 +161,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  in the context of a particular account, and an unassociated entry has no
  connection to an account object.
  */
-@property LJSecurityMode securityMode;
+@property (NS_NONATOMIC_IOSONLY) LJSecurityMode securityMode;
 
 /*!
  @method setAccessAllowed:forGroup:
@@ -215,8 +198,8 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
 - (void)saveToJournal;
 
 /*!
- @method customInfo
- @abstract Returns a custom info dictionary for this entry.
+ @property customInfo
+ @abstract The custom info dictionary for this entry.
  @discussion
  Returns a mutable dictionary object you can use to store whatever
  information you would like to attach to this entry.  All keys and
@@ -224,6 +207,6 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
 
  This property is preserved during archiving.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableDictionary *customInfo;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSMutableDictionary *customInfo;
 
 @end

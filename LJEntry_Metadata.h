@@ -57,125 +57,82 @@
 - (BOOL)booleanForProperty:(NSString *)property;
 
 /*!
- @method currentMood
- @abstract Obtain the mood associated with the receiver.
- @result The mood name, or nil if none is set.
- */
-@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMood;
-
-/*!
- @method setCurrentMood:
- @abstract Set the mood associated with the receiver.
+ @property currentMood
+ @abstract The mood associated with the receiver.
  @discussion
- Sets the current mood for this entry.  Set moodName to nil to remove the
+ The current mood for this entry.  Set to nil to remove the
  mood property.
  If the mood has an associated ID number, it will be set by the LJKit in
  [LJEntry saveToJournal]; this allows LiveJournal to display the graphic
  for that mood on the web.
  */
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMood;
 
-	/*!
-	@method currentMoodName
-	 @abstract Obtain the mood name associated with the receiver.
-	 @result The mood name, or nil if none is set.
-	 */
+/*!
+ @property currentMoodName
+ @abstract The mood name associated with the receiver, or nil.
+ @discussion
+ Set moodName to nil to remove the mood property.
+ */
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMoodName;
 
-	/*!
-	@method setCurrentMoodName:
-	 @abstract Set the mood name associated with the receiver.
-	 @discussion
-	 Sets the current mood name for this entry.  Set moodName to nil to remove the
-	 mood property.
-	 */
-
-	/*!
- @method currentMusic
- @abstract Obtain the music associated with the receiver.
+/*!
+ @property currentMusic
+ @abstract The music associated with the receiver.
  */
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMusic;
 
 /*!
- @method setCurrentMusic:
- @abstract Sets the music associated with the receiver.
- */
-
-/*!
- @method optionPreformatted
- @abstract Obtain the preformatted setting of the receiver.
- */
-@property (NS_NONATOMIC_IOSONLY) BOOL optionPreformatted;
-
-/*!
- @method setOptionPreformatted:
- @abstract Set the preformatted setting of the receiver.
+ @property optionPreformatted
+ @abstract The preformatted setting of the receiver.
  @discussion
  If this option is enabled, LiveJournal will not apply the usually formatting,
  such as changing newlines to &lt;br&gt; tags.  Enable this option if you want
  to control the receivers appearance with HTML tags.
  You may still include HTML in your entry if this option is disabled.
  */
+@property (NS_NONATOMIC_IOSONLY) BOOL optionPreformatted;
 
 /*!
- @method optionNoComments
- @abstract Obtain the don't allow comments setting of the receiver.
- */
-@property (NS_NONATOMIC_IOSONLY) BOOL optionNoComments;
-
-/*!
- @method setOptionNoComments:
- @abstract Set the don't allow comments setting of the receiver.
+ @property optionNoComments
+ @abstract The "don't allow comments setting" of the receiver.
  @discussion
  If you don't want to allow users to write comments about the receiver,
  set this to true.
  */
+@property (NS_NONATOMIC_IOSONLY) BOOL optionNoComments;
 
 /*!
- @method pictureKeyword
- @abstract Obtain the picture keyword associated with the receiver.
+ @property pictureKeyword
+ @abstract The picture keyword associated with the receiver.
+ @discussion
+ The set of available picture keywords can be obtained from the
+ <code>[LJAccount userPicturesDictionary]</code> method, using the keys from the
+ resulting NSDictionary.
  */
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *pictureKeyword;
 
 /*!
- @method setPictureKeyword:
- @abstract Set the picture keyword associated with the receiver.
- @discussion
- The set of available picture keywords can be obtained from the
- [LJAccount userPicturesDictionary] method, using the keys from the
- resulting NSDictionary.
- */
-
-/*!
- @method optionBackdated
- @abstract Obtain the backdated setting of the receiver.
- */
-@property (NS_NONATOMIC_IOSONLY) BOOL optionBackdated;
-
-/*!
- @method setOptionBackdated:
- @abstract Sets the backdated setting of the receiver.
+ @property optionBackdated
+ @abstract The backdated setting of the receiver.
  @discussion
  If an entry is backdated, it will not appear on other users' friends views.
  You must backdate an entry if it bears a date earlier than the latest entry
  posted to the journal.
  */
+@property (NS_NONATOMIC_IOSONLY) BOOL optionBackdated;
 
 /*!
- @method optionNoEmail
- @abstract Obtain the don't email comments setting of the receiver.
- */
-@property (NS_NONATOMIC_IOSONLY) BOOL optionNoEmail;
-
-/*!
- @method setOptionNoEmail
- @abstract Sets the don't email comments setting of the receiver.
+ @property optionNoEmail
+ @abstract The "don't email comments" setting of the receiver.
  @discussion
  LiveJournal provides to option to email a copy of comments that are posted to your
  journal.  This method allows you to override this option for this one entry.
  */
+@property (NS_NONATOMIC_IOSONLY) BOOL optionNoEmail;
 
 /*!
- @method hasUnknown8bitData
+ @property hasUnknown8bitData
  @abstract Post contains unknown 8-bit data.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasUnknown8bitData;
@@ -191,60 +148,50 @@
 - (void)setOptionScreenReplies:(NSString *)singleChar;
 
 /*!
- @method hasScreenedReplies
+ @property hasScreenedReplies
  */
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasScreenedReplies;
 
 /*!
- @method revisionNumber
+ @property revisionNumber
  */
 @property (NS_NONATOMIC_IOSONLY, readonly) int revisionNumber;
 
 /*!
- @method revisionDate
+ @property revisionDate
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *revisionDate;
 
 /*!
- @method commentsAlteredDate
+ @property commentsAlteredDate
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *commentsAlteredDate;
 
 /*!
- @method syndicatedItemID
+ @property syndicatedItemID
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *syndicatedItemID;
 
-	/*!
-	@method syndicatedItemURL
-	 */
+/*!
+ @property syndicatedItemURL
+ */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *syndicatedItemURL;
 
-	/*!
-	@method currentLocation
-	@abstract Get the location of the receiver.
-	 */
+/*!
+ @property currentLocation
+ @abstract The location of the receiver.
+ */
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *currentLocation;
 
-	/*!
-	@method setCurrentLocation
-	@abstract Set the location of the receiver.
-	 */
-
-	/*!
- @method tags:
- @abstract Get the tag string of the receiver.
+/*!
+ @property tags
+ @abstract The tag string of the receiver.
  */
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *tags;
 
-	/*!
-	@method setTags:
-	 @abstract Set the tag string of the receiver.
-	 */
-
-	/*!
-	@method addTag:
-	 @abstract If the new tag isn't already in the tag list, add it
-	 */
+/*!
+ @method addTag:
+ @abstract If the new tag isn't already in the tag list, add it
+ */
 - (void)addTag:(NSString *)newTag;
 @end

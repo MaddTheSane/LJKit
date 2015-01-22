@@ -34,12 +34,10 @@
  [LJJournal setEntrySummaryLength:] method.
  */
 @interface LJEntrySummary : LJEntryRoot
-{
-}
 
 /*!
- @method summary
- @abstract Obtain the entry's summary text.
+ @property summary
+ @abstract The entry's summary text.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *summary;
 
@@ -56,8 +54,8 @@
 - (NSString *)descriptionWithFormat:(NSString *)format;
 
 /*!
- @method description
- @abstract Obtain a string containing the entry's date, time, and summary text.
+ @property description
+ @abstract A string containing the entry's date, time, and summary text.
  @discussion
  Returns a string of the format: "YYYY-MM-DD HH:MM:SS: Summary text...".
  Calls descriptionWithFormat: with the format string "%Y-%m-%d %H:%M:%S: %%&#64;".
@@ -65,8 +63,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *description;
 
 /*!
- @method getEntry
- @abstract Obtain the entry the receiver summarizes.
+ @property entry
+ @abstract The entry the receiver summarizes.
  */
 @property (NS_NONATOMIC_IOSONLY, getter=getEntry, readonly, strong) LJEntry *entry;
 

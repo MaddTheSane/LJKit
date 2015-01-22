@@ -29,12 +29,21 @@ NSString * const LJFriendsPageUpdatedNotification = @"LJFriendsPageUpdated";
 NSString * const LJCheckFriendsErrorNotification = @"LJCheckFriendsError";
 NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsIntervalChanged";
 
-@interface LJCheckFriendsSession (Private)
+#define kCheckFriendsSessionAccount @"LJCheckFriendsSessionAccount"
+#define kCheckFriendsSessionInterval @"LJCheckFriendsSessionInterval"
+#define kCheckFriendsSessionParameters @"LJCheckFriendsSessionParameters"
+
+@interface LJCheckFriendsSession ()
 - (void)_checkThread:(id)object;
 - (void)_checkTick;
 @end
 
 @implementation LJCheckFriendsSession
+{
+    NSLock *_parametersLock;
+    NSMutableDictionary *_parameters;
+}
+@synthesize checking = _isChecking;
 
 - (instancetype)initWithAccount:(LJAccount *)account
 {
@@ -50,45 +59,20 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
 
 - (instancetype)initWithCoder:(NSCoder *)decoder
 {
-    NSString *key;
-    
     self = [super init];
     if (self) {
-        key = @"LJCheckFriendsSessionAccount";
-        _account = [decoder decodeObjectForKey:key];
-        key = @"LJCheckFriendsSessionInterval";
-        _interval = [decoder decodeDoubleForKey:key];
-        key = @"LJCheckFriendsSessionParameters";
-        _parameters = [[decoder decodeObjectForKey:key] mutableCopy];
+        _account = [decoder decodeObjectForKey:kCheckFriendsSessionAccount];
+        _interval = [decoder decodeDoubleForKey:kCheckFriendsSessionInterval];
+        _parameters = [[decoder decodeObjectForKey:kCheckFriendsSessionParameters] mutableCopy];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    NSString *key;
-
-    key = @"LJCheckFriendsSessionAccount";
-    [encoder encodeConditionalObject:_account forKey:key];
-    key = @"LJCheckFriendsSessionInterval";
-    [encoder encodeDouble:_interval forKey:key];
-    key = @"LJCheckFriendsSessionParameters";
-    [encoder encodeObject:_parameters forKey:key];
-}
-
-- (LJAccount *)account
-{
-    return _account;
-}
-
-- (NSTimeInterval)interval
-{
-    return _interval;
-}
-
-- (void)setInterval:(NSTimeInterval)interval
-{
-    _interval = interval;
+    [encoder encodeConditionalObject:_account forKey:kCheckFriendsSessionAccount];
+    [encoder encodeDouble:_interval forKey:kCheckFriendsSessionInterval];
+    [encoder encodeObject:_parameters forKey:kCheckFriendsSessionParameters];
 }
 
 - (unsigned int)checkGroupMask
@@ -211,11 +195,6 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
 - (void)stopChecking
 {
     _isChecking = NO;
-}
-
-- (BOOL)isChecking
-{
-    return _isChecking;
 }
 
 - (BOOL)openFriendsPage

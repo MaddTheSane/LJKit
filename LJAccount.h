@@ -168,7 +168,6 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  */
 @interface LJAccount : LJUserEntity <NSCoding>
 {
-    NSMenu *_menu;
     NSArray *_journalArray;
     LJServer *_server;
     LJMoods *_moods;
@@ -308,8 +307,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 - (BOOL)writeToFile:(NSString *)path;
 
 /*!
- @method server
- @abstract Returns the LJServer object used by the receiver.
+ @property server
+ @abstract The LJServer object used by the receiver.
  @discussion
  This property is preserved during archiving.
  */
@@ -383,8 +382,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 - (void)logout;
 
 /*!
- @method loginMessage
- @abstract Obtain the server's login message.
+ @property loginMessage
+ @abstract The server's login message.
  @result The login message, or nil if none was available.
  @discussion
  The server may send a message for the user after login.  Your client
@@ -394,7 +393,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *loginMessage;
 
 /*!
- @method isLoggedIn
+ @property loggedIn
  @abstract Returns YES if the account has been logged in.
  @result YES if the account has successfully logged in, NO otherwise.
  @discussion
@@ -402,8 +401,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 @property (NS_NONATOMIC_IOSONLY, getter=isLoggedIn, readonly) BOOL loggedIn;
 
 /*!
- @method menu
- @abstract Returns the web menu provided by the server.
+ @property menu
+ @abstract The web menu provided by the server.
  @discussion
  If you provided the LJGetMenuLoginFlag to the loginWithPassword:flags:
  method, this method will return an NSMenu object you can display in your
@@ -415,8 +414,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *menu;
 
 /*!
- @method moods
- @abstract Returns an LJMoods object for this account.
+ @property moods
+ @abstract An LJMoods object for this account.
  @discussion
  If you provided the LJGetMoodsLoginFlag to the loginWithPassword:flags:
  method, this method returns an LJMoods object, which represents all the
@@ -424,21 +423,16 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  Otherwise, returns nil.
 
  This property is preserved during archiving.
+ You can set the moods object before logging in, so that the
+ mood list can be saved between sessions.  If so, only new moods will be
+ downloaded from the server, to save on bandwidth.
+
 */
 @property (NS_NONATOMIC_IOSONLY, strong) LJMoods *moods;
 
 /*!
- @method setMoods:
- @abstract Set the LJMoods object for this account.
- @discussion
- You can set the moods object before logging in, so that the
- mood list can be saved between sessions.  If so, only new moods will be
- downloaded from the server, to save on bandwidth.
- */
-
-/*!
- @method userPictureKeywords
- @abstract Returns an NSArray of account picture keywords in NSStrings.
+ @property userPictureKeywords
+ @abstract An NSArray of account picture keywords in NSStrings.
  @discussion
 	 If you provided the LJGetPicturesLoginFlag to the loginWithPassword:flags:
 	 method, this method will return an NSArray of NSStrings. Otherwise, returns nil.
@@ -449,8 +443,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
 
 /*!
- @method userPicturesDictionary
- @abstract Returns a dictionary of account picture keywords and URLs.
+ @property userPicturesDictionary
+ @abstract A dictionary of account picture keywords and URLs.
  @discussion
  If you provided the LJGetPicturesLoginFlag to the loginWithPassword:flags:
  method, this method will return an NSDictionary mapping userpic keywords
@@ -469,7 +463,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 - (NSURL *)defaultUserPictureURL;
 
 /*!
-	@method defaultUserPictureURL
+ @method defaultUserPictureURL
  @abstract Returns the URL of the default user picture.
  @discussion
  This property is preserved during archiving.
@@ -477,8 +471,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 - (NSString *)defaultUserPictureKeyword;
 
 /*!
- @method userPicturesMenu
- @abstract Returns an NSMenu of all picture keywords for the receiver.
+ @property userPicturesMenu
+ @abstract An NSMenu of all picture keywords for the receiver.
  @discussion
  Creates an NSMenu representing the user's picture keywords.  Each menu item
  has the picture's URL as a its represented object, so you can retrieve the
@@ -487,8 +481,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *userPicturesMenu;
 
 /*!
- @method journalArray
- @abstract Obtain an array of LJJournal objects for this account.
+ @property journalArray
+ @abstract An array of LJJournal objects for this account.
  @discussion
  This method returns an array of LJJournal objects, representing the
  journals this account has access to post into (e.g., communities).
@@ -520,8 +514,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 - (LJJournal *)journalNamed:(NSString *)name;
 
 /*!
- @method journalMenu
- @abstract Returns an NSMenu of all journals for this account.
+ @property journalMenu
+ @abstract The NSMenu of all journals for this account.
  @discussion
  Creates an NSMenu of all journals for the receivers account.  Each
  menu item is set to represent the appropriate LJJournal object, so
@@ -531,8 +525,8 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *journalMenu;
 
 /*!
- @method customInfo
- @abstract Returns a custom info dictionary for this account.
+ @property customInfo
+ @abstract The custom info dictionary for this account.
  @discussion
  Returns a mutable dictionary object you can use to store whatever
  information you would like to attach to this account.  All keys and
@@ -540,11 +534,11 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  This property is preserved during archiving.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableDictionary *customInfo;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSMutableDictionary *customInfo;
 
 /*!
- @method identifier
- @abstract Returns a unique identifier for this account.
+ @property identifier
+ @abstract The unique identifier for this account.
  @discussion
  Returns a unique identifier for the receiver.  It is of the form
  "username&#64;hostname:port".
@@ -553,17 +547,12 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
 /*!
  @property delegate
- @abstract Returns the receiver's delegate.
- */
-@property (nonatomic, weak) id<LJAccountDelegate> delegate;
-
-/*!
- @method setDelegate:
- @abstract Sets the receiver's delegate.
+ @abstract The receiver's delegate.
  @discussion
- Sets the delegate of the receiver.  The delegate is automatically registered to
+ The delegate is automatically registered to
  receive notifications if it implements the methods below.
  */
+@property (nonatomic, weak) id<LJAccountDelegate> delegate;
 
 @end
 

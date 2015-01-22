@@ -76,7 +76,7 @@ char ValueForHexDigit(char digit)
 NSColor *ColorForHTMLCode(NSString *code)
 {
     // Code is of the form "#RRGGBB"
-    float r, g, b;
+    CGFloat r, g, b;
 
     if ([code length] < 7) {
         [NSException raise:@"ColorForHTMLCode"
@@ -89,7 +89,7 @@ NSColor *ColorForHTMLCode(NSString *code)
           ValueForHexDigit([code characterAtIndex:4])) / 255.0;
     b = ((ValueForHexDigit([code characterAtIndex:5]) << 4) +
           ValueForHexDigit([code characterAtIndex:6])) / 255.0;
-    return [NSColor colorWithDeviceRed:r green:g blue:b alpha:1.0];
+    return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:1.0];
 }
 
 /*
@@ -100,11 +100,10 @@ NSString *HTMLCodeForColor(NSColor *color)
 {
     NSColor *rgbColor;
 
-    if ([[color colorSpaceName] isEqualToString:NSDeviceRGBColorSpace] ||
-        [[color colorSpaceName] isEqualToString:NSCalibratedRGBColorSpace])
+    if ([[color colorSpaceName] isEqualToString:NSCalibratedRGBColorSpace])
         rgbColor = color;
     else
-        rgbColor = [color colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+        rgbColor = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     return [NSString stringWithFormat:@"#%02X%02X%02X",
         (int)(255.0 * [rgbColor redComponent]),
         (int)(255.0 * [rgbColor greenComponent]),

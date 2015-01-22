@@ -69,9 +69,6 @@ static LJAccount *gAccountListHead = nil;
 
 @implementation LJAccount
 @synthesize loggedIn = _isLoggedIn;
-@synthesize delegate = _delegate;
-@synthesize moods = _moods;
-@synthesize journalArray = _journalArray;
 @synthesize userPicturesDictionary = _userPicturesDictionary;
 
 /*
@@ -589,11 +586,6 @@ static LJAccount *gAccountListHead = nil;
                           object:self userInfo:nil];
 }
 
-- (NSMenu *)menu
-{
-    return _menu;
-}
-
 - (NSArray *)userPictureKeywords {
 	// [FS] This is potenitally a performance hot spot, but let's be guided by profiling.
 	return [[_userPicturesDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -607,7 +599,7 @@ static LJAccount *gAccountListHead = nil;
 // [FS] For key value observing
 - (void) setUserPicturesDictionary: (NSDictionary *)aDict {
 	NSLog(@"Setting user pictures dictionary");
-	_userPicturesDictionary = aDict;
+	_userPicturesDictionary = [aDict mutableCopy];
 }
 
 - (NSURL *)defaultUserPictureURL

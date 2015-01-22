@@ -21,7 +21,27 @@
 
 #import <Cocoa/Cocoa.h>
 
+/*!
+ * Returns the MD5 digest of the given NSString object as a hex
+ * encoded string.  Uses the crypto library distributed with OS X.
+ */
 NSString *MD5HexDigest(NSString *string);
+
+/*!
+ * Converts a hexadecimal digit character to its value.
+ * This function is case insensitive and returns 0x10 if the hex
+ * digit is invalid.
+ */
 char ValueForHexDigit(char digit);
+
+/*!
+ * Creates an NSColor object represented by a given HTML color code.
+ * (e.g., "#FFCC00")
+ */
 NSColor *ColorForHTMLCode(NSString *code);
+
+/*!
+ * Returns the HTML color code which represents the given NSColor object.
+ * Assumes the NSColor is an RGB color.
+ */
 NSString *HTMLCodeForColor(NSColor *color);

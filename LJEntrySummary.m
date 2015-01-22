@@ -28,7 +28,7 @@
 
 - (NSString *)summary
 {
-    return _content;
+    return [_content copy];
 }
 
 - (NSString *)descriptionWithFormat:(NSString *)format

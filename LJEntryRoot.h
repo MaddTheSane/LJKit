@@ -103,7 +103,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 /*!
  @method initWithContentsOfFile:
  @abstract Initializes an entry object from a file.
- @param The file to read from.
+ @param path The file to read from.
  @discussion
  Loads an entry from an archived file.  This method uses NSKeyedUnarchiver
  to read the archive from disk.
@@ -121,8 +121,8 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 - (BOOL)writeToFile:(NSString *)path;
 
 /*!
- @method journal
- @abstract Obtain the journal associated with the receiver.
+ @property journal
+ @abstract The journal associated with the receiver.
  @discussion
  Returns the journal that the receiver is associated with, or nil if it is
  unassociated.
@@ -130,8 +130,8 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, strong) LJJournal *journal;
 
 /*!
- @method account
- @abstract Obtain the account associated with the receiver.
+ @property account
+ @abstract The account associated with the receiver.
  @discussion
  Returns the account that the receiver is associated with, or nil if it is
  unassociated.
@@ -139,8 +139,8 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, strong) LJAccount *account;
 
 /*!
- @method posterUsername
- @abstract Obtain the username of the entry's poster.
+ @property posterUsername
+ @abstract The username of the entry's poster.
  @discussion
  Returns the username of the user that posted this entry, according to the
  LiveJournal server.  You should assume that the receiver was posted by the
@@ -149,8 +149,8 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *posterUsername;
 
 /*!
- @method itemID
- @abstract Obtain the itemID of the receiver.
+ @property itemID
+ @abstract The itemID of the receiver.
  @discussion
  If the entry is posted, returns its itemID as reported by the server.
  If the entry is only associated or unassociated, returns 0.
@@ -158,14 +158,14 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly) int itemID;
 
 /*!
- @method date
- @abstract Obtain the date of the receiver.
+ @property date
+ @abstract The date of the receiver.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *date;
 
 /*!
- @method securityMode
- @abstract Obtain the security mode of the receiver.
+ @property securityMode
+ @abstract The security mode of the receiver.
  @discussion
  The security modes are explained in the LJEntry Security Modes enumeration.
  */
@@ -187,7 +187,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 - (BOOL)accessAllowedForGroup:(LJGroup *)group;
 
 /*!
- @method groupsAllowedAccessMask
+ @property groupsAllowedAccessMask
  @discussion
  Returns the bitmask which defines the groups allowed to access the receiver.
  If the security mode is not LJSecurityModeGroup, the value is undefined.
@@ -195,7 +195,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly) unsigned int groupsAllowedAccessMask;
 
 /*!
- @method groupsAllowedAccessArray
+ @property groupsAllowedAccessArray
  @abstract Determine what groups are allowed access to the receiver.
  @discussion
  If the entry is not associated with a journal, returns nil.  Groups
@@ -207,7 +207,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *groupsAllowedAccessArray;
 
 /*!
- @method groupsAllowedAccessSet
+ @property groupsAllowedAccessSet
  @abstract Determine what groups are allowed access to the receiver.
  @discussion
  If the entry is not associated with a journal, returns nil.  Groups

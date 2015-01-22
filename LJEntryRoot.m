@@ -40,7 +40,6 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
 @"LJEntryDidNotRemoveFromJournal";
 
 @interface LJEntryRoot ()
-- (void)_setSecurityMode:(LJSecurityMode)newMode;
 @property (NS_NONATOMIC_IOSONLY, readwrite, setter=_setSecurityMode:) LJSecurityMode securityMode;
 @end
 

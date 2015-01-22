@@ -26,7 +26,7 @@
 #import "LJServer.h"
 
 @interface LJServer ()
+@property (NS_NONATOMIC_IOSONLY, getter=isUsingFastServers, readwrite, setter=setUseFastServers:) BOOL usingFastServers;
 - (instancetype)initWithURL:(NSURL *)url account:(LJAccount *)account;
-- (void)setUseFastServers:(BOOL)flag;
 - (void)setLoginInfo:(NSDictionary *)loginDict;
 @end

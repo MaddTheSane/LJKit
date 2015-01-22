@@ -29,14 +29,14 @@
 }
 
 /*!
- @method username
- @abstract Obtain the username of the receiver.
+ @property username
+ @abstract The username of the receiver.
  */
 @property (nonatomic, readonly, copy) NSString *username;
 
 /*!
- @method fullname
- @abstract Obtain the full name of the receiver.
+ @property fullname
+ @abstract The full name of the receiver.
  @discussion
  Returns the receiver's full name, as reported by the server.  If not
  available, this method returns the receiver's username.

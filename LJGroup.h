@@ -34,7 +34,6 @@
     unsigned int _mask;
     NSString *_name;
     unsigned char _sortOrder;
-    BOOL _isPublic;
     NSDate *_createdDate;
     NSDate *_modifiedDate;
 }
@@ -46,53 +45,38 @@
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
- @method number
- @abstract Obtain the group's number.
+ @property number
+ @abstract The group's number.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly) unsigned int number;
 
 /*!
- @method mask
- @abstract Obtain the group's bit mask.
+ @property mask
+ @abstract The group's bit mask.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly) unsigned int mask;
 
 /*!
- @method name
- @abstract Obtain the name of the receiver.
+ @property name
+ @abstract The name of the receiver.
  */
 @property (nonatomic, copy) NSString *name;
 
 /*!
- @method setName:
- @abstract Sets the name of the receiver.
- */
-
-/*!
- @method sortOrder
- @abstract Obtain the sort order index of the receiver.
+ @property sortOrder
+ @abstract The sort order index of the receiver.
  */
 @property (nonatomic) unsigned char sortOrder;
 
 /*!
- @method setSortOrder:
- @abstract Sets the sort order index of the receiver.
- */
-
-/*!
- @method isPublic
+ @property public
  @abstract Determine whether the receiver is visible to other users.
  */
-@property (NS_NONATOMIC_IOSONLY, getter=isPublic) BOOL public;
+@property (nonatomic, getter=isPublic) BOOL public;
 
 /*!
- @method setPublic:
- @abstract Sets whether the receiver is visible to other users.
- */
-
-/*!
- @method createdDate
- @abstract Returns the date the receiver was created.
+ @property createdDate
+ @abstract The date the receiver was created.
  @discussion
  This method returns the date the receiver was created; this is not
  necessarily the date the group it represents was created.  If the
@@ -106,8 +90,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *createdDate;
 
 /*!
- @method modifiedDate
- @abstract Returns the date the receiver was modified.
+ @property modifiedDate
+ @abstract The date the receiver was modified.
  @discussion
  This method returns the date the receiver was changed in some way.
  It is used to determine which groups have changes that need to be
@@ -140,22 +124,22 @@
 - (BOOL)isMember:(LJFriend *)amigo;
 
 /*!
- @method memberArray
- @abstract Returns the members of the receiver as a sorted array.
+ @property memberArray
+ @abstract The members of the receiver as a sorted array.
  @result An NSArray of LJFriend objects.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *memberArray;
 
 /*!
- @method memberSet
- @abstract Returns the members of the receiver as a set.
+ @property memberSet
+ @abstract The members of the receiver as a set.
  @result An NSSet of LJFriend objects.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *memberSet;
 
 /*!
- @method nonMemberArray
- @abstract Returns the non-members of the receiver.
+ @property nonMemberArray
+ @abstract The non-members of the receiver.
  @result A sorted NSArray of LJFriend objects.
  @discussion
  This method returns users who are friends of the parent account but are not
@@ -164,8 +148,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *nonMemberArray;
 
 /*!
- @method nonMemberSet
- @abstract Returns the non-members of the receiver.
+ @property nonMemberSet
+ @abstract The non-members of the receiver.
  @result An NSSet of LJFriend objects.
  @discussion
  This method returns users who are friends of the parent account but are not

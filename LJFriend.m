@@ -41,6 +41,8 @@
 @synthesize account = _account;
 @synthesize backgroundColorForYou = _bgColorForYou;
 @synthesize foregroundColorForYou = _fgColorForYou;
+@synthesize backgroundColor = _bgColor;
+@synthesize foregroundColor = _fgColor;
 
 + (LJFriend *)_friendWithReply:(NSDictionary *)reply prefix:(NSString *)prefix
                        account:(LJAccount *)account
@@ -71,7 +73,7 @@
     NSMutableSet *workingSet;
     NSString *prefix, *key, *birthday, *yr, *mo, *dy;
     LJFriend *amigo;
-    NSCalendarDate *bd;
+    NSDate *bd;
     NSEnumerator *e;
 
     count = [reply[@"friend_count"] intValue];
@@ -97,11 +99,12 @@
             yr = [birthday substringWithRange:NSMakeRange(0, 4)];
             mo = [birthday substringWithRange:NSMakeRange(5, 2)];
             dy = [birthday substringWithRange:NSMakeRange(8, 2)];
-            bd = [[NSCalendarDate alloc] initWithYear:[yr intValue]
-                                                month:[mo intValue]
-                                                  day:[dy intValue]
-                                                 hour:0 minute:0
-                                               second:0 timeZone:nil];
+            NSDateComponents *dc = [NSDateComponents new];
+            dc.year = [yr integerValue];
+            dc.month = [mo integerValue];
+            dc.day = [dy integerValue];
+            NSCalendar *greg = [NSCalendar calendarWithIdentifier:NSGregorianCalendar];
+            bd = [greg dateFromComponents:dc];
         } else {
             bd = nil;
         }
@@ -233,15 +236,9 @@
     }
 }
 
-
 - (void)_updateModifiedDate
 {
     _modifiedDate = [[NSDate alloc] init];
-}
-
-- (NSColor *)backgroundColor
-{
-    return _bgColor;
 }
 
 - (void)setBackgroundColor:(NSColor *)bgColor
@@ -252,22 +249,12 @@
 	}
 }
 
-- (NSColor *)foregroundColor
-{
-    return _fgColor;
-}
-
 - (void)setForegroundColor:(NSColor *)fgColor
 {
 	if (![_fgColor isEqual:fgColor]) {
 		_fgColor = fgColor;
 		[self _updateModifiedDate];
 	}
-}
-
-- (unsigned int)groupMask
-{
-    return _groupMask;
 }
 
 - (void)setGroupMask:(unsigned int)newMask

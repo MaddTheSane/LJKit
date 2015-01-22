@@ -67,7 +67,6 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
 @interface LJServer : NSObject <NSCoding>
 {
     LJAccount *_account;
-    NSURL *_serverURL;
     BOOL _isUsingFastServers;
     NSData *_loginData;
 #ifdef ENABLE_REACHABILITY_MONITORING
@@ -81,27 +80,21 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
- @method account
- @abstract Obtain the account associated with the receiver.
+ @property account
+ @abstract The account associated with the receiver.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, strong) LJAccount *account;
 
 /*!
- @method setURL:
- @abstract Set the URL of the host to communicate with.
- @param url The URL of the host to connect to.
+ @property URL
+ @abstract The URL of host the receiver communicates with.
  @discussion
  The URL must be the base URL of the site, e.g. "http://www.livejournal.com/".
- */
-
-/*!
- @method URL
- @abstract Obtain the URL of host the receiver communicates with.
  */
 @property (NS_NONATOMIC_IOSONLY, copy) NSURL *URL;
 
 /*!
- @method isUsingFastServers
+ @property usingFastServers
  @abstract Determine if fast server access is enabled.
  */
 @property (NS_NONATOMIC_IOSONLY, getter=isUsingFastServers, readonly) BOOL usingFastServers;
@@ -118,9 +111,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  Monitoring is only available on Mac OS X 10.3 or later.
  */
 - (void)enableReachabilityMonitoring;
-#endif
 
-#ifdef ENABLE_REACHABILITY_MONITORING
 /*!
  @method disableReachabilityMonitoring
  @abstract Disables reachability monitoring.

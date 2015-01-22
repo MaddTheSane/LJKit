@@ -53,14 +53,14 @@
 + (void)setEntrySummaryLength:(int)length;
 
 /*!
- @method account
- @abstract Obtain the account the receiver belongs to.
+ @property account
+ @abstract The account the receiver belongs to.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, weak) LJAccount *account;
 
 /*!
- @method name
- @abstract Obtain the name of the receiver.
+ @property name
+ @abstract The name of the receiver.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
 
@@ -83,7 +83,7 @@
 - (LJEntry *)getEntryForItemID:(int)itemID;
 
 /*!
- @method getMostRecentEntry
+ @property mostRecentEntry
  @discussion
  This method returns the most recent entry posted to the receiver.
  */
@@ -150,47 +150,47 @@
 - (NSArray *)getSummariesForDay:(NSDate *)date;
 
 /*!
- @method getDayCounts
- @abstract Obtain a dictionary mapping days to entry counts.
+ @property dayCounts
+ @abstract A dictionary mapping days to entry counts.
  @discussion
  Returns an NSDictionary with NSCalendarDate objects as keys and NSNumbers as values,
  representing the number of entries available for the given date.
  */
 @property (NS_NONATOMIC_IOSONLY, getter=getDayCounts, readonly, copy) NSDictionary *dayCounts;
 
-	/*!
-	@method tags
-	 @abstract Obtain an array of user tags for this journal.
-	 @discussion
-	 This method returns an array of tags that are defined for
-	 this journal. Setting new tags should add to this array.
-	 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableArray *tags;
+/*!
+ @property tags
+ @abstract Obtain an array of user tags for this journal.
+ @discussion
+ This method returns an array of tags that are defined for
+ this journal. Setting new tags should add to this array.
+ */
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSMutableArray *tags;
 
-	/*!
-	@method updateTagsArray
-	 @abstract updates the array of user tags for this journal
-	 @discussion
-	 This method update the array of tags for this journal with the new tag.
-	 We will ignore tags already in the array.
-	 */
+/*!
+ @method updateTagsArray
+ @abstract updates the array of user tags for this journal
+ @discussion
+ This method update the array of tags for this journal with the new tag.
+ We will ignore tags already in the array.
+ */
 - (void) updateTagsArray:(NSString *)newTag;
 
-	/*!
-	@method getTagsReplyForThisJournal
-	 @abstract gets the tags for journal from the server
-	 @discussion
-	 This method gets the list of tags for this journal from the server
-	 */
+/*!
+ @property tagsReplyForThisJournal
+ @abstract The tags for journal from the server
+ @discussion
+ This method gets the list of tags for this journal from the server
+ */
 @property (NS_NONATOMIC_IOSONLY, getter=getTagsReplyForThisJournal, readonly, copy) NSDictionary *tagsReplyForThisJournal;
 
-	/*!
-	@method createJournalTagsArray
-	 @abstract creates the tags array from a server reply
-	 @discussion
-	 This method parses through a reply from the server and creates the tags array. It
-	 returns the number of tags it found.
-	 */
+/*!
+ @method createJournalTagsArray
+ @abstract creates the tags array from a server reply
+ @discussion
+ This method parses through a reply from the server and creates the tags array. It
+ returns the number of tags it found.
+ */
 - (int)createJournalTagsArray:(NSDictionary *)reply;
 
 @end

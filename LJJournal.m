@@ -68,15 +68,15 @@ static NSString *entrySummaryLength = nil;
     NSMutableArray *array;
     NSString *name;
     LJJournal *journal;
-    int count, i;
+    NSInteger count, i;
 
-    count = [reply[@"access_count"] intValue];
+    count = [reply[@"access_count"] integerValue];
     array = [NSMutableArray arrayWithCapacity:(count + 1)];
     // add user's own journal (not part of login reply)
     [array addObject:[account defaultJournal]];
     // add others, if present
     for (i = 1; i <= count; i++) {
-        name = reply[[NSString stringWithFormat:@"access_%d", i]];
+        name = reply[[NSString stringWithFormat:@"access_%ld", (long)i]];
         journal = [account journalNamed:name];
         if (journal == nil) {
             journal = [self _journalWithName:name account:account];
@@ -116,11 +116,6 @@ static NSString *entrySummaryLength = nil;
 {
     [encoder encodeObject:_name forKey:@"LJJournalName"];
     [encoder encodeConditionalObject:_account forKey:@"LJJournalAccount"];
-}
-
-- (LJAccount *)account
-{
-    return _account;
 }
 
 - (BOOL)isDefault

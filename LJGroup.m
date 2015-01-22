@@ -36,6 +36,7 @@
 @synthesize name = _name;
 @synthesize sortOrder = _sortOrder;
 @synthesize modifiedDate = _modifiedDate;
+@synthesize public = _isPublic;
 
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account
 {
@@ -116,7 +117,7 @@
 - (void)setName:(NSString *)name
 {
 	if (![_name isEqualToString:name]) {
-		_name = name;
+		_name = [name copy];
 		[self _updateModifiedDate];
 	}
 }
@@ -127,11 +128,6 @@
         _sortOrder = sortOrder;
         [self _updateModifiedDate];
     }
-}
-
-- (BOOL)isPublic
-{
-    return _isPublic;
 }
 
 - (void)setPublic:(BOOL)flag
@@ -184,7 +180,7 @@
 
 - (NSArray *)memberArray
 {
-    NSMutableArray *members = [NSMutableArray array];
+    NSMutableArray *members = [[NSMutableArray alloc] init];
     [self _addMembersToContainer:members nonMembersToContainer:nil];
     [members sortUsingSelector:@selector(compare:)];
     return members;
@@ -199,7 +195,7 @@
 
 - (NSArray *)nonMemberArray
 {
-    NSMutableArray *nonMembers = [NSMutableArray array];
+    NSMutableArray *nonMembers = [[NSMutableArray alloc] init];
     [self _addMembersToContainer:nil nonMembersToContainer:nonMembers];
     [nonMembers sortUsingSelector:@selector(compare:)];
     return nonMembers;

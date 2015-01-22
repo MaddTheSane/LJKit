@@ -37,7 +37,7 @@
  You list the user as a friend and he lists you as a friend.
  This is equal to the bitwise OR of the two other constants.
  */
-typedef NS_OPTIONS(int, LJFriendship) {
+typedef NS_OPTIONS(NSInteger, LJFriendship) {
     LJFriendshipOutgoing = 1,
     LJFriendshipIncoming = 2,
     LJFriendshipMutual = 3,
@@ -49,8 +49,7 @@ typedef NS_OPTIONS(int, LJFriendship) {
  */
 @interface LJFriend : LJUserEntity <NSCoding>
 {
-    LJAccount *__weak _account;
-    NSCalendarDate *_birthDate;
+    NSDate *_birthDate;
     NSColor *_fgColor, *_bgColor, *_fgColorForYou, *_bgColorForYou;
     unsigned int _groupMask;
     NSString *_accountType;
@@ -65,14 +64,14 @@ typedef NS_OPTIONS(int, LJFriendship) {
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
- @method birthDate
- @abstract Obtain the birthdate of the receiver.
+ @property birthDate
+ @abstract The birthdate of the receiver.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSCalendarDate *birthDate;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *birthDate;
 
 /*!
- @method accountType
- @abstract Obtain the account type of the receiver.
+ @property accountType
+ @abstract The account type of the receiver.
  @discussion
  This property is blank if the receiver represents a regular user account.
  If the receiver is a community, this will return the string "community".
@@ -80,16 +79,16 @@ typedef NS_OPTIONS(int, LJFriendship) {
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *accountType;
 
 /*!
- @method accountStatus
- @abstract Obtain the account status of the receiver.
+ @property accountStatus
+ @abstract The account status of the receiver.
  This property is blank if the receiver has normal active status.
  Other possible values are are "deleted", "suspended", and "purged". 
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *accountStatus;
 
 /*!
- @method modifiedDate
- @abstract Returns the receiver's modification date.
+ @property modifiedDate
+ @abstract The receiver's modification date.
  @discussion
  This is the date that the receiver was most recently changed in some way.
  If this date is later than the last time the account's friends have been
@@ -102,32 +101,22 @@ typedef NS_OPTIONS(int, LJFriendship) {
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *addedOutgoingDate;
 
 /*!
- @method backgroundColor
- @abstract Obtain the background color of the receiver.
+ @property backgroundColor
+ @abstract The background color of the receiver.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSColor *backgroundColor;
+@property (nonatomic, copy) NSColor *backgroundColor;
 
 /*!
- @method setBackgroundColor:
- @abstract Sets the background color of the receiver.
+ @property foregroundColor
+ @abstract The foreground color of the receiver.
  */
+@property (nonatomic, copy) NSColor *foregroundColor;
+
+@property (nonatomic) unsigned int groupMask;
 
 /*!
- @method foregroundColor
- @abstract Obtain the foreground color of the receiver.
- */
-@property (NS_NONATOMIC_IOSONLY, copy) NSColor *foregroundColor;
-
-/*!
- @method setForegroundColor:
- @abstract Sets the foreground color of the receiver.
- */
-
-@property (NS_NONATOMIC_IOSONLY) unsigned int groupMask;
-
-/*!
- @method friendship
- @abstract Returns the type of friendship for this friend.
+ @property friendship
+ @abstract The type of friendship for this friend.
  @discussion
  Returns the direction of friendship with this user.  If you list the receiver
  as a friend, the friendship is outgoing.  If the receiver lists you as a
@@ -138,13 +127,13 @@ typedef NS_OPTIONS(int, LJFriendship) {
 @property (NS_NONATOMIC_IOSONLY, readonly) LJFriendship friendship;
 
 /*!
- @method backgroundColorForYou
+ @property backgroundColorForYou
  @result The color this friend uses for your background.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *backgroundColorForYou;
 
 /*!
- @method foregroundColorForYou
+ @property foregroundColorForYou
  @result The color this friend uses for your foreground.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *foregroundColorForYou;

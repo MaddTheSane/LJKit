@@ -29,7 +29,7 @@
 - (void)setString:(NSString *)string forProperty:(NSString *)property
 {
     if (string) {
-        _properties[property] = string;
+        _properties[property] = [string copy];
     } else {
         [_properties removeObjectForKey:property];
     }
@@ -211,7 +211,7 @@
 		return;
 	}
 	else {
-//		NSLog(@"Current tags: %@", currentTags);
+		// NSLog(@"Current tags: %@", currentTags);
 		NSRange r = [currentTags rangeOfString:newTag options:NSCaseInsensitiveSearch];
 		if (r.length == 0) {
 			newTags = [currentTags stringByAppendingFormat:@", %@", newTag];	// It isn't found so add it.

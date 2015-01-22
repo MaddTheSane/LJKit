@@ -40,7 +40,7 @@
 - (void)downloadFriends;
 
 /*!
- @method uploadFriends
+ @property uploadFriends
  @abstract Upload changes to friends and groups to the server.
  @result YES if changes were made; NO if there were no changes to upload.
  @discussion
@@ -52,8 +52,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL uploadFriends;
 
 /*!
- @method friendSet
- @abstract Obtain the friends associated with the receiver.
+ @property friendSet
+ @abstract The friends associated with the receiver.
  @discussion
  Returns an NSSet containing the user's friends in the form of LJFriend objects.
  If the friends list hasn't been downloaded, returns nil.
@@ -62,8 +62,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *friendSet;
 
 /*!
- @method friendArray
- @abstract Obtain the friends associated with the receiver.
+ @property friendArray
+ @abstract The friends associated with the receiver.
  @discussion
  Returns a sorted NSArray containing the user's friends in the form of LJFriend
  objects.
@@ -79,11 +79,11 @@
  Returns an NSEnumerator which traverses the user's friends, returning LJFriend
  objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSEnumerator *friendEnumerator;
+- (NSEnumerator *)friendEnumerator;
 
 /*!
- @method groupSet
- @abstract Obtain the friend groups associated with the receiver.
+ @property groupSet
+ @abstract The friend groups associated with the receiver.
  @discussion
  Returns an NSSet containing the user's friend groups in the form of LJGroup
  objects.
@@ -93,8 +93,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *groupSet;
 
 /*!
- @method groupArray
- @abstract Obtain the friend groups associated with the receiver.
+ @property groupArray
+ @abstract The friend groups associated with the receiver.
  @discussion
  Returns a sorted NSArray containing the user's friend groups in the form of
  LJGroup objects.
@@ -110,11 +110,11 @@
  Returns an NSEnumerator which traverses the user's groups, returning
  LJGroup objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSEnumerator *groupEnumerator;
+- (NSEnumerator *)groupEnumerator;
 
 /*!
- @method friendOfSet
- @abstract Returns the friends which list the receiver as a friend.
+ @property friendOfSet
+ @abstract The friends which list the receiver as a friend.
  @discussion
  If the friends list hasn't been downloaded, returns nil.
  This property is preserved during archiving.
@@ -123,8 +123,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *friendOfSet;
 
 /*!
- @method friendOfArray
- @abstract Returns the friends which list the receiver as a friend.
+ @property friendOfArray
+ @abstract The friends which list the receiver as a friend.
  @discussion
  If the friends list hasn't been downloaded, returns nil.
  This property is preserved during archiving.
@@ -139,11 +139,11 @@
  Returns an NSEnumerator which traverses users who list the receiver as a
  friend, returning LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSEnumerator *friendOfEnumerator;
+- (NSEnumerator *)friendOfEnumerator;
 
 /*!
- @method relationshipArray
- @abstract Returns all the friends with which the receiver has a relationship
+ @property relationshipArray
+ @abstract All the friends with which the receiver has a relationship
  @discussion
  In contrast to -friendArray and -friendOfArray, this method returns
  a sorted array in which are mixed mutual, incoming and outgoing relationships.
@@ -151,23 +151,23 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *relationshipArray;
 
 /*!
- @method watchedCommunityArray
- @abstract Returns the communities the receiver is watching.
+ @property watchedCommunityArray
+ @abstract The communities the receiver is watching.
  If the friends list hasn't been downloaded, returns nil.
  @result A sorted NSArray of LJFriend objects.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *watchedCommunityArray;
 
 /*!
- @method watchedCommunitySet
- @abstract Returns the communities the receiver is watching.
+ @property watchedCommunitySet
+ @abstract The communities the receiver is watching.
  If the friends list hasn't been downloaded, returns nil.
  @result An NSSet of LJFriend objects.
 */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *watchedCommunitySet;
 
 /*!
- @method joinedCommunityArray
+ @property joinedCommunityArray
  @abstract Returns the communities the receiver is a member of.
  If the friends list hasn't been downloaded, returns nil.
  @result A sorted NSArray of LJFriend objects.
@@ -175,7 +175,7 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *joinedCommunityArray;
 
 /*!
- @method joinedCommunitySet
+ @property joinedCommunitySet
  @abstract Returns the communities the receiver is a member of.
  If the friends list hasn't been downloaded, returns nil.
  @result An NSSet of LJFriend objects.

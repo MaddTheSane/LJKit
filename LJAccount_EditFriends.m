@@ -393,9 +393,8 @@
 - (unsigned int)_groupMaskFromEnumerator:(NSEnumerator *)enumerator
 {
     unsigned int mask = 0;
-    LJGroup *group;
 
-    while (group = [enumerator nextObject]) {
+    for (LJGroup *group in enumerator) {
         mask |= [group mask];
     }
     return mask;

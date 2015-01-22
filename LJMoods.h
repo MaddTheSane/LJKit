@@ -48,14 +48,14 @@
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 /*!
- @method highestMoodID
- @abstract Obtain the highest value mood ID.
+ @property highestMoodID
+ @abstract The highest value mood ID.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly) int highestMoodID;
 
 /*!
- @method highestMoodIDString
- @abstract Obtain the highest value mood ID as a string.
+ @property highestMoodIDString
+ @abstract The highest value mood ID as a string.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *highestMoodIDString;
 
@@ -78,8 +78,8 @@
 - (NSString *)MoodNameFromID:(NSString *)moodID;
 
 /*!
- @method moodNames
- @abstract Obtain a sorted array of all known moods.
+ @property moodNames
+ @abstract A sorted array of all known moods.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *moodNames;
 

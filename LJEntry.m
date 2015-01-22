@@ -317,7 +317,7 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
 - (void)removeFromJournal
 {
     [super removeFromJournal];
-    _isEdited = YES;
+    self.edited = YES;
 }
 
 - (NSMutableDictionary *)customInfo
