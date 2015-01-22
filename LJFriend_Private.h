@@ -28,7 +28,7 @@
 @interface LJFriend ()
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSString *accountType;
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSString *accountStatus;
-@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSCalendarDate *birthDate;
+@property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSDate *birthDate;
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSColor *backgroundColorForYou;
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSColor *foregroundColorForYou;
 + (void)updateFriendSet:(NSMutableSet *)friends withReply:(NSDictionary *)reply account:(LJAccount *)account;

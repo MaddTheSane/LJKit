@@ -252,25 +252,26 @@ static NSString *entrySummaryLength = nil;
 
 - (NSDictionary *)getDayCounts
 {
-    NSDictionary *parameters = nil, *reply = nil;
-    NSMutableDictionary *workingCounts;
-    NSEnumerator *enumerator;
-    NSString *key;
+    NSDictionary *parameters;
+    NSMutableDictionary *workingCounts = [[NSMutableDictionary alloc] init];
 
     if (_isNotDefault) {
         parameters = @{@"usejournal": _name};
     }
-    reply = [_account getReplyForMode:@"getdaycounts" parameters:parameters];
-    workingCounts = [NSMutableDictionary dictionary];
-    enumerator = [reply keyEnumerator];
-    while (key = [enumerator nextObject]) {
-        NSCalendarDate *date = [[NSCalendarDate alloc] initWithString:key calendarFormat:@"%Y-%m-%d"];
+    NSDictionary *reply = [_account getReplyForMode:@"getdaycounts" parameters:parameters];
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    //df.timeStyle = NSDateFormatterNoStyle;
+    //df.dateStyle = NSDateFormatterMediumStyle;
+    df.dateFormat = @"%Y-%M-%d";
+    for (NSString *key in reply) {
+        NSDate *date = [df dateFromString:key];
         if (date) {
-            int c = [reply[key] intValue];
+            NSInteger c = [reply[key] integerValue];
             workingCounts[date] = @(c);
         }
     }
-    return workingCounts;
+    return [NSDictionary dictionaryWithDictionary: workingCounts];
 }
 
 - (NSUInteger)hash
