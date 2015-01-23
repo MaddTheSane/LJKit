@@ -161,13 +161,13 @@
 
 - (NSDate *)revisionDate
 {
-    int unixtime = [_properties[@"revtime"] intValue];
+    SInt64 unixtime = [_properties[@"revtime"] unsignedLongLongValue];
     return [NSDate dateWithTimeIntervalSince1970:unixtime];
 }
 
 - (NSDate *)commentsAlteredDate
 {
-    int unixtime = [_properties[@"commentalter"] intValue];
+    SInt64 unixtime = [_properties[@"commentalter"] unsignedLongLongValue];
     return [NSDate dateWithTimeIntervalSince1970:unixtime];
 }
 

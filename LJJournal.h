@@ -191,6 +191,6 @@
  This method parses through a reply from the server and creates the tags array. It
  returns the number of tags it found.
  */
-- (int)createJournalTagsArray:(NSDictionary *)reply;
+- (NSInteger)createJournalTagsArray:(NSDictionary *)reply;
 
 @end

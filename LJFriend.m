@@ -69,17 +69,17 @@
 + (void)updateFriendSet:(NSMutableSet *)friends withReply:(NSDictionary *)reply
                 account:(LJAccount *)account
 {
-    int count, i;
+    NSInteger count, i;
     NSMutableSet *workingSet;
     NSString *prefix, *key, *birthday, *yr, *mo, *dy;
     LJFriend *amigo;
     NSDate *bd;
     NSEnumerator *e;
 
-    count = [reply[@"friend_count"] intValue];
+    count = [reply[@"friend_count"] integerValue];
     workingSet = [[NSMutableSet alloc] initWithCapacity:count];
     for ( i = 1; i <= count; i++ ) {
-        prefix = [NSString stringWithFormat:@"friend_%d_", i];
+        prefix = [NSString stringWithFormat:@"friend_%ld_", (long)i];
         amigo = [self _friendWithReply:reply prefix:prefix account:account];
         [workingSet addObject:amigo];
         [friends removeObject:amigo];
@@ -122,17 +122,16 @@
 + (void)updateFriendOfSet:(NSMutableSet *)friendOfs
                 withReply:(NSDictionary *)reply account:(LJAccount *)account
 {
-    int count, i;
+    NSInteger count, i;
     NSMutableSet *workingSet;
     NSString *prefix, *key;
     LJFriend *amigo;
-    NSEnumerator *e;
     NSColor *color;
 
-    count = [reply[@"friendof_count"] intValue];
+    count = [reply[@"friendof_count"] integerValue];
     workingSet = [[NSMutableSet alloc] initWithCapacity:count];
     for ( i = 1; i <= count; i++ ) {
-        prefix = [NSString stringWithFormat:@"friendof_%d_", i];
+        prefix = [NSString stringWithFormat:@"friendof_%ld_", (long)i];
         amigo = [self _friendWithReply:reply prefix:prefix account:account];
         [workingSet addObject:amigo];
         [friendOfs removeObject:amigo];
@@ -145,8 +144,7 @@
         [amigo _setIncomingFriendship:YES];
     }
     // Objects left in friendOfs no longer have incoming friendship
-    e = [friendOfs objectEnumerator];
-    while (amigo = [e nextObject]) {
+    for (LJFriend *amigo in friendOfs) {
         [amigo _setIncomingFriendship:NO];
     }
     [friendOfs setSet:workingSet];
@@ -154,12 +152,12 @@
 
 + (void)updateFriendSet:(NSSet *)friends withEditReply:(NSDictionary *)reply
 {
-    int count, i;
+    NSInteger count, i;
 
-    count = [reply[@"friends_added"] intValue];
+    count = [reply[@"friends_added"] integerValue];
     for ( i = 1; i <= count; i++ ) {
-        NSString *userKey = [NSString stringWithFormat:@"friend_%d_user", i];
-        NSString *nameKey = [NSString stringWithFormat:@"friend_%d_name", i];
+        NSString *userKey = [NSString stringWithFormat:@"friend_%ld_user", (long)i];
+        NSString *nameKey = [NSString stringWithFormat:@"friend_%ld_name", (long)i];
         // Because LJFriend considers a string with the friends's name to be
         // equal, we can use member: to retrieve the friend object.
         LJFriend *amigo = [friends member:reply[userKey]];

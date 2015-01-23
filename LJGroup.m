@@ -220,7 +220,7 @@
                  _number == ((LJGroup *)object)->_number );
     }
     if ([object isKindOfClass:[NSNumber class]]) {
-        return (_number == [object intValue]);
+        return (_number == [object unsignedIntValue]);
     }
     return NO;
 }

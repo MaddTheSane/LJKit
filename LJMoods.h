@@ -33,7 +33,7 @@
  */
 @interface LJMoods : NSObject <NSCoding, NSComboBoxDataSource>
 {
-    int _highestMoodID;
+    NSInteger _highestMoodID;
     NSMutableArray *_moodNames;
     NSMutableArray *_moodIDs;
 }
@@ -51,7 +51,7 @@
  @property highestMoodID
  @abstract The highest value mood ID.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly) int highestMoodID;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSInteger highestMoodID;
 
 /*!
  @property highestMoodIDString
@@ -63,7 +63,7 @@
  @method IDForMoodName:
  @abstract Obtain the ID number for a given mood name.
  */
-- (int)IDForMoodName:(NSString *)moodName;
+- (NSInteger)IDForMoodName:(NSString *)moodName;
 
 /*!
  @method IDStringForMoodName:

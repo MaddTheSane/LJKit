@@ -170,13 +170,13 @@ static NSString *entrySummaryLength = nil;
 {
     NSDictionary *reply;
     NSMutableArray *workingArray;
-    int count, i;
+    NSInteger count, i;
     
     reply = [self getEventsReplyWithParameters:parameters];
-    count = [reply[@"events_count"] intValue];
+    count = [reply[@"events_count"] integerValue];
     workingArray = [NSMutableArray arrayWithCapacity:count];
     for ( i = 1; i <= count; i++ ) {
-        NSString *prefix = [[NSString alloc] initWithFormat:@"events_%d_", i];
+        NSString *prefix = [[NSString alloc] initWithFormat:@"events_%ld_", (long)i];
         LJEntry *entry = [[LJEntry alloc] initWithReply:reply prefix:prefix journal:self];
         [workingArray addObject:entry];
     }
@@ -187,16 +187,16 @@ static NSString *entrySummaryLength = nil;
 {
     NSDictionary *reply;
     NSMutableArray *workingArray;
-    int count, i;
+    NSInteger count, i;
 
     parameters[@"truncate"] = entrySummaryLength;
     parameters[@"noprops"] = @"1";
     parameters[@"prefersubject"] = @"1";
     reply = [self getEventsReplyWithParameters:parameters];
-    count = [reply[@"events_count"] intValue];
+    count = [reply[@"events_count"] integerValue];
     workingArray = [NSMutableArray arrayWithCapacity:count];
     for ( i = 1; i <= count; i++ ) {
-        NSString *prefix = [[NSString alloc] initWithFormat:@"events_%d_", i];
+        NSString *prefix = [[NSString alloc] initWithFormat:@"events_%ld_", (long)i];
         LJEntrySummary *summary = [[LJEntrySummary alloc] initWithReply:reply prefix:prefix journal:self];
         [workingArray addObject:summary];
     }
@@ -309,20 +309,20 @@ static NSString *entrySummaryLength = nil;
     return [_account getReplyForMode:@"getusertags" parameters:parameters];
 }
 
-- (int)createJournalTagsArray:(NSDictionary *)reply
+- (NSInteger)createJournalTagsArray:(NSDictionary *)reply
 {
-    int count, i;
+    NSInteger count, i;
     NSString *key, *tagName;
 	
-    count = [reply[@"tag_count"] intValue];
+    count = [reply[@"tag_count"] integerValue];
     NSMutableArray *tagArray = [[NSMutableArray alloc] initWithCapacity:count];
     for (i = 1; i <= count; i++) {
-        key = [NSString stringWithFormat:@"tag_%d_name", i];
+        key = [NSString stringWithFormat:@"tag_%ld_name", (long)i];
         tagName = reply[key];
         [tagArray addObject:tagName];
     }
 	_tags = [[tagArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
-	NSLog(@"Found %d tag%s for journal %@", count, (count == 1 ? "" : "s"), [self name]);
+	NSLog(@"Found %ld tag%s for journal %@", (long)count, (count == 1 ? "" : "s"), [self name]);
 	return count;
 }
 

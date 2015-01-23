@@ -58,8 +58,8 @@
                              notFoundMarker:@""] mutableCopy];
         moodIDEnumerator = [_moodIDs objectEnumerator];
         while (moodID = [moodIDEnumerator nextObject]) {
-            if ([moodID intValue] > _highestMoodID) {
-                _highestMoodID = [moodID intValue];
+            if ([moodID integerValue] > _highestMoodID) {
+                _highestMoodID = [moodID integerValue];
             }
         }
     }
@@ -101,15 +101,15 @@
         NSInteger index = [self _indexForMoodName:moodName hypothetical:YES];
         [_moodNames insertObject:moodName atIndex:index];
         [_moodIDs insertObject:moodID atIndex:index];
-        if ([moodID intValue] > _highestMoodID) {
-            _highestMoodID = [moodID intValue];
+        if ([moodID integerValue] > _highestMoodID) {
+            _highestMoodID = [moodID integerValue];
         }
     }
 }
 
-- (int)IDForMoodName:(NSString *)moodName
+- (NSInteger)IDForMoodName:(NSString *)moodName
 {
-    return [[self IDStringForMoodName:moodName] intValue];
+    return [[self IDStringForMoodName:moodName] integerValue];
 }
 
 - (NSString *)IDStringForMoodName:(NSString *)moodName
@@ -160,7 +160,7 @@
 
 - (NSString *)highestMoodIDString
 {
-    return [NSString stringWithFormat:@"%u", _highestMoodID];
+    return [NSString stringWithFormat:@"%ld", (long)_highestMoodID];
 }
 
 - (NSArray *)moodNames
