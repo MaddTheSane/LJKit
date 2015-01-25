@@ -76,21 +76,16 @@
 - (BOOL)_uploadFriends
 {
     NSMutableDictionary *parameters;
-    NSEnumerator *e;
-    int i;
-    LJFriend *buddy;
+    int i = 1;
     NSDictionary *reply;
 
     parameters = [NSMutableDictionary dictionary];
     // Add Parameters for Friends to Remove
-    e = [_removedFriendSet objectEnumerator];
-    while (buddy = [e nextObject]) {
+    for (LJFriend *buddy in _removedFriendSet) {
         [buddy _addDeleteFieldsToParameters:parameters];
     }
     // Add Parameters for Friends to Add/Change
-    e = [_friendSet objectEnumerator];
-    i = 1;
-    while (buddy = [e nextObject]) {
+    for (LJFriend *buddy in _friendSet) {
         if ([_friendsSyncDate compare:[buddy modifiedDate]] == NSOrderedAscending) {
             [buddy _addAddFieldsToParameters:parameters index:(i++)];
         }
@@ -226,10 +221,7 @@
                        fromSet:(NSSet *)sourceSet
                         ofType:(NSString *)accountType
 {
-    NSEnumerator *enumerator = [sourceSet objectEnumerator];
-    LJFriend *friend;
-
-    while (friend = [enumerator nextObject]) {
+    for (LJFriend *friend in sourceSet) {
         if ([[friend accountType] isEqualToString:accountType]) {
             [container addObject:friend];
         }
@@ -256,7 +248,7 @@
     communities = [NSMutableSet setWithCapacity:[_friendSet count]];
     [self _addFriendsToContainer:communities fromSet:_friendSet
                           ofType:@"community"];
-    return communities;
+    return [communities copy];
 }
 
 - (NSArray *)joinedCommunityArray
@@ -268,7 +260,7 @@
     [self _addFriendsToContainer:communities fromSet:_friendOfSet
                           ofType:@"community"];
     [communities sortUsingSelector:@selector(compare:)];
-    return communities;
+    return [communities copy];
 }
 
 - (NSSet *)joinedCommunitySet
@@ -279,7 +271,7 @@
     communities = [NSMutableSet setWithCapacity:[_friendOfSet count]];
     [self _addFriendsToContainer:communities fromSet:_friendOfSet
                           ofType:@"community"];
-    return communities;
+    return [communities copy];
 }
 
 - (LJFriend *)addFriendWithUsername:(NSString *)username;
@@ -364,21 +356,16 @@
 
 - (void)removeGroup:(LJGroup *)group
 {
-    NSEnumerator *e;
-    LJFriend *buddy;
-    
     if (_removedGroupSet == nil) {
         _removedGroupSet = [[NSMutableSet alloc] init];
     }
     [_removedGroupSet addObject:group];
     [_groupSet removeObject:group];
     // Remove all friends from this group.
-    e = [_friendSet objectEnumerator];
-    while (buddy = [e nextObject]) {
+    for (LJFriend *buddy in _friendSet) {
         [group removeFriend:buddy];
     }
-    e = [_removedFriendSet objectEnumerator];
-    while (buddy = [e nextObject]) {
+    for (LJFriend *buddy in _removedFriendSet) {
         [group removeFriend:buddy];
     }
 	
@@ -412,10 +399,7 @@
 
 - (void)_addGroupsWithMask:(unsigned int)groupMask toContainer:(id)container
 {
-    NSEnumerator *groupEnumerator = [self groupEnumerator];
-    LJGroup *group;
-
-    while (group = [groupEnumerator nextObject]) {
+    for (LJGroup *group in [self groupEnumerator]) {
         if ((groupMask & [group mask]) != 0) [container addObject:group];
     }
 }
@@ -425,14 +409,14 @@
     id array = [[NSMutableArray alloc] initWithCapacity:8];
     [self _addGroupsWithMask:groupMask toContainer:array];
     [array sortUsingSelector:@selector(compare:)];
-    return array;
+    return [array copy];
 }
 
 - (NSSet *)groupSetFromMask:(unsigned int)groupMask
 {
     id set = [[NSMutableSet alloc] initWithCapacity:8];
     [self _addGroupsWithMask:groupMask toContainer:set];
-    return set;
+    return [set copy];
 }
 
 @end
