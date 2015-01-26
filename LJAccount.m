@@ -410,7 +410,7 @@ static LJAccount *gAccountListHead = nil;
 	// End change.
 	
     // Do the dirty deed.
-    NS_DURING
+    @try {
         reply = [_server getReplyForMode:mode parameters:parameters];
         success = reply[@"success"];
         if (success == nil) {
@@ -423,7 +423,7 @@ static LJAccount *gAccountListHead = nil;
                 exception = [self _exceptionWithName:@"LJNoErrMsgKeyError"];
             }
         };
-    NS_HANDLER
+    } @catch (NSException *localException) {
         // Attach a userInfo dictionary to any LJKit exceptions.
         if ([[localException name] hasPrefix:@"LJ"]) {
             exception = [self _exceptionWithName:[localException name]
@@ -431,7 +431,7 @@ static LJAccount *gAccountListHead = nil;
         } else {
             exception = localException;
         };
-    NS_ENDHANDLER
+    }
     // Post LJAccountDidConnectNotification
     if (reply) info[@"LJReply"] = reply;
     if (exception) info[@"LJException"] = exception;

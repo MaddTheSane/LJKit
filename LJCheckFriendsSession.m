@@ -156,7 +156,7 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
     NSTimeInterval newInterval;
     NSNotification *notice;
 
-    NS_DURING
+    @try {
         reply = [_account getReplyForMode:@"checkfriends"
                                parameters:_parameters];
         // Save the lastupdate key if it exists
@@ -178,11 +178,11 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
                 name = LJCheckFriendsIntervalChangedNotification;
             }
         };
-    NS_HANDLER
+    } @catch (NSException *localException) {
         _isChecking = NO;
         name = LJCheckFriendsErrorNotification;
         userInfo = @{@"LJException": localException};
-    NS_ENDHANDLER
+    }
     if (name) {
         notice = [NSNotification notificationWithName:name object:self
                                              userInfo:userInfo];
