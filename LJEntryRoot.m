@@ -210,14 +210,14 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
         request[@"usejournal"] = [_journal name];
     }
     // Send to the server
-    NS_DURING
+    @try {
         [[_journal account] getReplyForMode:@"editevent" parameters:request];
-    NS_HANDLER
+    } @catch (NSException *localException) {
         info = @{@"LJException": localException};
         [center postNotificationName:LJEntryDidNotRemoveFromJournalNotification 
                               object:self userInfo:info];
         [localException raise];
-    NS_ENDHANDLER
+    }
     _itemID = 0;
     _aNum = 0;
     [center postNotificationName:LJEntryDidRemoveFromJournalNotification object:self];

@@ -296,14 +296,14 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
     }
     request[@"lineendings"] = @"unix";
     // Send to the server
-    NS_DURING
+    @try {
         reply = [[_journal account] getReplyForMode:mode parameters:request];
-    NS_HANDLER
+    } @catch (NSException *localException) {
         info = @{@"LJException": localException};
         [center postNotificationName:LJEntryDidNotSaveToJournalNotification
                               object:self userInfo:info];
         [localException raise];
-    NS_ENDHANDLER
+    }
     // Handle reply
     if (_itemID == 0) {
         _itemID = [reply[@"itemid"] intValue];
