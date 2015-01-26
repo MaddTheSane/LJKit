@@ -93,6 +93,8 @@
  */
 @property (NS_NONATOMIC_IOSONLY) BOOL optionPreformatted;
 
+@property (NS_NONATOMIC_IOSONLY) BOOL markdownFormat;
+
 /*!
  @property optionNoComments
  @abstract The "don't allow comments setting" of the receiver.

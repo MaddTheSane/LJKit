@@ -94,6 +94,16 @@
     [self setBoolean:flag forProperty:@"opt_preformatted"];
 }
 
+- (BOOL)markdownFormat
+{
+    return [self booleanForProperty:@"opt_markdown"];
+}
+
+- (void)setMarkdownFormat:(BOOL)flag
+{
+    [self setBoolean:flag forProperty:@"opt_markdown"];
+}
+
 - (BOOL)optionNoComments
 {
     return [self booleanForProperty:@"opt_nocomments"];
