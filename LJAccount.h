@@ -68,10 +68,10 @@
  */
 typedef NS_OPTIONS(unsigned int, LJLoginFlag) {
     LJNoLoginFlags                 = 0,
-    LJGetMoodsLoginFlag            = 0x00000001,
-    LJGetMenuLoginFlag             = 0x00000002,
-    LJGetUserPicturesLoginFlag     = 0x00000004,
-    LJDoNotUseFastServersLoginFlag = 0x00000008,
+    LJGetMoodsLoginFlag            = 1 << 0,
+    LJGetMenuLoginFlag             = 1 << 1,
+    LJGetUserPicturesLoginFlag     = 1 << 2,
+    LJDoNotUseFastServersLoginFlag = 1 << 3,
     LJDefaultLoginFlags            = 0x00000007,
     LJReservedLoginFlags           = 0xFFFFFFF0,
 };

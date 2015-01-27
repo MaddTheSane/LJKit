@@ -66,7 +66,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  */
 @interface LJServer : NSObject <NSCoding>
 {
-    LJAccount *_account;
+    __weak LJAccount *_account;
     BOOL _isUsingFastServers;
     NSData *_loginData;
 #ifdef ENABLE_REACHABILITY_MONITORING
@@ -83,7 +83,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  @property account
  @abstract The account associated with the receiver.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) LJAccount *account;
+@property (NS_NONATOMIC_IOSONLY, readonly, weak) LJAccount *account;
 
 /*!
  @property URL
@@ -91,7 +91,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  @discussion
  The URL must be the base URL of the site, e.g. "http://www.livejournal.com/".
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSURL *URL;
+@property (nonatomic, copy) NSURL *URL;
 
 /*!
  @property usingFastServers

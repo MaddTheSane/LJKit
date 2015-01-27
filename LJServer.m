@@ -38,19 +38,19 @@ NSString * const LJServerReachabilityDidChangeNotification = @"LJServerReachabil
 static NSString *				gUserAgent = nil;
 
 // Globals Required for Proxy Detection
-static unsigned int 			gStoreRefCount = 0;
+static CFIndex					gStoreRefCount = 0;
 static SCDynamicStoreRef 		gStore = NULL;
 static SCDynamicStoreContext 	gStoreContext;
 static CFRunLoopSourceRef 		gRunLoopSource = NULL;
-static CFDictionaryRef			gProxyInfo = NULL;
+static NSDictionary				*gProxyInfo = NULL;
 
 void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
 
 #ifdef ENABLE_REACHABILITY_MONITORING
-void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info);
+static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info);
 #endif
 
-@interface LJServer (ClassPrivate)
+@interface LJServer ()
 - (void)enableProxyDetection;
 - (void)disableProxyDetection;
 - (void)updateRequestTemplate;
@@ -102,11 +102,6 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     [encoder encodeConditionalObject:_account forKey:@"LJServerAccount"];
 }
 
-- (LJAccount *)account
-{
-    return _account;
-}
-
 - (void)setURL:(NSURL *)url
 {
     NSAssert([[url scheme] isEqualToString:@"http"], @"URL scheme must be http");
@@ -123,11 +118,6 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
         }
 #endif
     }
-}
-
-- (NSURL *)URL
-{
-    return _serverURL;
 }
 
 - (void)setUseFastServers:(BOOL)flag
@@ -170,7 +160,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
         gRunLoopSource = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, gStore, 0);
         CFRunLoopAddSource(CFRunLoopGetCurrent(), gRunLoopSource, kCFRunLoopDefaultMode);
         // The callback won't be called unless the proxy *changes*, so we make an initial copy here.
-        gProxyInfo = SCDynamicStoreCopyProxies(gStore);
+        gProxyInfo = CFBridgingRelease(SCDynamicStoreCopyProxies(gStore));
     }
     gStoreRefCount++;
 }
@@ -182,7 +172,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
         CFRunLoopRemoveSource(CFRunLoopGetCurrent(), gRunLoopSource, kCFRunLoopDefaultMode);
         CFRelease(gRunLoopSource); gRunLoopSource = NULL;
         CFRelease(gStore); gStore = NULL;
-        if (gProxyInfo) CFRelease(gProxyInfo); gProxyInfo = NULL;
+        gProxyInfo = nil;
     }
 }
 
@@ -230,7 +220,6 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
     _requestTemplate = CFHTTPMessageCreateRequest(kCFAllocatorDefault,
                                                   CFSTR("POST"), url,
                                                   kCFHTTPVersion1_0);
-    CFRetain(_requestTemplate);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Host"),
                                      (__bridge CFStringRef)[_serverURL host]);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Content-Type"),
@@ -275,7 +264,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 	// Connect to the server.
 	stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
 	if (gProxyInfo) {
-		CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, gProxyInfo);
+		CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, (__bridge CFTypeRef)(gProxyInfo));
 	}
 	CFReadStreamOpen(stream);
 	
@@ -292,9 +281,8 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 	}
 	statusCode = CFHTTPMessageGetResponseStatusCode(response);
 	if (statusCode == 200) {
-		CFDataRef responseData = CFHTTPMessageCopyBody(response);
-		replyDictionary = ParseLJReplyData((__bridge NSData *)responseData);
-		if (responseData) CFRelease(responseData);
+		NSData *responseData = CFBridgingRelease(CFHTTPMessageCopyBody(response));
+		replyDictionary = ParseLJReplyData(responseData);
 	} else {
 		[[_account _exceptionWithFormat:@"LJHTTPStatusError_%d", statusCode] raise];
 	}
@@ -309,8 +297,7 @@ void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConn
 void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info)
 {
     // We're only monitoring one key, so it's a safe bet we can ignore the changedKeys parameter.
-    if (gProxyInfo) CFRelease(gProxyInfo);
-    gProxyInfo = SCDynamicStoreCopyProxies(store);
+    gProxyInfo = CFBridgingRelease(SCDynamicStoreCopyProxies(store));
 }
 
 #ifdef ENABLE_REACHABILITY_MONITORING

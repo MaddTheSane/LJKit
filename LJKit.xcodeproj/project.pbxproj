@@ -100,7 +100,7 @@
 		F52AFB6102E35F4A01ECE1AA /* LJGroup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJGroup.h; sourceTree = "<group>"; };
 		F52AFB6402E362C001ECE1AA /* Miscellaneous.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Miscellaneous.m; sourceTree = "<group>"; };
 		F52AFB6502E362C001ECE1AA /* Miscellaneous.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Miscellaneous.h; sourceTree = "<group>"; };
-		F52AFB6802E3650701ECE1AA /* LJServer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJServer.m; sourceTree = "<group>"; };
+		F52AFB6802E3650701ECE1AA /* LJServer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LJServer.m; sourceTree = "<group>"; usesTabs = 1; };
 		F52AFB6902E3650701ECE1AA /* LJServer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LJServer.h; sourceTree = "<group>"; };
 		F52AFB6C02E36F5701ECE1AA /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
 		F52AFB6D02E36F5701ECE1AA /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
