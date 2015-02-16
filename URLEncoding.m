@@ -100,13 +100,9 @@ NSString *LJURLDecodeString(NSString *string)
  */
 NSData *LJCreateURLEncodedFormData(NSDictionary *dict)
 {
-    NSMutableData *data;
-    NSEnumerator *enumerator;
-    NSString *key;
-
-    data = [NSMutableData dataWithCapacity:[dict count]*16];
-    enumerator = [dict keyEnumerator];
-    while (key = [enumerator nextObject]) {
+    NSMutableData *data = [NSMutableData dataWithCapacity:[dict count]*16];
+    
+    for (NSString *key in dict) {
         [data appendBytes:"&" length:1];
         LJAppendURLEncodingOfStringToData(key, data);
         [data appendBytes:"=" length:1];

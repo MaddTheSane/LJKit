@@ -34,15 +34,12 @@
  */
 NSString *MD5HexDigest(NSString *string)
 {
-    const char *utfString;
-    unsigned char digest[MD5_DIGEST_LENGTH];
-    int i;
-    NSMutableString *hexString;
+    unsigned char digest[MD5_DIGEST_LENGTH] = {0};
+    NSMutableString *hexString = [NSMutableString stringWithCapacity:MD5_DIGEST_LENGTH * 2];
     
-    utfString = [string UTF8String];
+    const char *utfString = [string UTF8String];
     MD5((const unsigned char*)utfString, strlen(utfString), digest);
-    hexString = [NSMutableString stringWithCapacity:MD5_DIGEST_LENGTH * 2];
-    for (i = 0; i < MD5_DIGEST_LENGTH; i++) {
+    for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
         [hexString appendFormat:@"%02x", digest[i]];
     }
     return [NSString stringWithString: hexString];
