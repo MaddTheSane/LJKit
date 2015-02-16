@@ -32,11 +32,6 @@
  NSComboBoxes in your human interface.
  */
 @interface LJMoods : NSObject <NSCoding, NSComboBoxDataSource>
-{
-    NSInteger _highestMoodID;
-    NSMutableArray *_moodNames;
-    NSMutableArray *_moodIDs;
-}
 
 /*!
  @method init

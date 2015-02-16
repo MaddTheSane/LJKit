@@ -28,15 +28,7 @@
  @abstract Represents a friend group.
  */
 @interface LJGroup : NSObject <NSCoding>
-{
-    LJAccount *_account;
-    unsigned int _number;
-    unsigned int _mask;
-    NSString *_name;
-    unsigned char _sortOrder;
-    NSDate *_createdDate;
-    NSDate *_modifiedDate;
-}
+
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account;
 
 - (instancetype)initWithNumber:(int)number account:(LJAccount *)account NS_DESIGNATED_INITIALIZER;

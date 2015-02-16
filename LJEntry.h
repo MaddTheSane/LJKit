@@ -69,6 +69,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  */
 @interface LJEntry : LJEntryRoot <NSCoding>
 {
+@protected
     NSString *_subject;
     NSMutableDictionary *_properties;
     NSMutableDictionary *_customInfo;

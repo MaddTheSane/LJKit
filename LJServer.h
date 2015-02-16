@@ -65,16 +65,6 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  all the work of translating messages into HTTP traffic and back.
  */
 @interface LJServer : NSObject <NSCoding>
-{
-    __weak LJAccount *_account;
-    BOOL _isUsingFastServers;
-    NSData *_loginData;
-#ifdef ENABLE_REACHABILITY_MONITORING
-    SCNetworkReachabilityContext _reachContext;
-    SCNetworkReachabilityRef _target;
-#endif
-    CFHTTPMessageRef _requestTemplate;
-}
 
 - (instancetype)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;

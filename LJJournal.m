@@ -37,6 +37,10 @@ static NSString *entrySummaryLength = nil;
 @end
 
 @implementation LJJournal
+{
+@private
+    BOOL _isNotDefault;
+}
 @synthesize tags = _tags;
 @synthesize name = _name;
 @synthesize account = _account;

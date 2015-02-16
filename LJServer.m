@@ -57,7 +57,18 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
 @end
 
 @implementation LJServer
+{
+@private
+	NSData *_loginData;
+#ifdef ENABLE_REACHABILITY_MONITORING
+	SCNetworkReachabilityContext _reachContext;
+	SCNetworkReachabilityRef _target;
+#endif
+	CFHTTPMessageRef _requestTemplate;
+
+}
 @synthesize URL = _serverURL;
+@synthesize useFastServers = _isUsingFastServers;
 
 + (void)initialize
 {

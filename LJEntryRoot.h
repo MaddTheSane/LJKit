@@ -90,6 +90,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  */
 @interface LJEntryRoot : NSObject <NSCoding>
 {
+@protected
     LJAccount *_account;
     LJJournal *_journal;
     int _itemID, _aNum;

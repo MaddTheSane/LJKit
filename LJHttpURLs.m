@@ -23,15 +23,15 @@
 #import "LJServer.h"
 #import "LJHttpURLs.h"
 #import "LJUserEntity_Private.h"
-
+#import "LJGroup_Private.h"
 
 @implementation LJJournal (LJHttpURLs)
 
 - (NSURL *)recentEntriesHttpURL
 {
     NSString *s;
-    s = [NSString stringWithFormat:@"/users/%@/", _name];
-    return [[NSURL URLWithString:s relativeToURL:[[_account server] URL]] absoluteURL];
+    s = [NSString stringWithFormat:@"/users/%@/", self.name];
+    return [[NSURL URLWithString:s relativeToURL:[[self.account server] URL]] absoluteURL];
 }
 
 - (NSURL *)friendsEntriesHttpURL
@@ -100,8 +100,8 @@
 
 - (NSURL *)membersEntriesHttpURL
 {
-    NSURL *baseURL = [[_account defaultJournal] friendsEntriesHttpURL];
-    return [[NSURL URLWithString:_name relativeToURL:baseURL] absoluteURL];
+    NSURL *baseURL = [[self.account defaultJournal] friendsEntriesHttpURL];
+    return [[NSURL URLWithString:self.name relativeToURL:baseURL] absoluteURL];
 }
 
 @end

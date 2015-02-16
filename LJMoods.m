@@ -31,7 +31,11 @@
 @end
 
 @implementation LJMoods
-@synthesize highestMoodID = _highestMoodID;
+{
+@private
+    NSMutableArray *_moodNames;
+    NSMutableArray *_moodIDs;
+}
 
 - (instancetype)init
 {

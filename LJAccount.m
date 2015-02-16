@@ -537,7 +537,7 @@ static LJAccount *gAccountListHead = nil;
     if (!(loginFlags & LJDoNotUseFastServersLoginFlag) &&
         [reply[@"fastserver"] boolValue])
     {
-        [_server setUseFastServers:YES];
+        _server.useFastServers = YES;
     }
     journals = [LJJournal _journalArrayFromLoginReply:reply account:self];
 	// [FS] Changed this from direct ivar access for KVO reasons

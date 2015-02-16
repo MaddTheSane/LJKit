@@ -72,6 +72,7 @@ typedef NS_OPTIONS(unsigned int, LJLoginFlag) {
     LJGetMenuLoginFlag             = 1 << 1,
     LJGetUserPicturesLoginFlag     = 1 << 2,
     LJDoNotUseFastServersLoginFlag = 1 << 3,
+    /// LJGetMoodsLoginFlag | LJGetMenuLoginFlag | LJGetUserPicturesLoginFlag
     LJDefaultLoginFlags            = 0x00000007,
     LJReservedLoginFlags           = 0xFFFFFFF0,
 };
@@ -168,6 +169,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  */
 @interface LJAccount : LJUserEntity <NSCoding>
 {
+@protected
     NSArray *_journalArray;
     LJServer *_server;
     LJMoods *_moods;
@@ -175,7 +177,6 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
     NSURL *_defaultUserPictureURL;
     NSString *_loginMessage;
     NSMutableDictionary *_customInfo;
-    BOOL _isLoggedIn;
     // for friends editing
     NSMutableSet *_friendSet;
     NSMutableSet *_removedFriendSet;

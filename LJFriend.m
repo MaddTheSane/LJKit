@@ -31,14 +31,6 @@
 @end
 
 @implementation LJFriend
-@synthesize friendship = _friendship;
-@synthesize birthDate = _birthDate;
-@synthesize accountType = _accountType;
-@synthesize accountStatus = _accountStatus;
-@synthesize modifiedDate = _modifiedDate;
-@synthesize addedIncomingDate = _addedIncomingDate;
-@synthesize addedOutgoingDate = _addedOutgoingDate;
-@synthesize account = _account;
 @synthesize backgroundColorForYou = _bgColorForYou;
 @synthesize foregroundColorForYou = _fgColorForYou;
 @synthesize backgroundColor = _bgColor;

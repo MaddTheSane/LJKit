@@ -34,12 +34,6 @@
  The getSummary... methods will return LJEntrySummary objects.
  */
 @interface LJJournal : NSObject <NSCoding>
-{
-    LJAccount *__weak _account;
-    NSString *_name;
-    BOOL _isNotDefault;
-	NSMutableArray *_tags;
-}
 
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 

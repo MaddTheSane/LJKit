@@ -20,7 +20,6 @@
  */
 
 #import "LJUserEntity.h"
-#import "Miscellaneous.h"
 #import "LJUserEntity_Private.h"
 
 @implementation LJUserEntity

@@ -28,14 +28,9 @@
 #import "LJAccount.h"
 #import "LJAccount_EditFriends.h"
 #import "Miscellaneous.h"
+#import "LJGroup_Private.h"
 
 @implementation LJGroup
-@synthesize number = _number;
-@synthesize mask = _mask;
-@synthesize createdDate = _createdDate;
-@synthesize name = _name;
-@synthesize sortOrder = _sortOrder;
-@synthesize modifiedDate = _modifiedDate;
 @synthesize public = _isPublic;
 
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account

@@ -112,7 +112,7 @@ NSData *LJCreateURLEncodedFormData(NSDictionary *dict)
         [data appendBytes:"=" length:1];
         LJAppendURLEncodingOfStringToData(dict[key], data);
     }
-    return data;
+    return [data copy];
 }
 
 /*
@@ -121,23 +121,18 @@ NSData *LJCreateURLEncodedFormData(NSDictionary *dict)
  */
 NSDictionary *ParseLJReplyData(NSData *data)
 {
-    NSString *string;
-    NSArray *lines;
-    NSMutableDictionary *dict = nil;
-    NSInteger count, i;
-    
     NSCParameterAssert(data);
-    string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if (string == nil) {
         [NSException raise:@"LJParseError"
                     format:(@"Unable convert the response data into a UTF8 "
                             @"encoded string.")];
     }
-    lines = [string componentsSeparatedByString:@"\n"];
-    count = [lines count];
-    dict = [NSMutableDictionary dictionaryWithCapacity:(count / 2)];
-    for ( i = 1; i < count; i += 2 ) {
+    NSArray *lines = [string componentsSeparatedByString:@"\n"];
+    NSInteger count = [lines count];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:(count / 2)];
+    for (NSInteger i = 1; i < count; i += 2 ) {
         dict[lines[(i - 1)]] = lines[(i)];
     }
-    return dict;
+    return [dict copy];
 }

@@ -26,6 +26,7 @@
 #import "LJGroup.h"
 
 @interface LJGroup ()
+@property (strong) LJAccount *account;
 - (void)_addAddFieldsToParameters:(NSMutableDictionary *)parameters;
 - (void)_addDeleteFieldsToParameters:(NSMutableDictionary *)parameters;
 @end

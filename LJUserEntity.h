@@ -25,6 +25,7 @@
 
 @interface LJUserEntity : NSObject
 {
+@protected
     NSString *_username, *_fullname;
 }
 

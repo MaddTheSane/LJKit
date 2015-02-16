@@ -48,17 +48,6 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
  @abstract Represents a LiveJournal friend.
  */
 @interface LJFriend : LJUserEntity <NSCoding>
-{
-    NSDate *_birthDate;
-    NSColor *_fgColor, *_bgColor, *_fgColorForYou, *_bgColorForYou;
-    unsigned int _groupMask;
-    NSString *_accountType;
-    NSString *_accountStatus;
-    LJFriendship _friendship;
-    NSDate *_addedIncomingDate;
-    NSDate *_addedOutgoingDate;
-    NSDate *_modifiedDate;
-}
 
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;

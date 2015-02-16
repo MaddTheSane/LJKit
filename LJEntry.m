@@ -45,7 +45,6 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
 
 @implementation LJEntry
 @synthesize edited = _isEdited;
-@synthesize subject = _subject;
 
 - (instancetype)init
 {
