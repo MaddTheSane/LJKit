@@ -87,7 +87,7 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  @property usingFastServers
  @abstract Determine if fast server access is enabled.
  */
-@property (NS_NONATOMIC_IOSONLY, getter=isUsingFastServers, readonly) BOOL usingFastServers;
+@property (NS_NONATOMIC_IOSONLY, getter=isUsingFastServers, readonly) BOOL useFastServers;
 
 #ifdef ENABLE_REACHABILITY_MONITORING
 /*!
