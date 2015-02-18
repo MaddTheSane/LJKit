@@ -24,7 +24,8 @@
  2004-01-06 [BPR] Removed ImmutablizeObject()
  */
 
-#include <openssl/md5.h>
+#import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonDigest.h>
 
 #import "Miscellaneous.h"
 
@@ -34,12 +35,12 @@
  */
 NSString *MD5HexDigest(NSString *string)
 {
-    unsigned char digest[MD5_DIGEST_LENGTH] = {0};
-    NSMutableString *hexString = [NSMutableString stringWithCapacity:MD5_DIGEST_LENGTH * 2];
+    unsigned char digest[CC_MD5_DIGEST_LENGTH] = {0};
+    NSMutableString *hexString = [[NSMutableString alloc] initWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     
     const char *utfString = [string UTF8String];
-    MD5((const unsigned char*)utfString, strlen(utfString), digest);
-    for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
+    CC_MD5((const unsigned char*)utfString, strlen(utfString), digest);
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
         [hexString appendFormat:@"%02x", digest[i]];
     }
     return [NSString stringWithString: hexString];
