@@ -39,12 +39,9 @@
 + (LJFriend *)_friendWithReply:(NSDictionary *)reply prefix:(NSString *)prefix
                        account:(LJAccount *)account
 {
-    NSString *key, *value;
-    LJFriend *amigo;
-    
-    key = [prefix stringByAppendingString:@"user"];
-    value = reply[key];
-    amigo = [account friendNamed:value];
+    NSString *key = [prefix stringByAppendingString:@"user"];
+    NSString *value = reply[key];
+    LJFriend *amigo = [account friendNamed:value];
     if (amigo == nil) {
         amigo = [[LJFriend alloc] initWithUsername:value account:account];
     }
@@ -61,21 +58,16 @@
 + (void)updateFriendSet:(NSMutableSet *)friends withReply:(NSDictionary *)reply
                 account:(LJAccount *)account
 {
-    NSInteger count, i;
-    NSMutableSet *workingSet;
-    NSString *prefix, *key, *birthday, *yr, *mo, *dy;
-    LJFriend *amigo;
     NSDate *bd;
-    NSEnumerator *e;
 
-    count = [reply[@"friend_count"] integerValue];
-    workingSet = [[NSMutableSet alloc] initWithCapacity:count];
-    for ( i = 1; i <= count; i++ ) {
-        prefix = [NSString stringWithFormat:@"friend_%ld_", (long)i];
-        amigo = [self _friendWithReply:reply prefix:prefix account:account];
+    NSInteger count = [reply[@"friend_count"] integerValue];
+    NSMutableSet *workingSet = [[NSMutableSet alloc] initWithCapacity:count];
+    for (NSInteger i = 1; i <= count; i++ ) {
+        NSString *prefix = [NSString stringWithFormat:@"friend_%ld_", (long)i];
+        LJFriend *amigo = [self _friendWithReply:reply prefix:prefix account:account];
         [workingSet addObject:amigo];
         [friends removeObject:amigo];
-        key = [prefix stringByAppendingString:@"fg"];
+        NSString *key = [prefix stringByAppendingString:@"fg"];
         [amigo setForegroundColor:ColorForHTMLCode(reply[key])];
         key = [prefix stringByAppendingString:@"bg"];
         [amigo setBackgroundColor:ColorForHTMLCode(reply[key])];
@@ -83,14 +75,14 @@
         [amigo setGroupMask:[reply[key] intValue]];
         [amigo _setOutgoingFriendship:YES];
         key = [prefix stringByAppendingString:@"birthday"];
-        birthday = reply[key];
+        NSString *birthday = reply[key];
         if (birthday) {
             // Parse it ourselves because NSCalendarDate initWithString: won't
             // accept a 0000 year, but initWithYear:... does.  The format is
             // YYYY-MM-DD.
-            yr = [birthday substringWithRange:NSMakeRange(0, 4)];
-            mo = [birthday substringWithRange:NSMakeRange(5, 2)];
-            dy = [birthday substringWithRange:NSMakeRange(8, 2)];
+            NSString *yr = [birthday substringWithRange:NSMakeRange(0, 4)];
+            NSString *mo = [birthday substringWithRange:NSMakeRange(5, 2)];
+            NSString *dy = [birthday substringWithRange:NSMakeRange(8, 2)];
             NSDateComponents *dc = [NSDateComponents new];
             dc.year = [yr integerValue];
             dc.month = [mo integerValue];
@@ -104,8 +96,7 @@
         bd = nil;
     }
     // Objects left in friends no longer have outgoing friendship
-    e = [friends objectEnumerator];
-    while (amigo = [e nextObject]) {
+    for (LJFriend *amigo in friends) {
         [amigo _setOutgoingFriendship:NO];
     }
     [friends setSet:workingSet];
@@ -114,21 +105,15 @@
 + (void)updateFriendOfSet:(NSMutableSet *)friendOfs
                 withReply:(NSDictionary *)reply account:(LJAccount *)account
 {
-    NSInteger count, i;
-    NSMutableSet *workingSet;
-    NSString *prefix, *key;
-    LJFriend *amigo;
-    NSColor *color;
-
-    count = [reply[@"friendof_count"] integerValue];
-    workingSet = [[NSMutableSet alloc] initWithCapacity:count];
-    for ( i = 1; i <= count; i++ ) {
-        prefix = [NSString stringWithFormat:@"friendof_%ld_", (long)i];
-        amigo = [self _friendWithReply:reply prefix:prefix account:account];
+    NSInteger count = [reply[@"friendof_count"] integerValue];
+    NSMutableSet *workingSet = [[NSMutableSet alloc] initWithCapacity:count];
+    for (NSInteger i = 1; i <= count; i++ ) {
+        NSString *prefix = [NSString stringWithFormat:@"friendof_%ld_", (long)i];
+        LJFriend *amigo = [self _friendWithReply:reply prefix:prefix account:account];
         [workingSet addObject:amigo];
         [friendOfs removeObject:amigo];
-        key = [prefix stringByAppendingString:@"fg"];
-        color = ColorForHTMLCode(reply[key]);
+        NSString *key = [prefix stringByAppendingString:@"fg"];
+        NSColor *color = ColorForHTMLCode(reply[key]);
 		amigo.foregroundColorForYou = color;
         key = [prefix stringByAppendingString:@"bg"];
         color = ColorForHTMLCode(reply[key]);
@@ -144,10 +129,8 @@
 
 + (void)updateFriendSet:(NSSet *)friends withEditReply:(NSDictionary *)reply
 {
-    NSInteger count, i;
-
-    count = [reply[@"friends_added"] integerValue];
-    for ( i = 1; i <= count; i++ ) {
+    NSInteger count = [reply[@"friends_added"] integerValue];
+    for (NSInteger i = 1; i <= count; i++ ) {
         NSString *userKey = [NSString stringWithFormat:@"friend_%ld_user", (long)i];
         NSString *nameKey = [NSString stringWithFormat:@"friend_%ld_name", (long)i];
         // Because LJFriend considers a string with the friends's name to be
@@ -304,9 +287,7 @@
 
 - (void)_addDeleteFieldsToParameters:(NSMutableDictionary *)parameters
 {
-    NSString *key;
-
-    key = [NSString stringWithFormat:@"editfriend_delete_%@", [self username]];
+    NSString *key = [NSString stringWithFormat:@"editfriend_delete_%@", [self username]];
     parameters[key] = @"1";
 }
 

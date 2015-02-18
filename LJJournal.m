@@ -41,9 +41,6 @@ static NSString *entrySummaryLength = nil;
 @private
     BOOL _isNotDefault;
 }
-@synthesize tags = _tags;
-@synthesize name = _name;
-@synthesize account = _account;
 
 + (void)initialize
 {
@@ -69,25 +66,20 @@ static NSString *entrySummaryLength = nil;
 
 + (NSArray *)_journalArrayFromLoginReply:(NSDictionary *)reply account:(LJAccount *)account
 {
-    NSMutableArray *array;
-    NSString *name;
-    LJJournal *journal;
-    NSInteger count, i;
-
-    count = [reply[@"access_count"] integerValue];
-    array = [NSMutableArray arrayWithCapacity:(count + 1)];
+    NSInteger count = [reply[@"access_count"] integerValue];
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:(count + 1)];
     // add user's own journal (not part of login reply)
     [array addObject:[account defaultJournal]];
     // add others, if present
-    for (i = 1; i <= count; i++) {
-        name = reply[[NSString stringWithFormat:@"access_%ld", (long)i]];
-        journal = [account journalNamed:name];
+    for (NSInteger i = 1; i <= count; i++) {
+        NSString *name = reply[[NSString stringWithFormat:@"access_%ld", (long)i]];
+        LJJournal *journal = [account journalNamed:name];
         if (journal == nil) {
             journal = [self _journalWithName:name account:account];
         }
         [array addObject:journal];
     }
-    return array;
+    return [array copy];
 }
 
 - (instancetype)initWithName:(NSString *)name account:(LJAccount *)account

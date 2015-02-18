@@ -47,7 +47,7 @@
 
 - (BOOL)booleanForProperty:(NSString *)property
 {
-    return [_properties[property] intValue] != 0;
+    return [_properties[property] integerValue] != 0;
 }
 
 // Specific Property Access
@@ -213,9 +213,7 @@
 
 - (void)addTag:(NSString *)newTag
 {
-	NSString *currentTags, *newTags;
-
-	currentTags = [self tags];
+	NSString *currentTags = [self tags];
 	if (currentTags == nil || [currentTags length] == 0) {
 		[self setTags: newTag];		// There are no tags so just set it
 		return;
@@ -224,7 +222,7 @@
 		// NSLog(@"Current tags: %@", currentTags);
 		NSRange r = [currentTags rangeOfString:newTag options:NSCaseInsensitiveSearch];
 		if (r.length == 0) {
-			newTags = [currentTags stringByAppendingFormat:@", %@", newTag];	// It isn't found so add it.
+			NSString *newTags = [currentTags stringByAppendingFormat:@", %@", newTag];	// It isn't found so add it.
 			[self setTags: newTags];
 		}
 	}

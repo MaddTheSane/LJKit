@@ -23,14 +23,11 @@
 #import "LJUserEntity_Private.h"
 
 @implementation LJUserEntity
-@synthesize username = _username;
-@synthesize fullname = _fullname;
 
 - (void)_setUsername:(NSString *)newUsername
 {
 	_username = [newUsername lowercaseString];
 }
-
 
 - (LJAccount *)account
 {

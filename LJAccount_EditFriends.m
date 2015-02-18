@@ -53,12 +53,12 @@
     RunOnMainThreadSync(^{
         [[NSNotificationCenter defaultCenter] postNotification:note];
     });
-    NSDictionary *parameters, *reply;
+    NSDictionary *parameters;
 
     parameters = @{@"includebdays": @"1",
-        @"includefriendof": @"1",
-        @"includegroups": @"1"};
-    reply = [self getReplyForMode:@"getfriends" parameters:parameters];
+                   @"includefriendof": @"1",
+                   @"includegroups": @"1"};
+    NSDictionary *reply = [self getReplyForMode:@"getfriends" parameters:parameters];
     _removedFriendSet = nil;
     if (_friendSet == nil) _friendSet = [[NSMutableSet alloc] init];
     [LJFriend updateFriendSet:_friendSet withReply:reply account:self];
@@ -75,11 +75,10 @@
 
 - (BOOL)_uploadFriends
 {
-    NSMutableDictionary *parameters;
     int i = 1;
     NSDictionary *reply;
 
-    parameters = [NSMutableDictionary dictionary];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     // Add Parameters for Friends to Remove
     for (LJFriend *buddy in _removedFriendSet) {
         [buddy _addDeleteFieldsToParameters:parameters];

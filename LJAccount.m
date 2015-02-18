@@ -451,16 +451,14 @@ static LJAccount *gAccountListHead = nil;
 
 - (void)createUserPicturesDictionary:(NSDictionary *)reply
 {
-    NSMutableDictionary *userPics;
-    NSInteger count, i;
-    NSString *key, *keyword;
+    NSString *key;
     NSURL *url;
 	
-    count = [reply[@"pickw_count"] integerValue];
-    userPics = [[NSMutableDictionary alloc] initWithCapacity:count];
-    for (i = 1; i <= count; i++) {
+    NSInteger count = [reply[@"pickw_count"] integerValue];
+    NSMutableDictionary *userPics = [[NSMutableDictionary alloc] initWithCapacity:count];
+    for (NSInteger i = 1; i <= count; i++) {
         key = [NSString stringWithFormat:@"pickw_%ld", (long)i];
-        keyword = reply[key];
+        NSString *keyword = reply[key];
         key = [NSString stringWithFormat:@"pickwurl_%ld", (long)i];
         url = [NSURL URLWithString:reply[key]];
         userPics[keyword] = url;
