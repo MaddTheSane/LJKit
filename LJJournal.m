@@ -141,8 +141,10 @@ static NSString *entrySummaryLength = nil;
     parameters[@"selecttype"] = @"lastn";
     parameters[@"howmany"] = [NSString stringWithFormat:@"%u", n];
     if (date) {
-        NSString *s = [date descriptionWithCalendarFormat:@"%Y-%m-%d %H:%M:%S"
-                                                 timeZone:nil locale:nil];
+        NSDateFormatter *df = [NSDateFormatter new];
+        df.dateFormat = @"%Y-%m-%d %H:%M:%S";
+        
+        NSString *s = [df stringFromDate:date];
         parameters[@"beforedate"] = s;
     }
     return parameters;
@@ -150,16 +152,15 @@ static NSString *entrySummaryLength = nil;
 
 - (NSMutableDictionary *)parametersForDay:(NSDate *)date
 {
-    NSString *s;
-    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"selecttype"] = @"day";
-    s = [date descriptionWithCalendarFormat:@"%Y" timeZone:nil locale:nil];
-    parameters[@"year"] = s;
-    s = [date descriptionWithCalendarFormat:@"%m" timeZone:nil locale:nil];
-    parameters[@"month"] = s;
-    s = [date descriptionWithCalendarFormat:@"%d" timeZone:nil locale:nil];
-    parameters[@"day"] = s;
+#define ourUnits NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay 
+    NSCalendar *gregCalendar = [NSCalendar calendarWithIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps = [gregCalendar components:ourUnits fromDate:date];
+    parameters[@"year"] = [@(comps.year) stringValue];
+    parameters[@"month"] = [@(comps.month) stringValue];
+    parameters[@"day"] = [@(comps.day) stringValue];
+
     return parameters;
 }
 

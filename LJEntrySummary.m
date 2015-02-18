@@ -33,9 +33,10 @@
 
 - (NSString *)descriptionWithFormat:(NSString *)format
 {
-    NSString *s;
+    NSDateFormatter *df = [NSDateFormatter new];
+    df.dateFormat = format;
 
-    s = [_date descriptionWithCalendarFormat:format timeZone:nil locale:nil];
+    NSString *s = [df stringFromDate:_date];
     return [NSString stringWithFormat:s, _content];
 }
 

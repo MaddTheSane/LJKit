@@ -48,8 +48,11 @@
 
 - (NSURL *)calendarHttpURLForDay:(NSDate *)date
 {
-    NSString *s;
-    s = [date descriptionWithCalendarFormat:@"%Y/%m/%d/" timeZone:nil locale:nil];
+    NSDateFormatter *df = [NSDateFormatter new];
+    df.dateFormat = @"%Y/%m/%d/";
+    
+    NSString *s = [df stringFromDate:date];
+
     return [[NSURL URLWithString:s relativeToURL:[self recentEntriesHttpURL]] absoluteURL];
 }
 

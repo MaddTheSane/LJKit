@@ -85,8 +85,9 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
         }
         // parse the date
         obj = info[[prefix stringByAppendingString:@"eventtime"]];
-        _date = [[NSCalendarDate alloc] initWithString:obj
-                                        calendarFormat:@"%Y-%m-%d %H:%M:%S"];
+        NSDateFormatter *df = [NSDateFormatter new];
+        df.dateFormat = @"%Y-%m-%d %H:%M:%S";
+        _date = [df dateFromString:obj];
     }
     return self;
 }
