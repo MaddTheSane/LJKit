@@ -29,8 +29,7 @@
 
 - (NSURL *)recentEntriesHttpURL
 {
-    NSString *s;
-    s = [NSString stringWithFormat:@"/users/%@/", self.name];
+    NSString *s = [NSString stringWithFormat:@"/users/%@/", self.name];
     return [[NSURL URLWithString:s relativeToURL:[[self.account server] URL]] absoluteURL];
 }
 

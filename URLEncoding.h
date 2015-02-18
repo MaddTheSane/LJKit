@@ -21,10 +21,14 @@
 
 #import <Foundation/Foundation.h>
 
-void LJAppendURLEncodingOfStringToData(NSString *string, NSMutableData *data);
+#ifndef __private_extern
+#define __private_extern __attribute__((visibility("hidden")))
+#endif
 
-NSString *LJURLDecodeString(NSString *es);
+__private_extern void LJAppendURLEncodingOfStringToData(NSString *string, NSMutableData *data);
 
-NSData *LJCreateURLEncodedFormData(NSDictionary *dict);
+__private_extern NSString *LJURLDecodeString(NSString *es);
 
-NSDictionary *ParseLJReplyData(NSData *data);
+__private_extern NSData *LJCreateURLEncodedFormData(NSDictionary *dict);
+
+__private_extern NSDictionary *ParseLJReplyData(NSData *data);

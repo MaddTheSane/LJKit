@@ -35,6 +35,7 @@
 {
     NSDateFormatter *df = [NSDateFormatter new];
     df.dateFormat = format;
+    df.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
 
     NSString *s = [df stringFromDate:_date];
     return [NSString stringWithFormat:s, _content];
@@ -42,7 +43,7 @@
 
 - (NSString *)description
 {
-    return [self descriptionWithFormat:@"%Y-%m-%d %H:%M:%S: %%@"];
+    return [self descriptionWithFormat:@"%Y-%M-%d %H:%m:%S: %%@"];
 }
 
 - (LJEntry *)getEntry

@@ -35,14 +35,10 @@
 
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account
 {
-    int n;
-    LJGroup *group;
-    NSString *key, *name;
-
-    for ( n = 1; n <= 30; n++ ) {
-        group = [groups member:@(n)];
-        key = [NSString stringWithFormat:@"frgrp_%d_name", n];
-        name = reply[key];
+    for (int n = 1; n <= 30; n++ ) {
+        LJGroup *group = [groups member:@(n)];
+        NSString *key = [NSString stringWithFormat:@"frgrp_%d_name", n];
+        NSString *name = reply[key];
         if (name) {
             // Group exists on server
             if (group == nil) {

@@ -55,9 +55,8 @@ static NSString *entrySummaryLength = nil;
 
 + (LJJournal *)_journalWithName:(NSString *)name account:(LJAccount *)account
 {
-    LJJournal *journal;
-
-    journal = [account journalNamed:name];
+    LJJournal *journal = [account journalNamed:name];
+    
     if (journal == nil) {
         journal = [[LJJournal alloc] initWithName:name account:account];
     }
@@ -134,8 +133,9 @@ static NSString *entrySummaryLength = nil;
     parameters[@"howmany"] = [NSString stringWithFormat:@"%u", n];
     if (date) {
         NSDateFormatter *df = [NSDateFormatter new];
-        df.dateFormat = @"%Y-%m-%d %H:%M:%S";
-        
+        df.dateFormat = @"%Y-%M-%d %H:%m:%S";
+        df.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+
         NSString *s = [df stringFromDate:date];
         parameters[@"beforedate"] = s;
     }
@@ -183,21 +183,19 @@ static NSString *entrySummaryLength = nil;
 - (NSArray *)getSummariesWithParameters:(NSMutableDictionary *)parameters
 {
     NSDictionary *reply;
-    NSMutableArray *workingArray;
-    NSInteger count, i;
 
     parameters[@"truncate"] = entrySummaryLength;
     parameters[@"noprops"] = @"1";
     parameters[@"prefersubject"] = @"1";
     reply = [self getEventsReplyWithParameters:parameters];
-    count = [reply[@"events_count"] integerValue];
-    workingArray = [NSMutableArray arrayWithCapacity:count];
-    for ( i = 1; i <= count; i++ ) {
+    NSInteger count = [reply[@"events_count"] integerValue];
+    NSMutableArray *workingArray = [[NSMutableArray alloc] initWithCapacity:count];
+    for (NSInteger i = 1; i <= count; i++ ) {
         NSString *prefix = [[NSString alloc] initWithFormat:@"events_%ld_", (long)i];
         LJEntrySummary *summary = [[LJEntrySummary alloc] initWithReply:reply prefix:prefix journal:self];
         [workingArray addObject:summary];
     }
-    return workingArray;
+    return [workingArray copy];
 }
 
 - (LJEntry *)getEntryForItemID:(int)itemID
@@ -258,8 +256,6 @@ static NSString *entrySummaryLength = nil;
     NSDictionary *reply = [_account getReplyForMode:@"getdaycounts" parameters:parameters];
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    //df.timeStyle = NSDateFormatterNoStyle;
-    //df.dateStyle = NSDateFormatterMediumStyle;
     df.dateFormat = @"%Y-%M-%d";
     for (NSString *key in reply) {
         NSDate *date = [df dateFromString:key];

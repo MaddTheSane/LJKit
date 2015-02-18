@@ -44,7 +44,7 @@ static SCDynamicStoreContext 	gStoreContext;
 static CFRunLoopSourceRef 		gRunLoopSource = NULL;
 static NSDictionary				*gProxyInfo = NULL;
 
-void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
+static void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
 
 #ifdef ENABLE_REACHABILITY_MONITORING
 static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info);
@@ -157,17 +157,12 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
  - (void)enableProxyDetection
 {
     if (gStoreRefCount == 0) {
-        CFStringRef proxiesKey;
-        CFArrayRef keyArray;
-        
-        gStore = SCDynamicStoreCreate(kCFAllocatorDefault, 
+        gStore = SCDynamicStoreCreate(kCFAllocatorDefault,
                                       (__bridge CFStringRef)[[NSProcessInfo processInfo] processName], 
                                       LJServerStoreCallback, &gStoreContext);
-        proxiesKey = SCDynamicStoreKeyCreateProxies(kCFAllocatorDefault);
-        keyArray = CFArrayCreate(kCFAllocatorDefault, (const void * *)&proxiesKey, 1, NULL);
-        SCDynamicStoreSetNotificationKeys(gStore, keyArray, NULL);
-        CFRelease(keyArray);
-        CFRelease(proxiesKey);
+        NSString *proxiesKey = CFBridgingRelease(SCDynamicStoreKeyCreateProxies(kCFAllocatorDefault));
+        NSArray *keyArray = @[proxiesKey];
+        SCDynamicStoreSetNotificationKeys(gStore, (__bridge CFArrayRef)(keyArray), NULL);
         gRunLoopSource = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, gStore, 0);
         CFRunLoopAddSource(CFRunLoopGetCurrent(), gRunLoopSource, kCFRunLoopDefaultMode);
         // The callback won't be called unless the proxy *changes*, so we make an initial copy here.
@@ -212,10 +207,9 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
 {
     NSAssert(flags != NULL, @"Flags must not be NULL.");
 	SCNetworkReachabilityRef	target;
-	Boolean						ok;
 	
 	target = SCNetworkReachabilityCreateWithName(NULL, [[[self URL] host] UTF8String]);
-	ok = SCNetworkReachabilityGetFlags(target, flags);
+	Boolean ok = SCNetworkReachabilityGetFlags(target, flags);
 	CFRelease(target);
 
     return ok;
@@ -254,13 +248,12 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
     CFReadStreamRef stream;
     NSDictionary *replyDictionary = nil;
     NSMutableData *contentData;
-    NSString *tmpString;
     CFIndex statusCode;
     UInt8 bytes[STREAM_BUFFER_SIZE];
 
     // Compile HTTP POST variables into a data object.
     contentData = [[NSMutableData alloc] init];
-    tmpString = [NSString stringWithFormat:@"mode=%@", mode];
+    NSString *tmpString = [NSString stringWithFormat:@"mode=%@", mode];
     [contentData appendData:[tmpString dataUsingEncoding:NSUTF8StringEncoding]];
     if (_loginData) [contentData appendData:_loginData];
     if (parameters) [contentData appendData:LJCreateURLEncodedFormData(parameters)];
@@ -314,10 +307,9 @@ void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void
 #ifdef ENABLE_REACHABILITY_MONITORING
 void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info)
 {
-    NSDictionary *userInfo;
     NSNotificationCenter *center;
 
-    userInfo = @{@"ConnectionFlags": @(flags)};
+    NSDictionary *userInfo = @{@"ConnectionFlags": @(flags)};
     center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:LJServerReachabilityDidChangeNotification
                           object:(__bridge LJServer *)info

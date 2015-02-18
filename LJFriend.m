@@ -151,8 +151,8 @@
     if (self) {
         NSParameterAssert(username);
         _account = account;
-        [self _setUsername:username];
-        [self _setFullname:username];
+        self.username = username;
+        self.fullname = username;
         _bgColor = [NSColor whiteColor];
         _fgColor = [NSColor blackColor];
         _bgColorForYou = [NSColor whiteColor];
