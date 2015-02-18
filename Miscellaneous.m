@@ -39,7 +39,7 @@ NSString *MD5HexDigest(NSString *string)
     NSMutableString *hexString = [[NSMutableString alloc] initWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     
     const char *utfString = [string UTF8String];
-    CC_MD5((const unsigned char*)utfString, strlen(utfString), digest);
+    CC_MD5((const unsigned char*)utfString, (unsigned int)strlen(utfString), digest);
     for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
         [hexString appendFormat:@"%02x", digest[i]];
     }
