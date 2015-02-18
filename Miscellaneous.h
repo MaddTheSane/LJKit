@@ -19,7 +19,12 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 
 /*!
  * Returns the MD5 digest of the given NSString object as a hex
@@ -34,6 +39,20 @@ NSString *MD5HexDigest(NSString *string);
  */
 char ValueForHexDigit(char digit);
 
+#if TARGET_OS_IPHONE
+/*!
+ * Creates a UIColor object represented by a given HTML color code.
+ * (e.g., "#FFCC00")
+ */
+UIColor *ColorForHTMLCode(NSString *code);
+
+/*!
+ * Returns the HTML color code which represents the given UIColor object.
+ * Assumes the NSColor is an RGB color.
+ */
+NSString *HTMLCodeForColor(UIColor *color);
+
+#else
 /*!
  * Creates an NSColor object represented by a given HTML color code.
  * (e.g., "#FFCC00")
@@ -45,3 +64,4 @@ NSColor *ColorForHTMLCode(NSString *code);
  * Assumes the NSColor is an RGB color.
  */
 NSString *HTMLCodeForColor(NSColor *color);
+#endif

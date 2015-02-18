@@ -29,6 +29,12 @@
 
 #import "Miscellaneous.h"
 
+#if TARGET_OS_IPHONE
+typedef UIColor OurColor;
+#else
+typedef NSColor OurColor;
+#endif
+
 /*
  * Returns the MD5 digest of the given NSString object as a hex
  * encoded string.  Uses the crypto library distributed with OS X.
@@ -71,7 +77,7 @@ char ValueForHexDigit(char digit)
  * Creates an NSColor object represented by a given HTML color code.
  * (e.g., "#FFCC00")
  */
-NSColor *ColorForHTMLCode(NSString *code)
+OurColor *ColorForHTMLCode(NSString *code)
 {
     // Code is of the form "#RRGGBB"
     CGFloat r, g, b;
@@ -87,17 +93,28 @@ NSColor *ColorForHTMLCode(NSString *code)
           ValueForHexDigit([code characterAtIndex:4])) / 255.0;
     b = ((ValueForHexDigit([code characterAtIndex:5]) << 4) +
           ValueForHexDigit([code characterAtIndex:6])) / 255.0;
+#if TARGET_OS_IPHONE
+    return [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+#else
     return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:1.0];
+#endif
 }
 
 /*
  * Returns the HTML color code which represents the given NSColor object.
  * Assumes the NSColor is an RGB color.
  */
-NSString *HTMLCodeForColor(NSColor *color)
+NSString *HTMLCodeForColor(OurColor *color)
 {
-    NSColor *rgbColor;
-
+#if TARGET_OS_IPHONE
+    CGFloat red, green, blue;
+    [color getRed:&red green:&green blue:&blue alpha:NULL];
+    return [NSString stringWithFormat:@"#%02X%02X%02X",
+            (int)(255.0 * red),
+            (int)(255.0 * green),
+            (int)(255.0 * blue)];
+#else
+    OurColor *rgbColor;
     if ([[color colorSpaceName] isEqualToString:NSCalibratedRGBColorSpace])
         rgbColor = color;
     else
@@ -106,4 +123,5 @@ NSString *HTMLCodeForColor(NSColor *color)
         (int)(255.0 * [rgbColor redComponent]),
         (int)(255.0 * [rgbColor greenComponent]),
         (int)(255.0 * [rgbColor blueComponent])];
+#endif
 }

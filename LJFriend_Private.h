@@ -29,8 +29,10 @@
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSString *accountType;
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSString *accountStatus;
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSDate *birthDate;
+#if !TARGET_OS_IPHONE
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSColor *backgroundColorForYou;
 @property (NS_NONATOMIC_IOSONLY, readwrite, copy) NSColor *foregroundColorForYou;
+#endif
 + (void)updateFriendSet:(NSMutableSet *)friends withReply:(NSDictionary *)reply account:(LJAccount *)account;
 + (void)updateFriendOfSet:(NSMutableSet *)friendOfs withReply:(NSDictionary *)reply account:(LJAccount *)account;
 + (void)updateFriendSet:(NSSet *)friends withEditReply:(NSDictionary *)reply;

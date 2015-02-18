@@ -9,6 +9,56 @@
 /* Begin PBXBuildFile section */
 		552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */; };
 		55D087201A6CCE9200E0A00A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC71787905AD5484000355FC /* Localizable.strings */; };
+		55F2986A1A945ECF001C32EA /* LJKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F51DE22702E293FB01745AE7 /* LJKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F2986B1A945ECF001C32EA /* LJAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = F51DE22002E293C501745AE7 /* LJAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F2986C1A945ECF001C32EA /* LJAccount_EditFriends.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5102E35F2301ECE1AA /* LJAccount_EditFriends.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F2986D1A945ECF001C32EA /* LJJournal.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5502E35F3201ECE1AA /* LJJournal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F2986E1A945ECF001C32EA /* LJEntryRoot.h in Headers */ = {isa = PBXBuildFile; fileRef = F5BD1B0C03A5597201805C1D /* LJEntryRoot.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F2986F1A945ECF001C32EA /* LJEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5902E35F3C01ECE1AA /* LJEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298701A945ECF001C32EA /* LJEntry_Metadata.h in Headers */ = {isa = PBXBuildFile; fileRef = F53614280304A86B0100006B /* LJEntry_Metadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298711A945ECF001C32EA /* LJEntrySummary.h in Headers */ = {isa = PBXBuildFile; fileRef = F5A55BDE03686C84015CD356 /* LJEntrySummary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298721A945ECF001C32EA /* LJUserEntity_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */; };
+		55F298731A945ECF001C32EA /* LJServer.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6902E3650701ECE1AA /* LJServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298741A945ECF001C32EA /* LJCheckFriendsSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298751A945ECF001C32EA /* LJMoods.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB7702E381BC01ECE1AA /* LJMoods.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298761A945ECF001C32EA /* LJFriend.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5D02E35F4301ECE1AA /* LJFriend.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298771A945ECF001C32EA /* LJGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6102E35F4A01ECE1AA /* LJGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298781A945ECF001C32EA /* LJHttpURLs.h in Headers */ = {isa = PBXBuildFile; fileRef = F52E1F010357A538010C7683 /* LJHttpURLs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298791A945ECF001C32EA /* URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6D02E36F5701ECE1AA /* URLEncoding.h */; settings = {ATTRIBUTES = (); }; };
+		55F2987A1A945ECF001C32EA /* Miscellaneous.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6502E362C001ECE1AA /* Miscellaneous.h */; settings = {ATTRIBUTES = (); }; };
+		55F2987B1A945ECF001C32EA /* LJMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB7202E37FBE01ECE1AA /* LJMenu.h */; settings = {ATTRIBUTES = (); }; };
+		55F2987C1A945ECF001C32EA /* LJAccount_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A3505AB8C5F000EFE4A /* LJAccount_Private.h */; };
+		55F2987D1A945ECF001C32EA /* LJServer_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A7705AB9348000EFE4A /* LJServer_Private.h */; };
+		55F2987E1A945ECF001C32EA /* LJMoods_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A7905AB9409000EFE4A /* LJMoods_Private.h */; };
+		55F2987F1A945ECF001C32EA /* LJJournal_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6AA405AB95D8000EFE4A /* LJJournal_Private.h */; };
+		55F298801A945ECF001C32EA /* LJEntry_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6AA605AB96F9000EFE4A /* LJEntry_Private.h */; };
+		55F298811A945ECF001C32EA /* LJFriend_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6AA805AB976B000EFE4A /* LJFriend_Private.h */; };
+		55F298821A945ECF001C32EA /* LJGroup_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6AAA05AB9849000EFE4A /* LJGroup_Private.h */; };
+		55F298831A945ECF001C32EA /* LJUserEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F548C4A07133B7600515272 /* LJUserEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55F298851A945ECF001C32EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		55F298861A945ECF001C32EA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC71787905AD5484000355FC /* Localizable.strings */; };
+		55F298871A945ECF001C32EA /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 438B206903BD273D00067F6D /* License.txt */; };
+		55F298881A945ECF001C32EA /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC296EFE058B62EF00874810 /* ToDo.txt */; };
+		55F2988A1A945ECF001C32EA /* LJAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = F51DE21F02E293C501745AE7 /* LJAccount.m */; };
+		55F2988B1A945ECF001C32EA /* LJJournal.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5402E35F3201ECE1AA /* LJJournal.m */; };
+		55F2988C1A945ECF001C32EA /* Miscellaneous.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6402E362C001ECE1AA /* Miscellaneous.m */; };
+		55F2988D1A945ECF001C32EA /* LJServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6802E3650701ECE1AA /* LJServer.m */; };
+		55F2988E1A945ECF001C32EA /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6C02E36F5701ECE1AA /* URLEncoding.m */; };
+		55F298901A945ECF001C32EA /* LJMoods.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB7602E381BC01ECE1AA /* LJMoods.m */; };
+		55F298911A945ECF001C32EA /* LJAccount_EditFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5002E35F2301ECE1AA /* LJAccount_EditFriends.m */; };
+		55F298921A945ECF001C32EA /* LJFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5C02E35F4301ECE1AA /* LJFriend.m */; };
+		55F298931A945ECF001C32EA /* LJGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6002E35F4A01ECE1AA /* LJGroup.m */; };
+		55F298941A945ECF001C32EA /* LJEntry_Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = F53614270304A86B0100006B /* LJEntry_Metadata.m */; };
+		55F298951A945ECF001C32EA /* LJHttpURLs.m in Sources */ = {isa = PBXBuildFile; fileRef = F52E1F020357A538010C7683 /* LJHttpURLs.m */; };
+		55F298961A945ECF001C32EA /* LJEntrySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A55BDF03686C84015CD356 /* LJEntrySummary.m */; };
+		55F298971A945ECF001C32EA /* LJEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5802E35F3C01ECE1AA /* LJEntry.m */; };
+		55F298981A945ECF001C32EA /* LJEntryRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BD1B0D03A5597201805C1D /* LJEntryRoot.m */; };
+		55F298991A945ECF001C32EA /* LJCheckFriendsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */; };
+		55F2989A1A945ECF001C32EA /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
+		55F2989C1A945ECF001C32EA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		55F2989D1A945ECF001C32EA /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */; };
+		55F2989E1A945ECF001C32EA /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5992D0C03786BB6012C19B1 /* CoreServices.framework */; };
+		55F2989F1A945ECF001C32EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBC6B0A05ABB098000EFE4A /* SystemConfiguration.framework */; };
 		5F548C4C07133B7600515272 /* LJUserEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F548C4A07133B7600515272 /* LJUserEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F548C4D07133B7600515272 /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
 		BC296EFF058B62EF00874810 /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC296EFE058B62EF00874810 /* ToDo.txt */; };
@@ -69,6 +119,7 @@
 		43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCheckFriendsSession.h; sourceTree = "<group>"; };
 		43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LJCheckFriendsSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity_Private.h; sourceTree = "<group>"; };
+		55F298A31A945ECF001C32EA /* LJKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LJKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F548C4A07133B7600515272 /* LJUserEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity.h; sourceTree = "<group>"; };
 		5F548C4B07133B7600515272 /* LJUserEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJUserEntity.m; sourceTree = "<group>"; };
 		BC296EFE058B62EF00874810 /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
@@ -121,6 +172,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		55F2989B1A945ECF001C32EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55F2989C1A945ECF001C32EA /* Cocoa.framework in Frameworks */,
+				55F2989D1A945ECF001C32EA /* libcrypto.dylib in Frameworks */,
+				55F2989E1A945ECF001C32EA /* CoreServices.framework in Frameworks */,
+				55F2989F1A945ECF001C32EA /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC72DB15058B2AFA00784C4A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -140,6 +202,7 @@
 			children = (
 				BC72DB1C058B2AFA00784C4A /* LJKit.framework */,
 				BC72DCA3058B315E00784C4A /* LJKitDocumentation */,
+				55F298A31A945ECF001C32EA /* LJKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -243,6 +306,39 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		55F298691A945ECF001C32EA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55F2986A1A945ECF001C32EA /* LJKit.h in Headers */,
+				55F2986B1A945ECF001C32EA /* LJAccount.h in Headers */,
+				55F2986C1A945ECF001C32EA /* LJAccount_EditFriends.h in Headers */,
+				55F2986D1A945ECF001C32EA /* LJJournal.h in Headers */,
+				55F2986E1A945ECF001C32EA /* LJEntryRoot.h in Headers */,
+				55F2986F1A945ECF001C32EA /* LJEntry.h in Headers */,
+				55F298701A945ECF001C32EA /* LJEntry_Metadata.h in Headers */,
+				55F298711A945ECF001C32EA /* LJEntrySummary.h in Headers */,
+				55F298721A945ECF001C32EA /* LJUserEntity_Private.h in Headers */,
+				55F298731A945ECF001C32EA /* LJServer.h in Headers */,
+				55F298741A945ECF001C32EA /* LJCheckFriendsSession.h in Headers */,
+				55F298751A945ECF001C32EA /* LJMoods.h in Headers */,
+				55F298761A945ECF001C32EA /* LJFriend.h in Headers */,
+				55F298771A945ECF001C32EA /* LJGroup.h in Headers */,
+				55F298781A945ECF001C32EA /* LJHttpURLs.h in Headers */,
+				55F298791A945ECF001C32EA /* URLEncoding.h in Headers */,
+				55F2987A1A945ECF001C32EA /* Miscellaneous.h in Headers */,
+				55F2987B1A945ECF001C32EA /* LJMenu.h in Headers */,
+				55F2987C1A945ECF001C32EA /* LJAccount_Private.h in Headers */,
+				55F2987D1A945ECF001C32EA /* LJServer_Private.h in Headers */,
+				55F2987E1A945ECF001C32EA /* LJMoods_Private.h in Headers */,
+				55F2987F1A945ECF001C32EA /* LJJournal_Private.h in Headers */,
+				55F298801A945ECF001C32EA /* LJEntry_Private.h in Headers */,
+				55F298811A945ECF001C32EA /* LJFriend_Private.h in Headers */,
+				55F298821A945ECF001C32EA /* LJGroup_Private.h in Headers */,
+				55F298831A945ECF001C32EA /* LJUserEntity.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC72DAEE058B2AFA00784C4A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -279,6 +375,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		55F298671A945ECF001C32EA /* LJKit-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55F298A01A945ECF001C32EA /* Build configuration list for PBXNativeTarget "LJKit-iOS" */;
+			buildPhases = (
+				55F298681A945ECF001C32EA /* ShellScript */,
+				55F298691A945ECF001C32EA /* Headers */,
+				55F298841A945ECF001C32EA /* Resources */,
+				55F298891A945ECF001C32EA /* Sources */,
+				55F2989B1A945ECF001C32EA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LJKit-iOS";
+			productInstallPath = "@executable_path/../Frameworks";
+			productName = LJKit;
+			productReference = 55F298A31A945ECF001C32EA /* LJKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		BC72DAED058B2AFA00784C4A /* LJKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5FBE9E0F092E685C0071F534 /* Build configuration list for PBXNativeTarget "LJKit" */;
@@ -336,12 +452,24 @@
 			projectRoot = "";
 			targets = (
 				BC72DAED058B2AFA00784C4A /* LJKit */,
+				55F298671A945ECF001C32EA /* LJKit-iOS */,
 				BC72DCA0058B315D00784C4A /* Documentation */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		55F298841A945ECF001C32EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55F298851A945ECF001C32EA /* InfoPlist.strings in Resources */,
+				55F298861A945ECF001C32EA /* Localizable.strings in Resources */,
+				55F298871A945ECF001C32EA /* License.txt in Resources */,
+				55F298881A945ECF001C32EA /* ToDo.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC72DB00058B2AFA00784C4A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -356,6 +484,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		55F298681A945ECF001C32EA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Symroot: ${SYMROOT}\"";
+		};
 		58E700E20A259E2F00EB5E27 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -386,6 +527,29 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		55F298891A945ECF001C32EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55F2988A1A945ECF001C32EA /* LJAccount.m in Sources */,
+				55F2988B1A945ECF001C32EA /* LJJournal.m in Sources */,
+				55F2988C1A945ECF001C32EA /* Miscellaneous.m in Sources */,
+				55F2988D1A945ECF001C32EA /* LJServer.m in Sources */,
+				55F2988E1A945ECF001C32EA /* URLEncoding.m in Sources */,
+				55F298901A945ECF001C32EA /* LJMoods.m in Sources */,
+				55F298911A945ECF001C32EA /* LJAccount_EditFriends.m in Sources */,
+				55F298921A945ECF001C32EA /* LJFriend.m in Sources */,
+				55F298931A945ECF001C32EA /* LJGroup.m in Sources */,
+				55F298941A945ECF001C32EA /* LJEntry_Metadata.m in Sources */,
+				55F298951A945ECF001C32EA /* LJHttpURLs.m in Sources */,
+				55F298961A945ECF001C32EA /* LJEntrySummary.m in Sources */,
+				55F298971A945ECF001C32EA /* LJEntry.m in Sources */,
+				55F298981A945ECF001C32EA /* LJEntryRoot.m in Sources */,
+				55F298991A945ECF001C32EA /* LJCheckFriendsSession.m in Sources */,
+				55F2989A1A945ECF001C32EA /* LJUserEntity.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC72DB04058B2AFA00784C4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -432,6 +596,55 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		55F298A11A945ECF001C32EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_NAME = LJKit;
+				SDKROOT = iphoneos;
+				SECTORDER_FLAGS = "";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		55F298A21A945ECF001C32EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_NAME = LJKit;
+				SDKROOT = iphoneos;
+				SECTORDER_FLAGS = "";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 		5FBE9E10092E685C0071F534 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -444,25 +657,16 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "-DDEBUG";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x10000000,
-				);
 				PRODUCT_NAME = LJKit;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -479,22 +683,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x10000000,
-				);
 				PRODUCT_NAME = LJKit;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -564,6 +759,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DDEBUG";
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -593,6 +789,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "";
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -601,6 +798,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		55F298A01A945ECF001C32EA /* Build configuration list for PBXNativeTarget "LJKit-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55F298A11A945ECF001C32EA /* Debug */,
+				55F298A21A945ECF001C32EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5FBE9E0F092E685C0071F534 /* Build configuration list for PBXNativeTarget "LJKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

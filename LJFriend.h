@@ -19,9 +19,12 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <LJKit/LJUserEntity.h>
 
+#if !TARGET_OS_IPHONE
+#import <Cocoa/Cocoa.h>
+#endif
 @class LJAccount, LJGroup;
 
 /*!
@@ -90,20 +93,6 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *addedOutgoingDate;
 
 /*!
- @property backgroundColor
- @abstract The background color of the receiver.
- */
-@property (nonatomic, copy) NSColor *backgroundColor;
-
-/*!
- @property foregroundColor
- @abstract The foreground color of the receiver.
- */
-@property (nonatomic, copy) NSColor *foregroundColor;
-
-@property (nonatomic) unsigned int groupMask;
-
-/*!
  @property friendship
  @abstract The type of friendship for this friend.
  @discussion
@@ -114,6 +103,21 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
  header.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly) LJFriendship friendship;
+
+@property (nonatomic) unsigned int groupMask;
+
+#if !TARGET_OS_IPHONE
+/*!
+ @property backgroundColor
+ @abstract The background color of the receiver.
+ */
+@property (nonatomic, copy) NSColor *backgroundColor;
+
+/*!
+ @property foregroundColor
+ @abstract The foreground color of the receiver.
+ */
+@property (nonatomic, copy) NSColor *foregroundColor;
 
 /*!
  @property backgroundColorForYou
@@ -126,5 +130,7 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
  @result The color this friend uses for your foreground.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *foregroundColorForYou;
+
+#endif
 
 @end

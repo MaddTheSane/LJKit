@@ -19,7 +19,7 @@
  You may contact the author via email at benzado@livejournal.com.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 /*!
  @class LJMoods

@@ -31,10 +31,12 @@
 @end
 
 @implementation LJFriend
+#if !TARGET_OS_IPHONE
 @synthesize backgroundColorForYou = _bgColorForYou;
 @synthesize foregroundColorForYou = _fgColorForYou;
 @synthesize backgroundColor = _bgColor;
 @synthesize foregroundColor = _fgColor;
+#endif
 
 + (LJFriend *)_friendWithReply:(NSDictionary *)reply prefix:(NSString *)prefix
                        account:(LJAccount *)account

@@ -26,10 +26,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <CoreServices/CoreServices.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#if !TARGET_OS_IPHONE
+#import <CoreServices/CoreServices.h>
 #define ENABLE_REACHABILITY_MONITORING
 #endif
 

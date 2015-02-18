@@ -22,9 +22,12 @@
  2004-03-13 [BPR] Added default account methods.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <LJKit/LJUserEntity.h>
 
+#if !TARGET_OS_IPHONE
+#import <Cocoa/Cocoa.h>
+#endif
 @class LJServer, LJMoods, LJJournal;
 
 #define LJKitBundle [NSBundle bundleForClass:[LJAccount class]]
@@ -401,6 +404,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  */
 @property (NS_NONATOMIC_IOSONLY, getter=isLoggedIn, readonly) BOOL loggedIn;
 
+#if !TARGET_OS_IPHONE
 /*!
  @property menu
  @abstract The web menu provided by the server.
@@ -413,6 +417,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  Thus, all you need to do is display the menu in your interface.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *menu;
+#endif
 
 /*!
  @property moods
@@ -471,6 +476,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  */
 - (NSString *)defaultUserPictureKeyword;
 
+#if !TARGET_OS_IPHONE
 /*!
  @property userPicturesMenu
  @abstract An NSMenu of all picture keywords for the receiver.
@@ -480,6 +486,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  NSURL object by calling [menuItem representedObject].
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *userPicturesMenu;
+#endif
 
 /*!
  @property journalArray
@@ -514,6 +521,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  */
 - (LJJournal *)journalNamed:(NSString *)name;
 
+#if !TARGET_OS_IPHONE
 /*!
  @property journalMenu
  @abstract The NSMenu of all journals for this account.
@@ -524,6 +532,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  to any of the menu items.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMenu *journalMenu;
+#endif
 
 /*!
  @property customInfo

@@ -545,9 +545,11 @@ static LJAccount *gAccountListHead = nil;
     if (loginFlags & LJGetMoodsLoginFlag) {
         [_moods updateMoodsWithLoginReply:reply];
     }
+#if !TARGET_OS_IPHONE
     if (loginFlags & LJGetMenuLoginFlag) {
         _menu = [[LJMenu alloc] initWithTitle:@"Web" loginReply:reply];
     }
+#endif
     if (loginFlags & LJGetUserPicturesLoginFlag) {
         [self createUserPicturesDictionary:reply];
     }
@@ -613,12 +615,13 @@ static LJAccount *gAccountListHead = nil;
 	NSURL *defaultURL = [self defaultUserPictureURL];
 	NSString *key;
 	while(key = [en nextObject]) {
-		if([_userPicturesDictionary[key] isEqualTo: defaultURL])
+		if([_userPicturesDictionary[key] isEqual: defaultURL])
 			return key;
 	}
 	return nil;
 }
 
+#if !TARGET_OS_IPHONE
 - (NSMenu *)userPicturesMenu
 {
     NSMenu *pMenu = [[NSMenu alloc] initWithTitle:@"User Pictures"];
@@ -652,6 +655,23 @@ static LJAccount *gAccountListHead = nil;
     return pMenu;
 }
 
+- (NSMenu *)journalMenu
+{
+    NSMenu *jMenu = [[NSMenu alloc] initWithTitle:@"Journals"];
+    
+    [jMenu setAutoenablesItems:NO];
+    for (LJJournal *j in _journalArray) {
+        NSMenuItem *jItem = [[NSMenuItem alloc] initWithTitle:[j name]
+                                                       action:NULL
+                                                keyEquivalent:@""];
+        [jItem setRepresentedObject:j];
+        [jMenu addItem:jItem];
+    }
+    return jMenu;
+}
+
+#endif
+
 - (LJJournal *)defaultJournal
 {
     return _journalArray[0];
@@ -664,21 +684,6 @@ static LJAccount *gAccountListHead = nil;
             return journal;
     }
     return nil;
-}
-
-- (NSMenu *)journalMenu
-{
-    NSMenu *jMenu = [[NSMenu alloc] initWithTitle:@"Journals"];
-
-    [jMenu setAutoenablesItems:NO];
-    for (LJJournal *j in _journalArray) {
-        NSMenuItem *jItem = [[NSMenuItem alloc] initWithTitle:[j name]
-                                                       action:NULL
-                                                keyEquivalent:@""];
-        [jItem setRepresentedObject:j];
-        [jMenu addItem:jItem];
-    }
-    return jMenu;
 }
 
 - (NSMutableDictionary *)customInfo
@@ -739,15 +744,15 @@ static LJAccount *gAccountListHead = nil;
 }
 
 // [FS] KVO - there may be simplifcations to be made here.
- + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey {
-	BOOL automatic;
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey {
+    BOOL automatic;
     if ([theKey isEqualToString:@"friendArray"]) {
         automatic=NO;
-    } 
-	else if ([theKey isEqualToString:@"groupArray"]) {
+    }
+    else if ([theKey isEqualToString:@"groupArray"]) {
         automatic=NO;
     }
-	else {
+    else {
         automatic=[super automaticallyNotifiesObserversForKey:theKey];
     }
     return automatic;
