@@ -217,13 +217,11 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
 
 - (void)updateRequestTemplate
 {
-    CFURLRef url;
+    NSURL *url = [NSURL URLWithString:@"/interface/flat" relativeToURL:_serverURL];
 
-    url = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("/interface/flat"),
-                                (CFURLRef)_serverURL);
     if (_requestTemplate) CFRelease(_requestTemplate);
     _requestTemplate = CFHTTPMessageCreateRequest(kCFAllocatorDefault,
-                                                  CFSTR("POST"), url,
+                                                  CFSTR("POST"), (__bridge CFURLRef)(url),
                                                   kCFHTTPVersion1_0);
     CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Host"),
                                      (__bridge CFStringRef)[_serverURL host]);
@@ -235,7 +233,6 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
         CFHTTPMessageSetHeaderFieldValue(_requestTemplate, CFSTR("Set-Cookie"),
                                          CFSTR("ljfastservers=1"));
     }
-    CFRelease(url);
 }
 
 
@@ -243,12 +240,9 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
 
 - (NSDictionary *)getReplyForMode:(NSString *)mode parameters:(NSDictionary *)parameters
 {
-    CFHTTPMessageRef request, response;
     CFIndex bytesRead;
-    CFReadStreamRef stream;
     NSDictionary *replyDictionary = nil;
     NSMutableData *contentData;
-    CFIndex statusCode;
     UInt8 bytes[STREAM_BUFFER_SIZE];
 
     // Compile HTTP POST variables into a data object.
@@ -260,20 +254,20 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
 
     // Copy the template HTTP message and set the data and content length.
     if (_requestTemplate == NULL) [self updateRequestTemplate];
-    request = CFHTTPMessageCreateCopy(kCFAllocatorDefault, _requestTemplate);
+    CFHTTPMessageRef request = CFHTTPMessageCreateCopy(kCFAllocatorDefault, _requestTemplate);
     CFHTTPMessageSetBody(request, (__bridge CFDataRef)contentData);
     tmpString = [NSString stringWithFormat:@"%lu", (unsigned long)[contentData length]];
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Content-Length"), (__bridge CFStringRef)tmpString);
     
 	// Connect to the server.
-	stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
+	CFReadStreamRef stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, request);
 	if (gProxyInfo) {
 		CFReadStreamSetProperty(stream, kCFStreamPropertyHTTPProxy, (__bridge CFTypeRef)(gProxyInfo));
 	}
 	CFReadStreamOpen(stream);
 	
 	// Build an HTTP response from the data read.
-	response = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
+	CFHTTPMessageRef response = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, FALSE);
 	while ((bytesRead = CFReadStreamRead(stream, bytes, STREAM_BUFFER_SIZE))) {
 		if (bytesRead == -1) {
 			CFStreamError err = CFReadStreamGetError(stream);
@@ -283,7 +277,7 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
 			[[_account _exceptionWithName:@"LJHTTPParseError"] raise];
 		}
 	}
-	statusCode = CFHTTPMessageGetResponseStatusCode(response);
+	CFIndex statusCode = CFHTTPMessageGetResponseStatusCode(response);
 	if (statusCode == 200) {
 		NSData *responseData = CFBridgingRelease(CFHTTPMessageCopyBody(response));
 		replyDictionary = ParseLJReplyData(responseData);
