@@ -78,16 +78,4 @@
  Happy hacking!
  */
 
-#import <LJKit/LJAccount.h>
-#import <LJKit/LJAccount_EditFriends.h>
-#import <LJKit/LJCheckFriendsSession.h>
-#import <LJKit/LJServer.h>
-#import <LJKit/LJMoods.h>
-#import <LJKit/LJJournal.h>
-#import <LJKit/LJEntry.h>
-#import <LJKit/LJEntry_Metadata.h>
-#import <LJKit/LJEntrySummary.h>
-#import <LJKit/LJFriend.h>
-#import <LJKit/LJGroup.h>
-#import <LJKit/LJHttpURLs.h>
-#import <LJKit/LJUserEntity.h>
+#import <Foundation/Foundation.h>

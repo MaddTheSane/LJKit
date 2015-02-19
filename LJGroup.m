@@ -30,6 +30,8 @@
 #import "Miscellaneous.h"
 #import "LJGroup_Private.h"
 
+@class LJFriend;
+
 @implementation LJGroup
 @synthesize public = _isPublic;
 

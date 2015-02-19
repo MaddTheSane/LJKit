@@ -7,46 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55014FED1A9677E400A233E0 /* LJFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55014FEC1A9677E400A233E0 /* LJFriend.swift */; };
+		55014FEF1A96786A00A233E0 /* LJUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55014FEE1A96786A00A233E0 /* LJUserEntity.swift */; };
 		552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */; };
 		55D087201A6CCE9200E0A00A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC71787905AD5484000355FC /* Localizable.strings */; };
-		5F548C4C07133B7600515272 /* LJUserEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F548C4A07133B7600515272 /* LJUserEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5F548C4D07133B7600515272 /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
 		BC296EFF058B62EF00874810 /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC296EFE058B62EF00874810 /* ToDo.txt */; };
 		BC72DAEF058B2AFA00784C4A /* LJKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F51DE22702E293FB01745AE7 /* LJKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF0058B2AFA00784C4A /* LJAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = F51DE22002E293C501745AE7 /* LJAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF1058B2AFA00784C4A /* LJAccount_EditFriends.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5102E35F2301ECE1AA /* LJAccount_EditFriends.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF2058B2AFA00784C4A /* LJJournal.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5502E35F3201ECE1AA /* LJJournal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF3058B2AFA00784C4A /* LJEntryRoot.h in Headers */ = {isa = PBXBuildFile; fileRef = F5BD1B0C03A5597201805C1D /* LJEntryRoot.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF4058B2AFA00784C4A /* LJEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5902E35F3C01ECE1AA /* LJEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF5058B2AFA00784C4A /* LJEntry_Metadata.h in Headers */ = {isa = PBXBuildFile; fileRef = F53614280304A86B0100006B /* LJEntry_Metadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF6058B2AFA00784C4A /* LJEntrySummary.h in Headers */ = {isa = PBXBuildFile; fileRef = F5A55BDE03686C84015CD356 /* LJEntrySummary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF7058B2AFA00784C4A /* LJServer.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6902E3650701ECE1AA /* LJServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF8058B2AFA00784C4A /* LJCheckFriendsSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAF9058B2AFA00784C4A /* LJMoods.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB7702E381BC01ECE1AA /* LJMoods.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAFA058B2AFA00784C4A /* LJFriend.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB5D02E35F4301ECE1AA /* LJFriend.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAFB058B2AFA00784C4A /* LJGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6102E35F4A01ECE1AA /* LJGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC72DAFC058B2AFA00784C4A /* LJHttpURLs.h in Headers */ = {isa = PBXBuildFile; fileRef = F52E1F010357A538010C7683 /* LJHttpURLs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC72DAFD058B2AFA00784C4A /* URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6D02E36F5701ECE1AA /* URLEncoding.h */; settings = {ATTRIBUTES = (); }; };
 		BC72DAFE058B2AFA00784C4A /* Miscellaneous.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6502E362C001ECE1AA /* Miscellaneous.h */; settings = {ATTRIBUTES = (); }; };
 		BC72DAFF058B2AFA00784C4A /* LJMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB7202E37FBE01ECE1AA /* LJMenu.h */; settings = {ATTRIBUTES = (); }; };
 		BC72DB01058B2AFA00784C4A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		BC72DB03058B2AFA00784C4A /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 438B206903BD273D00067F6D /* License.txt */; };
-		BC72DB05058B2AFA00784C4A /* LJAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = F51DE21F02E293C501745AE7 /* LJAccount.m */; };
-		BC72DB06058B2AFA00784C4A /* LJJournal.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5402E35F3201ECE1AA /* LJJournal.m */; };
 		BC72DB07058B2AFA00784C4A /* Miscellaneous.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6402E362C001ECE1AA /* Miscellaneous.m */; };
-		BC72DB08058B2AFA00784C4A /* LJServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6802E3650701ECE1AA /* LJServer.m */; };
 		BC72DB09058B2AFA00784C4A /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6C02E36F5701ECE1AA /* URLEncoding.m */; };
 		BC72DB0A058B2AFA00784C4A /* LJMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB7102E37FBE01ECE1AA /* LJMenu.m */; };
-		BC72DB0B058B2AFA00784C4A /* LJMoods.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB7602E381BC01ECE1AA /* LJMoods.m */; };
-		BC72DB0C058B2AFA00784C4A /* LJAccount_EditFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5002E35F2301ECE1AA /* LJAccount_EditFriends.m */; };
-		BC72DB0D058B2AFA00784C4A /* LJFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5C02E35F4301ECE1AA /* LJFriend.m */; };
-		BC72DB0E058B2AFA00784C4A /* LJGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB6002E35F4A01ECE1AA /* LJGroup.m */; };
-		BC72DB0F058B2AFA00784C4A /* LJEntry_Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = F53614270304A86B0100006B /* LJEntry_Metadata.m */; };
-		BC72DB10058B2AFA00784C4A /* LJHttpURLs.m in Sources */ = {isa = PBXBuildFile; fileRef = F52E1F020357A538010C7683 /* LJHttpURLs.m */; };
-		BC72DB11058B2AFA00784C4A /* LJEntrySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A55BDF03686C84015CD356 /* LJEntrySummary.m */; };
-		BC72DB12058B2AFA00784C4A /* LJEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F52AFB5802E35F3C01ECE1AA /* LJEntry.m */; };
-		BC72DB13058B2AFA00784C4A /* LJEntryRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BD1B0D03A5597201805C1D /* LJEntryRoot.m */; };
-		BC72DB14058B2AFA00784C4A /* LJCheckFriendsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */; };
 		BC72DB16058B2AFA00784C4A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		BC72DB18058B2AFA00784C4A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5992D0C03786BB6012C19B1 /* CoreServices.framework */; };
 		BCBC6A3605AB8C5F000EFE4A /* LJAccount_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A3505AB8C5F000EFE4A /* LJAccount_Private.h */; };
@@ -67,6 +41,8 @@
 		438B206903BD273D00067F6D /* License.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCheckFriendsSession.h; sourceTree = "<group>"; };
 		43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LJCheckFriendsSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		55014FEC1A9677E400A233E0 /* LJFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJFriend.swift; sourceTree = "<group>"; };
+		55014FEE1A96786A00A233E0 /* LJUserEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJUserEntity.swift; sourceTree = "<group>"; };
 		5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity_Private.h; sourceTree = "<group>"; };
 		5F548C4A07133B7600515272 /* LJUserEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity.h; sourceTree = "<group>"; };
 		5F548C4B07133B7600515272 /* LJUserEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJUserEntity.m; sourceTree = "<group>"; };
@@ -144,6 +120,7 @@
 		0867D691FE84028FC02AAC07 /* LJKit */ = {
 			isa = PBXGroup;
 			children = (
+				55014FEA1A96773500A233E0 /* LJKit */,
 				BC296EFE058B62EF00874810 /* ToDo.txt */,
 				BC72DB6C058B2D2000784C4A /* Changes.html */,
 				F51DE22502E293D301745AE7 /* Public */,
@@ -177,6 +154,23 @@
 				438B206903BD273D00067F6D /* License.txt */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		55014FEA1A96773500A233E0 /* LJKit */ = {
+			isa = PBXGroup;
+			children = (
+				55014FEB1A96775400A233E0 /* Swift */,
+			);
+			path = LJKit;
+			sourceTree = "<group>";
+		};
+		55014FEB1A96775400A233E0 /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				55014FEC1A9677E400A233E0 /* LJFriend.swift */,
+				55014FEE1A96786A00A233E0 /* LJUserEntity.swift */,
+			);
+			path = Swift;
 			sourceTree = "<group>";
 		};
 		F51DE22502E293D301745AE7 /* Public */ = {
@@ -244,20 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC72DAEF058B2AFA00784C4A /* LJKit.h in Headers */,
-				BC72DAF0058B2AFA00784C4A /* LJAccount.h in Headers */,
-				BC72DAF1058B2AFA00784C4A /* LJAccount_EditFriends.h in Headers */,
-				BC72DAF2058B2AFA00784C4A /* LJJournal.h in Headers */,
-				BC72DAF3058B2AFA00784C4A /* LJEntryRoot.h in Headers */,
-				BC72DAF4058B2AFA00784C4A /* LJEntry.h in Headers */,
-				BC72DAF5058B2AFA00784C4A /* LJEntry_Metadata.h in Headers */,
-				BC72DAF6058B2AFA00784C4A /* LJEntrySummary.h in Headers */,
 				552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */,
-				BC72DAF7058B2AFA00784C4A /* LJServer.h in Headers */,
-				BC72DAF8058B2AFA00784C4A /* LJCheckFriendsSession.h in Headers */,
-				BC72DAF9058B2AFA00784C4A /* LJMoods.h in Headers */,
-				BC72DAFA058B2AFA00784C4A /* LJFriend.h in Headers */,
-				BC72DAFB058B2AFA00784C4A /* LJGroup.h in Headers */,
-				BC72DAFC058B2AFA00784C4A /* LJHttpURLs.h in Headers */,
 				BC72DAFD058B2AFA00784C4A /* URLEncoding.h in Headers */,
 				BC72DAFE058B2AFA00784C4A /* Miscellaneous.h in Headers */,
 				BC72DAFF058B2AFA00784C4A /* LJMenu.h in Headers */,
@@ -268,7 +249,6 @@
 				BCBC6AA705AB96F9000EFE4A /* LJEntry_Private.h in Headers */,
 				BCBC6AA905AB976B000EFE4A /* LJFriend_Private.h in Headers */,
 				BCBC6AAB05AB9849000EFE4A /* LJGroup_Private.h in Headers */,
-				5F548C4C07133B7600515272 /* LJUserEntity.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,23 +366,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC72DB05058B2AFA00784C4A /* LJAccount.m in Sources */,
-				BC72DB06058B2AFA00784C4A /* LJJournal.m in Sources */,
 				BC72DB07058B2AFA00784C4A /* Miscellaneous.m in Sources */,
-				BC72DB08058B2AFA00784C4A /* LJServer.m in Sources */,
 				BC72DB09058B2AFA00784C4A /* URLEncoding.m in Sources */,
+				55014FED1A9677E400A233E0 /* LJFriend.swift in Sources */,
 				BC72DB0A058B2AFA00784C4A /* LJMenu.m in Sources */,
-				BC72DB0B058B2AFA00784C4A /* LJMoods.m in Sources */,
-				BC72DB0C058B2AFA00784C4A /* LJAccount_EditFriends.m in Sources */,
-				BC72DB0D058B2AFA00784C4A /* LJFriend.m in Sources */,
-				BC72DB0E058B2AFA00784C4A /* LJGroup.m in Sources */,
-				BC72DB0F058B2AFA00784C4A /* LJEntry_Metadata.m in Sources */,
-				BC72DB10058B2AFA00784C4A /* LJHttpURLs.m in Sources */,
-				BC72DB11058B2AFA00784C4A /* LJEntrySummary.m in Sources */,
-				BC72DB12058B2AFA00784C4A /* LJEntry.m in Sources */,
-				BC72DB13058B2AFA00784C4A /* LJEntryRoot.m in Sources */,
-				BC72DB14058B2AFA00784C4A /* LJCheckFriendsSession.m in Sources */,
-				5F548C4D07133B7600515272 /* LJUserEntity.m in Sources */,
+				55014FEF1A96786A00A233E0 /* LJUserEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +400,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -448,8 +417,10 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = LJKit;
 				SECTORDER_FLAGS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -458,6 +429,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -471,6 +443,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = LJKit;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = framework;
@@ -540,7 +513,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DDEBUG";
 				SDKROOT = macosx;
@@ -571,7 +544,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
