@@ -30,4 +30,8 @@ public class LJUserEntity: NSObject {
         
         super.init()
     }
+	
+	internal var account: LJAccount? {
+		return nil
+	}
 }
