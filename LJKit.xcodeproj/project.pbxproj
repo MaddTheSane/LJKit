@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		55014FED1A9677E400A233E0 /* LJFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55014FEC1A9677E400A233E0 /* LJFriend.swift */; };
 		55014FEF1A96786A00A233E0 /* LJUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55014FEE1A96786A00A233E0 /* LJUserEntity.swift */; };
+		550150011A967B3200A233E0 /* LJMoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550150001A967B3200A233E0 /* LJMoods.swift */; };
 		552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */; };
 		55D087201A6CCE9200E0A00A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC71787905AD5484000355FC /* Localizable.strings */; };
 		BC296EFF058B62EF00874810 /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC296EFE058B62EF00874810 /* ToDo.txt */; };
@@ -43,6 +44,7 @@
 		43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LJCheckFriendsSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		55014FEC1A9677E400A233E0 /* LJFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJFriend.swift; sourceTree = "<group>"; };
 		55014FEE1A96786A00A233E0 /* LJUserEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJUserEntity.swift; sourceTree = "<group>"; };
+		550150001A967B3200A233E0 /* LJMoods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJMoods.swift; sourceTree = "<group>"; };
 		5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity_Private.h; sourceTree = "<group>"; };
 		5F548C4A07133B7600515272 /* LJUserEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity.h; sourceTree = "<group>"; };
 		5F548C4B07133B7600515272 /* LJUserEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJUserEntity.m; sourceTree = "<group>"; };
@@ -169,9 +171,11 @@
 			children = (
 				55014FEC1A9677E400A233E0 /* LJFriend.swift */,
 				55014FEE1A96786A00A233E0 /* LJUserEntity.swift */,
+				550150001A967B3200A233E0 /* LJMoods.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		F51DE22502E293D301745AE7 /* Public */ = {
 			isa = PBXGroup;
@@ -366,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				550150011A967B3200A233E0 /* LJMoods.swift in Sources */,
 				BC72DB07058B2AFA00784C4A /* Miscellaneous.m in Sources */,
 				BC72DB09058B2AFA00784C4A /* URLEncoding.m in Sources */,
 				55014FED1A9677E400A233E0 /* LJFriend.swift in Sources */,
