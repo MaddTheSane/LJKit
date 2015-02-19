@@ -22,6 +22,7 @@
 /*
  2004-01-06 [BPR] Replaced cString with UTF8String in MD5HexDigest().
  2004-01-06 [BPR] Removed ImmutablizeObject()
+ 2011-02-16 [MTS] Use CommonCrypto instead of openssl
  */
 
 #import <Foundation/Foundation.h>
@@ -29,10 +30,6 @@
 
 #import "Miscellaneous.h"
 
-/*
- * Returns the MD5 digest of the given NSString object as a hex
- * encoded string.  Uses the crypto library distributed with OS X.
- */
 NSString *MD5HexDigest(NSString *string)
 {
     unsigned char digest[CC_MD5_DIGEST_LENGTH] = {0};
@@ -46,11 +43,6 @@ NSString *MD5HexDigest(NSString *string)
     return [NSString stringWithString: hexString];
 }
 
-/*
- * Converts a hexadecimal digit character to its value.
- * This function is case insensitive and returns 0x10 if the hex
- * digit is invalid.
- */
 char ValueForHexDigit(char digit)
 {
     if ('0' <= digit && digit <= '9') {
@@ -67,10 +59,6 @@ char ValueForHexDigit(char digit)
     }
 }
 
-/*
- * Creates an NSColor object represented by a given HTML color code.
- * (e.g., "#FFCC00")
- */
 NSColor *ColorForHTMLCode(NSString *code)
 {
     // Code is of the form "#RRGGBB"
@@ -90,10 +78,6 @@ NSColor *ColorForHTMLCode(NSString *code)
     return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:1.0];
 }
 
-/*
- * Returns the HTML color code which represents the given NSColor object.
- * Assumes the NSColor is an RGB color.
- */
 NSString *HTMLCodeForColor(NSColor *color)
 {
     NSColor *rgbColor;

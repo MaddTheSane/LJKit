@@ -26,9 +26,6 @@
 #import "URLEncoding.h"
 #import "Miscellaneous.h"
 
-/*
- URL encodes the string argument and appends the result to data.
- */
 void LJAppendURLEncodingOfStringToData(NSString *string, NSMutableData *data)
 {
     const char *bytes;
@@ -55,9 +52,6 @@ void LJAppendURLEncodingOfStringToData(NSString *string, NSMutableData *data)
     }
 }
 
-/*
- Decodes an URL encoded string and returns the result as a string.
- */
 NSString *LJURLDecodeString(NSString *string)
 {
     const char *encodedBytes;
@@ -91,13 +85,6 @@ NSString *LJURLDecodeString(NSString *string)
     return decodedString;
 }
 
-/*
- * Creates an NSData object with the key-value pairs URL encoded,
- * suitable for sending to a HTTP server.  Note: &, the pair separator,
- * is prepended to ALL pairs, including the first one.  This is peculiar
- * to the LJKit, since the mode key and value will always be prepended
- * to the result.
- */
 NSData *LJCreateURLEncodedFormData(NSDictionary *dict)
 {
     NSMutableData *data = [NSMutableData dataWithCapacity:[dict count]*16];
@@ -111,10 +98,6 @@ NSData *LJCreateURLEncodedFormData(NSDictionary *dict)
     return [data copy];
 }
 
-/*
- Parses a LiveJournal server response and returns the key/value pairs as
- an NSDictionary.
- */
 NSDictionary *ParseLJReplyData(NSData *data)
 {
     NSCParameterAssert(data);
