@@ -10,19 +10,18 @@ import Foundation
 
 private let moodsDictionary = "LJMoodsDictionary"
 
-public class LJMoods: NSObject, NSSecureCoding {
-	private var moods = [String: String]()
-	
-	private var moodNames: [String] {
-		var moodArray = moods.keys.array
-		
-		moodArray.sort { (lhs, rhs) -> Bool in
-			var aRet = lhs.localizedStandardCompare(rhs)
-			
-			return aRet == .OrderedAscending
-		}
-		return moodArray
-	}
+/*!
+@class LJMoods
+@abstract Represents the set of moods known to a LiveJournal server.
+@discussion
+An LJMoods object represents a set of moods and their IDs.
+
+This class implements the NSComboBoxDataSource protocol, including
+autocompleting mood names, so it can be used as a data source for
+NSComboBoxes in your human interface.
+*/
+@objc(LJMoods) public class LJMoods: NSObject, NSSecureCoding {
+	private var moods: [(name: String, ID: String)] = []
 	
 	private func indexForMoodName(moodName: String, hypothetical flag: Bool) -> Int? {
 		let sml = moodNames
@@ -50,13 +49,14 @@ public class LJMoods: NSObject, NSSecureCoding {
 	private func addMoodID(moodID: String, name moodName: String) {
 		if !moodID.isEmpty && !moodName.isEmpty {
 			var index = indexForMoodName(moodName, hypothetical: true)!
-			moods[moodName] = moodID
+			moods.insert((moodName, moodID), atIndex: index)
 			if moodID.toInt()! > highestMoodID {
 				highestMoodID = moodID.toInt()!
 			}
 		}
 	}
 	
+	/// Initialize an LJMoods object.
 	public override init() {
 
 
@@ -64,56 +64,85 @@ public class LJMoods: NSObject, NSSecureCoding {
 	}
 
 
-	/// @property highestMoodID
-	/// @abstract The highest value mood ID.
+	///  The highest value mood ID.
 	public private(set) var highestMoodID: Int = 0
 	
 	
-	/// @property highestMoodIDString
-	/// @abstract The highest value mood ID as a string.
+	/// The highest value mood ID as a string.
 	public var highestMoodIDString: String {
 		return "\(highestMoodID)"
 	}
 
+	/// Obtain the ID number for a given mood name.
+	public func IDForMoodName(moodName: String) -> Int {
+		return IDStringForMoodName(moodName)?.toInt() ?? 0
+	}
+	
+	/// Obtain the ID number for a given mood name as a string.
+	public func IDStringForMoodName(moodName: String) -> String? {
+		if let index = indexForMoodName(moodName, hypothetical: false) {
+			return moods[index].ID
+		} else {
+			return nil
+		}
+	}
+	
+	/// Obtain the mood name for a given mood id.
+	public func moodNameFromID(moodID: String) -> String? {
+		if let index = indexForMoodID(moodID) {
+			return moods[index].name
+		}
+		
+		return nil
+	}
+
+	private func indexForMoodID(moodID: String) -> Int? {
+		for (index, key) in enumerate(moods) {
+			if key.ID == moodID {
+				return index
+			}
+		}
+		
+		return nil
+	}
+	
+	/// A sorted array of all known moods.
+	public var moodNames: [String] {
+		var moodArray = moods.map { (aMood) -> String in
+			return aMood.name
+		}
+		
+		return moodArray
+	}
+	
 	internal func updateMoodsWithLoginReply(reply: NSDictionary) {
 		let count = reply["mood_count"] as Int
 		
 		for (var i = 1; i <= count; i++) {
 			let moodNameKey = "mood_\(i)_name"
 			let moodIDKey = "mood_\(i)_id"
-
+			
+			addMoodID(reply[moodIDKey] as String, name: reply[moodNameKey] as String)
 		}
 	}
-	/*
-- (void)updateMoodsWithLoginReply:(NSDictionary *)reply
-{
-NSInteger count = [reply[@"mood_count"] integerValue];
-for (NSInteger i = 1; i <= count; i++) {
-NSString *moodNameKey = [NSString stringWithFormat:@"mood_%ld_name", (long)i];
-NSString *moodIDKey = [NSString stringWithFormat:@"mood_%ld_id", (long)i];
-[self _addMoodID:reply[moodIDKey]
-forName:reply[moodNameKey]];
-}
-}
-*/
 
 	// MARK: - NSCoding
 	public func encodeWithCoder(aCoder: NSCoder) {
-		let moodmap = NSDictionary(objects: moods.keys.array, forKeys: moods.values.array)
-		aCoder.encodeObject(moodmap, forKey: moodsDictionary)
+		var moodMap = [String: String]()
+		moods.map { (anObj) -> Void in
+			moodMap[anObj.ID] = anObj.name
+		}
+		
+		aCoder.encodeObject(moodMap as NSDictionary, forKey: moodsDictionary)
 	}
-	
 	
 	public required init(coder aDecoder: NSCoder) {
 		let moodmap = aDecoder.decodeObjectForKey(moodsDictionary) as NSDictionary as [String: String]
-		let ohai = NSDictionary(objects: moodmap.keys.array, forKeys: moodmap.values.array)
-		
-		
 		
 		super.init()
 		
 		for (key, value) in moodmap {
-			
+			addMoodID(key, name: value)
 		}
 	}
 	
