@@ -13,7 +13,7 @@ public class LJUserEntity: NSObject {
     @property username
     @abstract The username of the receiver.
     */
-    public private(set) var username: String;
+    public internal(set) var username: String;
     
     /*!
     @property fullname
@@ -22,7 +22,7 @@ public class LJUserEntity: NSObject {
     Returns the receiver's full name, as reported by the server.  If not
     available, this method returns the receiver's username.
     */
-    public private(set) var fullname: String
+    public internal(set) var fullname: String
 
     public override init() {
         username = ""
