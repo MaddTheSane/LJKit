@@ -48,6 +48,7 @@ static void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKey
 
 #ifdef ENABLE_REACHABILITY_MONITORING
 static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info);
+static CFStringRef LJServerReachabilityCopyDescription(const void *info);
 #endif
 
 @interface LJServer ()
@@ -65,7 +66,6 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
 	SCNetworkReachabilityRef _target;
 #endif
 	CFHTTPMessageRef _requestTemplate;
-
 }
 @synthesize URL = _serverURL;
 @synthesize useFastServers = _isUsingFastServers;
@@ -88,6 +88,9 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
         _account = account; // don't retain (to avoid a cycle)
         [self setURL:url];
 		[self enableProxyDetection];
+#ifdef ENABLE_REACHABILITY_MONITORING
+		_reachContext.copyDescription = LJServerReachabilityCopyDescription;
+#endif
     }
     return self;
 }
@@ -235,6 +238,10 @@ static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetw
     }
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"Server: %@, is using fast server: %@", _serverURL, _isUsingFastServers ? @"Yes" : @"No" ];
+}
 
 #define STREAM_BUFFER_SIZE 256
 
@@ -301,12 +308,20 @@ void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void
 #ifdef ENABLE_REACHABILITY_MONITORING
 void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info)
 {
-    NSNotificationCenter *center;
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
     NSDictionary *userInfo = @{@"ConnectionFlags": @(flags)};
-    center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:LJServerReachabilityDidChangeNotification
                           object:(__bridge LJServer *)info
                         userInfo:userInfo];
 }
+
+CFStringRef LJServerReachabilityCopyDescription(const void *info)
+{
+	LJServer *serv = (__bridge LJServer *)info;
+	NSString *des = [serv description];
+	
+	return CFBridgingRetain([NSString stringWithFormat:@"LJServer, %@", des]);
+}
+
 #endif
