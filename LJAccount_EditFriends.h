@@ -40,7 +40,7 @@
 - (void)downloadFriends;
 
 /*!
- @property uploadFriends
+ @method uploadFriends
  @abstract Upload changes to friends and groups to the server.
  @result YES if changes were made; NO if there were no changes to upload.
  @discussion
@@ -49,7 +49,7 @@
  and saved.  Other information, such as birthdays, won't be updated until
  the next call to downloadFriends.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL uploadFriends;
+- (BOOL)uploadFriends;
 
 /*!
  @property friendSet

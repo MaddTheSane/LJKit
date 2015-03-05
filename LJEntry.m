@@ -45,6 +45,9 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
 
 @implementation LJEntry
 @synthesize edited = _isEdited;
+@dynamic journal;
+@dynamic account;
+@dynamic date;
 
 - (instancetype)init
 {
