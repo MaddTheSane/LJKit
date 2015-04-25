@@ -24,6 +24,8 @@
 
 @class LJFriend, LJGroup;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @category LJAccount(EditFriends)
  @abstract Methods for editing friends and groups.
@@ -59,7 +61,7 @@
  If the friends list hasn't been downloaded, returns nil.
  This property is preserved during archiving.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *friendSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSSet *friendSet;
 
 /*!
  @property friendArray
@@ -70,7 +72,7 @@
  If the friends list hasn't been downloaded, returns nil.
  This property is preserved during archiving.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *friendArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSArray *friendArray;
 
 /*!
  @method friendEnumerator
@@ -79,7 +81,7 @@
  Returns an NSEnumerator which traverses the user's friends, returning LJFriend
  objects.
  */
-- (NSEnumerator *)friendEnumerator;
+- (nullable NSEnumerator *)friendEnumerator;
 
 /*!
  @property groupSet
@@ -90,7 +92,7 @@
 
  This property is preserved during archiving.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *groupSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSSet *groupSet;
 
 /*!
  @property groupArray
@@ -101,7 +103,7 @@
 
  This property is preserved during archiving.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *groupArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSArray *groupArray;
 
 /*!
  @method groupEnumerator
@@ -110,7 +112,7 @@
  Returns an NSEnumerator which traverses the user's groups, returning
  LJGroup objects.
  */
-- (NSEnumerator *)groupEnumerator;
+- (nullable NSEnumerator *)groupEnumerator;
 
 /*!
  @property friendOfSet
@@ -120,7 +122,7 @@
  This property is preserved during archiving.
  @result An NSSet of LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *friendOfSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSSet *friendOfSet;
 
 /*!
  @property friendOfArray
@@ -130,7 +132,7 @@
  This property is preserved during archiving.
  @result A sorted NSArray of LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *friendOfArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSArray *friendOfArray;
 
 /*!
  @method friendOfEnumerator
@@ -139,7 +141,7 @@
  Returns an NSEnumerator which traverses users who list the receiver as a
  friend, returning LJFriend objects.
  */
-- (NSEnumerator *)friendOfEnumerator;
+- (nullable NSEnumerator *)friendOfEnumerator;
 
 /*!
  @property relationshipArray
@@ -156,7 +158,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result A sorted NSArray of LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *watchedCommunityArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSArray *watchedCommunityArray;
 
 /*!
  @property watchedCommunitySet
@@ -164,7 +166,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result An NSSet of LJFriend objects.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *watchedCommunitySet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSSet *watchedCommunitySet;
 
 /*!
  @property joinedCommunityArray
@@ -172,7 +174,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result A sorted NSArray of LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *joinedCommunityArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSArray *joinedCommunityArray;
 
 /*!
  @property joinedCommunitySet
@@ -180,7 +182,7 @@
  If the friends list hasn't been downloaded, returns nil.
  @result An NSSet of LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *joinedCommunitySet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSSet *joinedCommunitySet;
 
 /*!
  @method friendNamed:
@@ -189,7 +191,7 @@
  This method searches both the friends and friend-ofs for the account for the
  friend with the given username.
  */
-- (LJFriend *)friendNamed:(NSString *)username;
+- (nullable LJFriend *)friendNamed:(NSString *)username;
 
 /*!
  @method addFriend:
@@ -258,3 +260,5 @@
 - (NSSet *)groupSetFromMask:(unsigned int)groupMask;
 
 @end
+
+NS_ASSUME_NONNULL_END

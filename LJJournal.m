@@ -165,14 +165,10 @@ static NSString *entrySummaryLength = nil;
 
 - (NSArray *)getEntriesWithParameters:(NSMutableDictionary *)parameters
 {
-    NSDictionary *reply;
-    NSMutableArray *workingArray;
-    NSInteger count, i;
-    
-    reply = [self getEventsReplyWithParameters:parameters];
-    count = [reply[@"events_count"] integerValue];
-    workingArray = [NSMutableArray arrayWithCapacity:count];
-    for ( i = 1; i <= count; i++ ) {
+    NSDictionary *reply = [self getEventsReplyWithParameters:parameters];
+    NSInteger count = [reply[@"events_count"] integerValue];
+    NSMutableArray *workingArray = [[NSMutableArray alloc] initWithCapacity:count];
+    for (NSInteger i = 1; i <= count; i++ ) {
         NSString *prefix = [[NSString alloc] initWithFormat:@"events_%ld_", (long)i];
         LJEntry *entry = [[LJEntry alloc] initWithReply:reply prefix:prefix journal:self];
         [workingArray addObject:entry];

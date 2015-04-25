@@ -24,6 +24,9 @@
  */
 
 #import "LJMoods.h"
+#if !TARGET_OS_IPHONE
+#import "LJMoods_Cocoa.h"
+#endif
 
 @interface LJMoods ()
 - (NSInteger)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag;
@@ -168,7 +171,7 @@
     return [NSArray arrayWithArray:_moodNames];
 }
 
-
+#if !TARGET_OS_IPHONE
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox
 {
     return [_moodNames count];
@@ -193,5 +196,6 @@
 {
     return [self _indexForMoodName:aString hypothetical:NO];
 }
+#endif
 
 @end

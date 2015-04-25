@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */; };
 		55D087201A6CCE9200E0A00A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC71787905AD5484000355FC /* Localizable.strings */; };
+		55F42ACB1AEC47FB0085CA56 /* LJMoods_Cocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F548C4C07133B7600515272 /* LJUserEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F548C4A07133B7600515272 /* LJUserEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F548C4D07133B7600515272 /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
 		BC296EFF058B62EF00874810 /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC296EFE058B62EF00874810 /* ToDo.txt */; };
@@ -68,6 +69,7 @@
 		43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCheckFriendsSession.h; sourceTree = "<group>"; };
 		43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LJCheckFriendsSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity_Private.h; sourceTree = "<group>"; };
+		55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMoods_Cocoa.h; sourceTree = "<group>"; };
 		5F548C4A07133B7600515272 /* LJUserEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity.h; sourceTree = "<group>"; };
 		5F548C4B07133B7600515272 /* LJUserEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJUserEntity.m; sourceTree = "<group>"; };
 		BC296EFE058B62EF00874810 /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				F52AFB6902E3650701ECE1AA /* LJServer.h */,
 				F52AFB6802E3650701ECE1AA /* LJServer.m */,
 				F52AFB7702E381BC01ECE1AA /* LJMoods.h */,
+				55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */,
 				F52AFB7602E381BC01ECE1AA /* LJMoods.m */,
 				F52AFB5502E35F3201ECE1AA /* LJJournal.h */,
 				F52AFB5402E35F3201ECE1AA /* LJJournal.m */,
@@ -258,6 +261,7 @@
 				BC72DAFA058B2AFA00784C4A /* LJFriend.h in Headers */,
 				BC72DAFB058B2AFA00784C4A /* LJGroup.h in Headers */,
 				BC72DAFC058B2AFA00784C4A /* LJHttpURLs.h in Headers */,
+				55F42ACB1AEC47FB0085CA56 /* LJMoods_Cocoa.h in Headers */,
 				BC72DAFD058B2AFA00784C4A /* URLEncoding.h in Headers */,
 				BC72DAFE058B2AFA00784C4A /* Miscellaneous.h in Headers */,
 				BC72DAFF058B2AFA00784C4A /* LJMenu.h in Headers */,

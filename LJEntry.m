@@ -171,7 +171,7 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
 
 - (NSString *)content
 {
-    return _content ? _content : @"";
+    return _content ?: @"";
 }
 
 - (void)setContent:(NSString *)content

@@ -217,8 +217,7 @@
 	if (currentTags == nil || [currentTags length] == 0) {
 		[self setTags: newTag];		// There are no tags so just set it
 		return;
-	}
-	else {
+	} else {
 		// NSLog(@"Current tags: %@", currentTags);
 		NSRange r = [currentTags rangeOfString:newTag options:NSCaseInsensitiveSearch];
 		if (r.length == 0) {

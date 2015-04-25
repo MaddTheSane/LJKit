@@ -35,6 +35,8 @@
 
 @class LJAccount;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #ifdef ENABLE_REACHABILITY_MONITORING
 /*!
  @const LJServerReachabilityDidChangeNotification
@@ -138,6 +140,8 @@ FOUNDATION_EXPORT NSString * const LJServerReachabilityDidChangeNotification;
  with network transport.  If the LiveJournal server returns an error, this method
  will not detect it.  You should use the corresponding method in LJAccount instead.
  */
-- (NSDictionary *)getReplyForMode:(NSString *)mode parameters:(NSDictionary *)parameters;
+- (nullable NSDictionary *)getReplyForMode:(NSString *)mode parameters:(nullable NSDictionary *)parameters;
 
 @end
+
+NS_ASSUME_NONNULL_END

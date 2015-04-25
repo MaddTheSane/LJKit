@@ -36,6 +36,8 @@
 
 @class LJJournal, LJEntryRoot, LJGroup, LJUserEntity, LJFriend;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @category LJJournal(LJHttpURLs)
  */
@@ -159,3 +161,5 @@
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSURL *leaveCommunityHttpURL;
 @end
+
+NS_ASSUME_NONNULL_END

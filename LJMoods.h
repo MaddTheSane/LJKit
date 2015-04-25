@@ -21,6 +21,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class LJMoods
  @abstract Represents the set of moods known to a LiveJournal server.
@@ -31,7 +33,7 @@
  autocompleting mood names, so it can be used as a data source for
  NSComboBoxes in your human interface.
  */
-@interface LJMoods : NSObject <NSCoding, NSComboBoxDataSource>
+@interface LJMoods : NSObject <NSCoding>
 
 /*!
  @method init
@@ -70,7 +72,7 @@
 	@method - MoodNameFromIDString:
 	@abstract Obtain the mood name for a given mood id.
 */
-- (NSString *)MoodNameFromID:(NSString *)moodID;
+- (nullable NSString *)MoodNameFromID:(NSString *)moodID;
 
 /*!
  @property moodNames
@@ -80,3 +82,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

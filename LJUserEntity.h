@@ -23,6 +23,8 @@
 
 @class LJAccount;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface LJUserEntity : NSObject
 {
 @protected
@@ -45,3 +47,5 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *fullname;
 
 @end
+
+NS_ASSUME_NONNULL_END

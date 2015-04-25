@@ -22,24 +22,22 @@
 #import <Cocoa/Cocoa.h>
 #import <LJKit/LJUserEntity.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class LJAccount, LJGroup;
 
 /*!
  @enum Friendship Constants
-
- @constant LJFriendshipOutgoing
- You list the user as a friend.
-
- @constant LJFriendshipIncoming
- The friend lists you as a friend.
-
- @constant LJFriendshipMutual
- You list the user as a friend and he lists you as a friend.
- This is equal to the bitwise OR of the two other constants.
  */
 typedef NS_OPTIONS(NSInteger, LJFriendship) {
+    /// You list the user as a friend.
     LJFriendshipOutgoing = 1,
+    
+    /// The friend lists you as a friend.
     LJFriendshipIncoming = 2,
+    
+    /// You list the user as a friend and he lists you as a friend.
+    /// This is equal to the bitwise OR of the two other constants.
     LJFriendshipMutual = 3,
 };
 
@@ -82,7 +80,7 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
  This is the date that the receiver was most recently changed in some way.
  If this date is later than the last time the account's friends have been
  downloaded then its changes will be committed next time
- [LJAccount uploadFriends] is called.
+ <code>[LJAccount uploadFriends]</code> is called.
  */
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *modifiedDate;
 
@@ -128,3 +126,5 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *foregroundColorForYou;
 
 @end
+
+NS_ASSUME_NONNULL_END

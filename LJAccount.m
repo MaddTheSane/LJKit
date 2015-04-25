@@ -589,17 +589,6 @@ static LJAccount *gAccountListHead = nil;
 	return [[_userPicturesDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
-- (NSDictionary *)userPicturesDictionary
-{
-    return _userPicturesDictionary;
-}
-
-// [FS] For key value observing
-- (void) setUserPicturesDictionary: (NSDictionary *)aDict {
-	NSLog(@"Setting user pictures dictionary");
-	_userPicturesDictionary = [aDict mutableCopy];
-}
-
 - (NSURL *)defaultUserPictureURL
 {
     return _defaultUserPictureURL;

@@ -30,29 +30,26 @@
 
 @class LJAccount, LJJournal, LJGroup;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
 @enum LJEntry Security Modes
 
  @discussion
  These constants define the security modes.
-
- @constant LJSecurityModePublic
- This entry is visible by everybody.
-
- @constant LJSecurityModePrivate
- This entry is visible only to the author.
-
- @constant LJSecurityModeFriend
- This entry is visible to anyone on the author's friends list.
-
- @constant LJSecurityModeGroup
- This entry is visible to anyone in the specified friend groups.
- Specify groups using allowAccessByGroup: and denyAccessByGroup:.
  */
 typedef NS_ENUM(NSInteger, LJSecurityMode) {
+    /// This entry is visible by everybody.
     LJSecurityModePublic = 0,
+    
+    /// This entry is visible only to the author.
     LJSecurityModePrivate,
+    
+    ///This entry is visible to anyone on the author's friends list.
     LJSecurityModeFriend,
+    
+    /// This entry is visible to anyone in the specified friend groups.
+    /// Specify groups using \c allowAccessByGroup: and <code>denyAccessByGroup:</code>.
     LJSecurityModeGroup
 };
 
@@ -232,3 +229,5 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
 - (void)removeFromJournal;
 
 @end
+
+NS_ASSUME_NONNULL_END

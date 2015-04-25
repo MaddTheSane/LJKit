@@ -23,6 +23,8 @@
 
 @class LJAccount, LJEntry, LJEntrySummary;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class LJJournal
  @abstract A journal object.
@@ -116,7 +118,7 @@
  Note that the itemID is different from the itemID which appears on the web.
  @result The desired LJEntrySummary object if found, nil otherwise.
  */
-- (LJEntrySummary *)getSummaryForItemID:(int)itemID;
+- (nullable LJEntrySummary *)getSummaryForItemID:(int)itemID;
 
 /*!
  @method getSummariesLastN:beforeDate:
@@ -188,3 +190,5 @@
 - (NSInteger)createJournalTagsArray:(NSDictionary *)reply;
 
 @end
+
+NS_ASSUME_NONNULL_END

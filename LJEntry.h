@@ -27,6 +27,8 @@
 
 @class LJAccount, LJJournal, LJGroup;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @const LJEntryWillSaveToJournalNotification
  Posted before an entry is saved to the server.  The notification object
@@ -100,7 +102,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
  the set of allowed groups will be cleared, as groups have no meaning outside
  of the account they exist in.
  */
-@property (NS_NONATOMIC_IOSONLY, readwrite, strong) LJJournal *journal;
+@property (NS_NONATOMIC_IOSONLY, readwrite, strong, nullable) LJJournal *journal;
 
 /*!
  @property account
@@ -211,3 +213,5 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotSaveToJournalNotification;
 @property (NS_NONATOMIC_IOSONLY, readonly, strong) NSMutableDictionary *customInfo;
 
 @end
+
+NS_ASSUME_NONNULL_END

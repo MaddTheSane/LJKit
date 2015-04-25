@@ -25,6 +25,8 @@
 #import <Cocoa/Cocoa.h>
 #import <LJKit/LJUserEntity.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class LJServer, LJMoods, LJJournal;
 
 #define LJKitBundle [NSBundle bundleForClass:[LJAccount class]]
@@ -330,7 +332,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  If an error occurs, an exception is raised.
  */
-- (NSDictionary *)getReplyForMode:(NSString *)mode parameters:(NSDictionary *)parameters;
+- (nullable NSDictionary *)getReplyForMode:(NSString *)mode parameters:(nullable NSDictionary *)parameters;
 
 /*!
  @method loginWithPassword:flags:
@@ -468,7 +470,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  @discussion
  This property is preserved during archiving.
  */
-- (NSString *)defaultUserPictureKeyword;
+- (nullable NSString *)defaultUserPictureKeyword;
 
 /*!
  @property userPicturesMenu
@@ -592,3 +594,5 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 - (void)accountDidConnect:(NSNotification *)notification;
 
 @end
+
+NS_ASSUME_NONNULL_END
