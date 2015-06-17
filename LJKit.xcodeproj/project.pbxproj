@@ -56,9 +56,9 @@
 		55F298991A945ECF001C32EA /* LJCheckFriendsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */; };
 		55F2989A1A945ECF001C32EA /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
 		55F2989C1A945ECF001C32EA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		55F2989D1A945ECF001C32EA /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */; };
 		55F2989E1A945ECF001C32EA /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5992D0C03786BB6012C19B1 /* CoreServices.framework */; };
 		55F2989F1A945ECF001C32EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBC6B0A05ABB098000EFE4A /* SystemConfiguration.framework */; };
+		55F42ACB1AEC47FB0085CA56 /* LJMoods_Cocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F548C4C07133B7600515272 /* LJUserEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F548C4A07133B7600515272 /* LJUserEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F548C4D07133B7600515272 /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
 		BC296EFF058B62EF00874810 /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC296EFE058B62EF00874810 /* ToDo.txt */; };
@@ -98,7 +98,6 @@
 		BC72DB13058B2AFA00784C4A /* LJEntryRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BD1B0D03A5597201805C1D /* LJEntryRoot.m */; };
 		BC72DB14058B2AFA00784C4A /* LJCheckFriendsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */; };
 		BC72DB16058B2AFA00784C4A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		BC72DB17058B2AFA00784C4A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */; };
 		BC72DB18058B2AFA00784C4A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5992D0C03786BB6012C19B1 /* CoreServices.framework */; };
 		BCBC6A3605AB8C5F000EFE4A /* LJAccount_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A3505AB8C5F000EFE4A /* LJAccount_Private.h */; };
 		BCBC6A7805AB9348000EFE4A /* LJServer_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A7705AB9348000EFE4A /* LJServer_Private.h */; };
@@ -120,6 +119,7 @@
 		43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LJCheckFriendsSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity_Private.h; sourceTree = "<group>"; };
 		55F298A31A945ECF001C32EA /* LJKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LJKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMoods_Cocoa.h; sourceTree = "<group>"; };
 		5F548C4A07133B7600515272 /* LJUserEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity.h; sourceTree = "<group>"; };
 		5F548C4B07133B7600515272 /* LJUserEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJUserEntity.m; sourceTree = "<group>"; };
 		BC296EFE058B62EF00874810 /* ToDo.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
@@ -159,7 +159,6 @@
 		F52AFB7202E37FBE01ECE1AA /* LJMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMenu.h; sourceTree = "<group>"; };
 		F52AFB7602E381BC01ECE1AA /* LJMoods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJMoods.m; sourceTree = "<group>"; };
 		F52AFB7702E381BC01ECE1AA /* LJMoods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMoods.h; sourceTree = "<group>"; };
-		F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		F52E1F010357A538010C7683 /* LJHttpURLs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJHttpURLs.h; sourceTree = "<group>"; };
 		F52E1F020357A538010C7683 /* LJHttpURLs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJHttpURLs.m; sourceTree = "<group>"; };
 		F53614270304A86B0100006B /* LJEntry_Metadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJEntry_Metadata.m; sourceTree = "<group>"; };
@@ -177,7 +176,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				55F2989C1A945ECF001C32EA /* Cocoa.framework in Frameworks */,
-				55F2989D1A945ECF001C32EA /* libcrypto.dylib in Frameworks */,
 				55F2989E1A945ECF001C32EA /* CoreServices.framework in Frameworks */,
 				55F2989F1A945ECF001C32EA /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -188,7 +186,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC72DB16058B2AFA00784C4A /* Cocoa.framework in Frameworks */,
-				BC72DB17058B2AFA00784C4A /* libcrypto.dylib in Frameworks */,
 				BC72DB18058B2AFA00784C4A /* CoreServices.framework in Frameworks */,
 				BCBC6B0B05ABB098000EFE4A /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -230,7 +227,6 @@
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				BCBC6B0A05ABB098000EFE4A /* SystemConfiguration.framework */,
-				F52AFB7C02E3878801ECE1AA /* libcrypto.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -259,6 +255,7 @@
 				F52AFB6902E3650701ECE1AA /* LJServer.h */,
 				F52AFB6802E3650701ECE1AA /* LJServer.m */,
 				F52AFB7702E381BC01ECE1AA /* LJMoods.h */,
+				55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */,
 				F52AFB7602E381BC01ECE1AA /* LJMoods.m */,
 				F52AFB5502E35F3201ECE1AA /* LJJournal.h */,
 				F52AFB5402E35F3201ECE1AA /* LJJournal.m */,
@@ -358,6 +355,7 @@
 				BC72DAFA058B2AFA00784C4A /* LJFriend.h in Headers */,
 				BC72DAFB058B2AFA00784C4A /* LJGroup.h in Headers */,
 				BC72DAFC058B2AFA00784C4A /* LJHttpURLs.h in Headers */,
+				55F42ACB1AEC47FB0085CA56 /* LJMoods_Cocoa.h in Headers */,
 				BC72DAFD058B2AFA00784C4A /* URLEncoding.h in Headers */,
 				BC72DAFE058B2AFA00784C4A /* Miscellaneous.h in Headers */,
 				BC72DAFF058B2AFA00784C4A /* LJMenu.h in Headers */,

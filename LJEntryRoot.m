@@ -85,8 +85,10 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
         }
         // parse the date
         obj = info[[prefix stringByAppendingString:@"eventtime"]];
-        _date = [[NSCalendarDate alloc] initWithString:obj
-                                        calendarFormat:@"%Y-%m-%d %H:%M:%S"];
+        NSDateFormatter *df = [NSDateFormatter new];
+        df.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        df.dateFormat = @"%Y-%M-%d %H:%m:%S";
+        _date = [df dateFromString:obj];
     }
     return self;
 }
@@ -95,9 +97,7 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
 {
     self = [super init];
     if (self) {
-        id obj;
-
-        obj = [decoder decodeObjectForKey:@"LJEntryAccountIdentifier"];
+        id obj = [decoder decodeObjectForKey:@"LJEntryAccountIdentifier"];
         _account = [LJAccount accountWithIdentifier:obj];
         obj = [decoder decodeObjectForKey:@"LJEntryJournalName"];
         _journal = [_account journalNamed:obj];
@@ -120,9 +120,7 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    id obj;
-
-    obj = [LJKitBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+    id obj = [LJKitBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
     [encoder encodeObject:obj forKey:@"LJKitVersion"];
     obj = [[_journal account] identifier];
     [encoder encodeObject:obj forKey:@"LJEntryAccountIdentifier"];
@@ -196,14 +194,12 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
 
 - (void)removeFromJournal
 {
-    NSMutableDictionary *request;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    NSDictionary *info;
     
     NSAssert(_itemID != 0, @"Cannot remove a journal entry that has never been saved.");
     [center postNotificationName:LJEntryWillRemoveFromJournalNotification object:self];
     // Compile the request to be sent to the server
-    request = [NSMutableDictionary dictionaryWithCapacity:3];
+    NSMutableDictionary *request = [NSMutableDictionary dictionaryWithCapacity:3];
     request[@"event"] = @"";
     request[@"itemid"] = [NSString stringWithFormat:@"%u", _itemID];
     if (![_journal isDefault]) {
@@ -213,6 +209,7 @@ NSString * const LJEntryDidNotRemoveFromJournalNotification =
     @try {
         [[_journal account] getReplyForMode:@"editevent" parameters:request];
     } @catch (NSException *localException) {
+        NSDictionary *info;
         info = @{@"LJException": localException};
         [center postNotificationName:LJEntryDidNotRemoveFromJournalNotification 
                               object:self userInfo:info];

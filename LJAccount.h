@@ -28,6 +28,9 @@
 #if !TARGET_OS_IPHONE
 #import <Cocoa/Cocoa.h>
 #endif
+
+NS_ASSUME_NONNULL_BEGIN
+
 @class LJServer, LJMoods, LJJournal;
 
 #define LJKitBundle [NSBundle bundleForClass:[LJAccount class]]
@@ -35,48 +38,47 @@
 @protocol LJAccountDelegate;
 
 /*!
- @enum Login Flags
-
+ @enum LJLoginFlag
+ @abstract Login Flags
  @discussion
  These flags are used with the loginWithPassword:flags: method to
  determine what features of the LJKit you wish to enable or disable.
  They can be combined with the bitwise OR operator (|).
- 
- @constant LJNoLoginFlags
- Don't download any extra information.
- 
- @constant LJGetMoodsLoginFlag
- Download mood information.  Updates the current mood object if it has
- already been set using the setMoods: method.  Otherwise, creates a new
- moods object.
- 
- @constant LJGetMenuLoginFlag
- Creates a web menu.  After login it can be retrieved with the menu
- method.
- 
- @constant LJGetUserPicturesLoginFlag
- Download keywords and URLs for account pictures.  After login they can
- be retrieved with the userPicturesDictionary method.
-  
- @constant LJDoNotUseFastServersLoginFlag
- Don't enable fast server access, even if the server offers it.
- Has no effect if fast server access is not offered.
- 
- @constant LJDefaultLoginFlags
- Downloads all available information and enabled fast server access if
- offered.
- 
- @constant LJReservedLoginFlags
- These bits are reserved and must be set to zero.
  */
 typedef NS_OPTIONS(unsigned int, LJLoginFlag) {
+    /// @constant LJNoLoginFlags
+    /// Don't download any extra information.
     LJNoLoginFlags                 = 0,
+    
+    /// @constant LJGetMoodsLoginFlag
+    /// Download mood information.  Updates the current mood object if it has
+    /// already been set using the setMoods: method.  Otherwise, creates a new
+    /// moods object.
     LJGetMoodsLoginFlag            = 1 << 0,
+    
+    /// @constant LJGetMenuLoginFlag
+    /// Creates a web menu.  After login it can be retrieved with the menu
+    /// method.
     LJGetMenuLoginFlag             = 1 << 1,
+    
+    /// @constant LJGetUserPicturesLoginFlag
+    /// Download keywords and URLs for account pictures.  After login they can
+    /// be retrieved with the userPicturesDictionary method.
     LJGetUserPicturesLoginFlag     = 1 << 2,
+    
+    
+    /// @constant LJDoNotUseFastServersLoginFlag
+    /// Don't enable fast server access, even if the server offers it.
+    /// Has no effect if fast server access is not offered.
     LJDoNotUseFastServersLoginFlag = 1 << 3,
-    /// LJGetMoodsLoginFlag | LJGetMenuLoginFlag | LJGetUserPicturesLoginFlag
+    
+    /// @constant LJDefaultLoginFlags
+    /// Downloads all available information and enabled fast server access if
+    /// offered.
     LJDefaultLoginFlags            = 0x00000007,
+    
+    /// @constant LJReservedLoginFlags
+    /// These bits are reserved and must be set to zero.
     LJReservedLoginFlags           = 0xFFFFFFF0,
 };
 
@@ -334,7 +336,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  If an error occurs, an exception is raised.
  */
-- (NSDictionary *)getReplyForMode:(NSString *)mode parameters:(NSDictionary *)parameters;
+- (nullable NSDictionary *)getReplyForMode:(NSString *)mode parameters:(nullable NSDictionary *)parameters;
 
 /*!
  @method loginWithPassword:flags:
@@ -371,7 +373,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  @method loginWithPassword:
  @abstract Logs in to the LiveJournal server.
  @discussion
- Calls loginWithPassword:flags: with LJDefaultLoginFlags.
+ Calls \c loginWithPassword:flags: with <code>LJDefaultLoginFlags</code>.
  */
 - (void)loginWithPassword:(NSString *)password;
 
@@ -474,7 +476,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  @discussion
  This property is preserved during archiving.
  */
-- (NSString *)defaultUserPictureKeyword;
+- (nullable NSString *)defaultUserPictureKeyword;
 
 #if !TARGET_OS_IPHONE
 /*!
@@ -585,7 +587,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
 /*!
  @method accountWillConnect:
- @param notification 
+ @param notification The notification object
  @discussion
  Called before an account will connect to the server.
  What is [notification object]???
@@ -602,3 +604,5 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 - (void)accountDidConnect:(NSNotification *)notification;
 
 @end
+
+NS_ASSUME_NONNULL_END

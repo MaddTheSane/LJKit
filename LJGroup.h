@@ -23,6 +23,8 @@
 
 @class LJAccount, LJFriend;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class LJGroup
  @abstract Represents a friend group.
@@ -52,7 +54,7 @@
  @property name
  @abstract The name of the receiver.
  */
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy, nullable) NSString *name;
 
 /*!
  @property sortOrder
@@ -150,3 +152,5 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *nonMemberSet;
 
 @end
+
+NS_ASSUME_NONNULL_END

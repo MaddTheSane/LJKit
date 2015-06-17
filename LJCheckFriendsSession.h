@@ -27,6 +27,8 @@
 
 @class LJAccount, LJGroup;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
 @const LJFriendsPageUpdatedNotification
  Posted when the friends page has been updated.
@@ -171,3 +173,5 @@ send startChecking to the session object.
 - (BOOL)openFriendsPage;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -24,6 +24,8 @@
 
 @class LJJournal, LJEntry;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class LJEntrySummary
  @abstract Represents an entry summary.
@@ -69,3 +71,5 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getEntry, readonly, strong) LJEntry *entry;
 
 @end
+
+NS_ASSUME_NONNULL_END

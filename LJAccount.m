@@ -451,16 +451,14 @@ static LJAccount *gAccountListHead = nil;
 
 - (void)createUserPicturesDictionary:(NSDictionary *)reply
 {
-    NSMutableDictionary *userPics;
-    NSInteger count, i;
-    NSString *key, *keyword;
+    NSString *key;
     NSURL *url;
 	
-    count = [reply[@"pickw_count"] integerValue];
-    userPics = [[NSMutableDictionary alloc] initWithCapacity:count];
-    for (i = 1; i <= count; i++) {
+    NSInteger count = [reply[@"pickw_count"] integerValue];
+    NSMutableDictionary *userPics = [[NSMutableDictionary alloc] initWithCapacity:count];
+    for (NSInteger i = 1; i <= count; i++) {
         key = [NSString stringWithFormat:@"pickw_%ld", (long)i];
-        keyword = reply[key];
+        NSString *keyword = reply[key];
         key = [NSString stringWithFormat:@"pickwurl_%ld", (long)i];
         url = [NSURL URLWithString:reply[key]];
         userPics[keyword] = url;
@@ -591,17 +589,6 @@ static LJAccount *gAccountListHead = nil;
 - (NSArray *)userPictureKeywords {
 	// [FS] This is potenitally a performance hot spot, but let's be guided by profiling.
 	return [[_userPicturesDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-}
-
-- (NSDictionary *)userPicturesDictionary
-{
-    return _userPicturesDictionary;
-}
-
-// [FS] For key value observing
-- (void) setUserPicturesDictionary: (NSDictionary *)aDict {
-	NSLog(@"Setting user pictures dictionary");
-	_userPicturesDictionary = [aDict mutableCopy];
 }
 
 - (NSURL *)defaultUserPictureURL

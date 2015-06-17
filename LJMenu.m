@@ -41,18 +41,14 @@
 
 - (void)populateMenu:(NSMenu *)menu number:(NSString *)number loginReply:(NSDictionary *)reply
 {
-    NSInteger itemCount, i;
-    NSString *itemText, *itemSub, *itemUrl;
-    NSMenuItem *item;
-    NSMenu *submenu;
-
-    itemCount = [reply[LJ_MENU_COUNT(number)] integerValue];
-    for (i = 1; i <= itemCount; i++) {
-        itemText = reply[LJ_MENU_TEXT(number, i)];
-        itemUrl = reply[LJ_MENU_URL(number, i)];
-        itemSub = reply[LJ_MENU_SUB(number, i)];
+    NSInteger itemCount = [reply[LJ_MENU_COUNT(number)] integerValue];
+    for (NSInteger i = 1; i <= itemCount; i++) {
+        NSString *itemText = reply[LJ_MENU_TEXT(number, i)];
+        NSString *itemUrl = reply[LJ_MENU_URL(number, i)];
+        NSString *itemSub = reply[LJ_MENU_SUB(number, i)];
+        NSMenuItem *item;
         if ([itemText isEqualToString:@"-"]) {
-            item = (NSMenuItem *)[NSMenuItem separatorItem];
+            item = [NSMenuItem separatorItem];
         } else {
             item = [[NSMenuItem alloc] initWithTitle:itemText
                                               action:@selector(launchMenuItemUrl:)
@@ -61,7 +57,7 @@
                 [item setTarget:self];
                 [item setRepresentedObject:[NSURL URLWithString:itemUrl]];
             } else if (itemSub) {
-                submenu = [[NSMenu alloc] initWithTitle:itemText];
+                NSMenu *submenu = [[NSMenu alloc] initWithTitle:itemText];
                 [self populateMenu:submenu number:itemSub loginReply:reply];
                 [item setSubmenu:submenu];
             }

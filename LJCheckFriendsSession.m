@@ -169,6 +169,7 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
             // ...then stop checking and post a notification
             _isChecking = NO;
             name = LJFriendsPageUpdatedNotification;
+            //TODO: Which friend updated?
         } else {
             // If the server is asking us to slow down...
             newInterval = [reply[@"interval"] doubleValue];
@@ -207,7 +208,11 @@ NSString * const LJCheckFriendsIntervalChangedNotification = @"LJCheckFriendsInt
         friendURL = [NSURL URLWithString:query relativeToURL:friendURL];
         friendURL = [friendURL absoluteURL];
     }
+#if TARGET_OS_IPHONE
+    return false;
+#else
     return [[NSWorkspace sharedWorkspace] openURL:friendURL];
+#endif
 }
 
 @end

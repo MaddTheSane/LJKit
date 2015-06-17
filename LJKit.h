@@ -91,3 +91,7 @@
 #import <LJKit/LJGroup.h>
 #import <LJKit/LJHttpURLs.h>
 #import <LJKit/LJUserEntity.h>
+
+#if !TARGET_OS_IPHONE
+#import <LJKit/LJMoods_Cocoa.h>
+#endif

@@ -24,6 +24,9 @@
  */
 
 #import "LJMoods.h"
+#if !TARGET_OS_IPHONE
+#import "LJMoods_Cocoa.h"
+#endif
 
 @interface LJMoods ()
 - (NSInteger)_indexForMoodName:(NSString *)moodName hypothetical:(BOOL)flag;
@@ -49,8 +52,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)decoder
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         NSDictionary *moodmap;
         NSEnumerator *moodIDEnumerator;
         id moodID;
@@ -150,13 +152,10 @@
 
 - (void)updateMoodsWithLoginReply:(NSDictionary *)reply
 {
-    int count, i;
-    NSString *moodNameKey, *moodIDKey;
-
-    count = [reply[@"mood_count"] intValue];
-    for (i = 1; i <= count; i++) {
-        moodNameKey = [NSString stringWithFormat:@"mood_%d_name", i];
-        moodIDKey = [NSString stringWithFormat:@"mood_%d_id", i];
+    NSInteger count = [reply[@"mood_count"] integerValue];
+    for (NSInteger i = 1; i <= count; i++) {
+        NSString *moodNameKey = [NSString stringWithFormat:@"mood_%ld_name", (long)i];
+        NSString *moodIDKey = [NSString stringWithFormat:@"mood_%ld_id", (long)i];
         [self _addMoodID:reply[moodIDKey]
                  forName:reply[moodNameKey]];
     }

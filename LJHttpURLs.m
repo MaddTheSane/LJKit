@@ -29,8 +29,7 @@
 
 - (NSURL *)recentEntriesHttpURL
 {
-    NSString *s;
-    s = [NSString stringWithFormat:@"/users/%@/", self.name];
+    NSString *s = [NSString stringWithFormat:@"/users/%@/", self.name];
     return [[NSURL URLWithString:s relativeToURL:[[self.account server] URL]] absoluteURL];
 }
 
@@ -48,8 +47,11 @@
 
 - (NSURL *)calendarHttpURLForDay:(NSDate *)date
 {
-    NSString *s;
-    s = [date descriptionWithCalendarFormat:@"%Y/%m/%d/" timeZone:nil locale:nil];
+    NSDateFormatter *df = [NSDateFormatter new];
+    df.dateFormat = @"%Y/%m/%d/";
+    
+    NSString *s = [df stringFromDate:date];
+
     return [[NSURL URLWithString:s relativeToURL:[self recentEntriesHttpURL]] absoluteURL];
 }
 

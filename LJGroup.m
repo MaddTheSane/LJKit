@@ -35,14 +35,10 @@
 
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account
 {
-    int n;
-    LJGroup *group;
-    NSString *key, *name;
-
-    for ( n = 1; n <= 30; n++ ) {
-        group = [groups member:@(n)];
-        key = [NSString stringWithFormat:@"frgrp_%d_name", n];
-        name = reply[key];
+    for (int n = 1; n <= 30; n++ ) {
+        LJGroup *group = [groups member:@(n)];
+        NSString *key = [NSString stringWithFormat:@"frgrp_%d_name", n];
+        NSString *name = reply[key];
         if (name) {
             // Group exists on server
             if (group == nil) {
@@ -178,14 +174,14 @@
     NSMutableArray *members = [[NSMutableArray alloc] init];
     [self _addMembersToContainer:members nonMembersToContainer:nil];
     [members sortUsingSelector:@selector(compare:)];
-    return members;
+    return [members copy];
 }
 
 - (NSSet *)memberSet
 {
     NSMutableSet *members = [NSMutableSet set];
     [self _addMembersToContainer:members nonMembersToContainer:nil];
-    return members;
+    return [members copy];
 }
 
 - (NSArray *)nonMemberArray
@@ -193,14 +189,14 @@
     NSMutableArray *nonMembers = [[NSMutableArray alloc] init];
     [self _addMembersToContainer:nil nonMembersToContainer:nonMembers];
     [nonMembers sortUsingSelector:@selector(compare:)];
-    return nonMembers;
+    return [nonMembers copy];
 }
 
 - (NSSet *)nonMemberSet
 {
     NSMutableSet *nonMembers = [NSMutableSet set];
     [self _addMembersToContainer:nil nonMembersToContainer:nonMembers];
-    return nonMembers;
+    return [nonMembers copy];
 }
 
 - (NSUInteger)hash
@@ -247,14 +243,12 @@
 
 - (void)_addAddFieldsToParameters:(NSMutableDictionary *)parameters
 {
-    NSString *key, *value;
-
     // efg_set_groupnum_name
-    key = [NSString stringWithFormat:@"efg_set_%d_name", _number];
+    NSString *key = [NSString stringWithFormat:@"efg_set_%d_name", _number];
     parameters[key] = _name;
     // efg_set_groupnum_sort
     key = [NSString stringWithFormat:@"efg_set_%d_sort", _number];
-    value = [NSString stringWithFormat:@"%u", _sortOrder];
+    NSString *value = [NSString stringWithFormat:@"%u", _sortOrder];
     parameters[key] = value;
     // efg_set_groupnum_public
     key = [NSString stringWithFormat:@"efg_set_%d_public", _number];
@@ -263,10 +257,8 @@
 
 - (void)_addDeleteFieldsToParameters:(NSMutableDictionary *)parameters
 {
-    NSString *key;
-    
     // efg_delete_groupnum
-    key = [NSString stringWithFormat:@"efg_delete_%d", _number];
+    NSString *key = [NSString stringWithFormat:@"efg_delete_%d", _number];
     parameters[key] = @"1";
 }
 

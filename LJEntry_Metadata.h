@@ -21,6 +21,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class LJEntry;
 
 /*!
@@ -35,14 +37,14 @@
  Sets the string value of a metadata property.  To remove a property,
  set its value to nil.
  */
-- (void)setString:(NSString *)string forProperty:(NSString *)property;
+- (void)setString:(nullable NSString *)string forProperty:(NSString *)property;
 
 /*!
  @method stringForProperty:
  @abstract Obtain the string value of a metadata property.
  @result The string value of a metadata property, or nil if it has no value.
  */
-- (NSString *)stringForProperty:(NSString *)property;
+- (nullable NSString *)stringForProperty:(NSString *)property;
 
 /*!
  @method setBoolean:forProperty:
@@ -66,7 +68,7 @@
  [LJEntry saveToJournal]; this allows LiveJournal to display the graphic
  for that mood on the web.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMood;
+@property (NS_NONATOMIC_IOSONLY, copy, nullable) NSString *currentMood;
 
 /*!
  @property currentMoodName
@@ -74,13 +76,13 @@
  @discussion
  Set moodName to nil to remove the mood property.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMoodName;
+@property (NS_NONATOMIC_IOSONLY, copy, nullable) NSString *currentMoodName;
 
 /*!
  @property currentMusic
  @abstract The music associated with the receiver.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentMusic;
+@property (NS_NONATOMIC_IOSONLY, copy, nullable) NSString *currentMusic;
 
 /*!
  @property optionPreformatted
@@ -112,7 +114,7 @@
  <code>[LJAccount userPicturesDictionary]</code> method, using the keys from the
  resulting NSDictionary.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSString *pictureKeyword;
+@property (NS_NONATOMIC_IOSONLY, copy, nullable) NSString *pictureKeyword;
 
 /*!
  @property optionBackdated
@@ -183,13 +185,13 @@
  @property currentLocation
  @abstract The location of the receiver.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSString *currentLocation;
+@property (NS_NONATOMIC_IOSONLY, copy, nullable) NSString *currentLocation;
 
 /*!
  @property tags
  @abstract The tag string of the receiver.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSString *tags;
+@property (NS_NONATOMIC_IOSONLY, copy, nullable) NSString *tags;
 
 /*!
  @method addTag:
@@ -197,3 +199,5 @@
  */
 - (void)addTag:(NSString *)newTag;
 @end
+
+NS_ASSUME_NONNULL_END

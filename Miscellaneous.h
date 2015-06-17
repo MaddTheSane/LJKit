@@ -26,18 +26,22 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#ifndef __private_extern
+#define __private_extern __attribute__((visibility("hidden")))
+#endif
+
 /*!
  * Returns the MD5 digest of the given NSString object as a hex
  * encoded string.  Uses the crypto library distributed with OS X.
  */
-NSString *MD5HexDigest(NSString *string);
+__private_extern NSString *MD5HexDigest(NSString *string);
 
 /*!
  * Converts a hexadecimal digit character to its value.
  * This function is case insensitive and returns 0x10 if the hex
  * digit is invalid.
  */
-char ValueForHexDigit(char digit);
+__private_extern char ValueForHexDigit(char digit);
 
 #if TARGET_OS_IPHONE
 /*!
@@ -57,11 +61,11 @@ NSString *HTMLCodeForColor(UIColor *color);
  * Creates an NSColor object represented by a given HTML color code.
  * (e.g., "#FFCC00")
  */
-NSColor *ColorForHTMLCode(NSString *code);
+__private_extern NSColor *ColorForHTMLCode(NSString *code);
 
 /*!
  * Returns the HTML color code which represents the given NSColor object.
  * Assumes the NSColor is an RGB color.
  */
-NSString *HTMLCodeForColor(NSColor *color);
+__private_extern NSString *HTMLCodeForColor(NSColor *color);
 #endif

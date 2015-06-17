@@ -45,6 +45,9 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
 
 @implementation LJEntry
 @synthesize edited = _isEdited;
+@dynamic journal;
+@dynamic account;
+@dynamic date;
 
 - (instancetype)init
 {
@@ -168,7 +171,7 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
 
 - (NSString *)content
 {
-    return _content ? _content : @"";
+    return _content ?: @"";
 }
 
 - (void)setContent:(NSString *)content
@@ -242,16 +245,15 @@ NSString * const LJEntryDidNotSaveToJournalNotification =
     if (_subject) request[@"subject"] = _subject;
     if (_content) request[@"event"] = _content;
     if (_date) {
-        s = [_date descriptionWithCalendarFormat:@"%Y" timeZone:nil locale:nil];
-        request[@"year"] = s;
-        s = [_date descriptionWithCalendarFormat:@"%m" timeZone:nil locale:nil];
-        request[@"mon"] = s;
-        s = [_date descriptionWithCalendarFormat:@"%d" timeZone:nil locale:nil];
-        request[@"day"] = s;
-        s = [_date descriptionWithCalendarFormat:@"%H" timeZone:nil locale:nil];
-        request[@"hour"] = s;
-        s = [_date descriptionWithCalendarFormat:@"%M" timeZone:nil locale:nil];
-        request[@"min"] = s;
+#define ourUnits NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | \
+NSCalendarUnitMinute
+        NSCalendar *gregCalendar = [NSCalendar calendarWithIdentifier:NSGregorianCalendar];
+        NSDateComponents *comps = [gregCalendar components:ourUnits fromDate:_date];
+        request[@"year"] = [@(comps.year) stringValue];
+        request[@"mon"] = [@(comps.month) stringValue];
+        request[@"day"] = [@(comps.day) stringValue];
+        request[@"hour"] = [@(comps.hour) stringValue];
+        request[@"min"] = [@(comps.minute) stringValue];
     }
     switch (_security) {
         case LJSecurityModePublic:
