@@ -78,6 +78,8 @@
  Happy hacking!
  */
 
+#import <Foundation/Foundation.h>
+
 #import <LJKit/LJAccount.h>
 #import <LJKit/LJAccount_EditFriends.h>
 #import <LJKit/LJCheckFriendsSession.h>

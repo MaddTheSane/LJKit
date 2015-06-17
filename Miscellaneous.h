@@ -26,6 +26,8 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#import "LJColor.h"
+
 #ifndef __private_extern
 #define __private_extern __attribute__((visibility("hidden")))
 #endif
@@ -43,29 +45,14 @@ __private_extern NSString *MD5HexDigest(NSString *string);
  */
 __private_extern char ValueForHexDigit(char digit);
 
-#if TARGET_OS_IPHONE
-/*!
- * Creates a UIColor object represented by a given HTML color code.
- * (e.g., "#FFCC00")
- */
-UIColor *ColorForHTMLCode(NSString *code);
-
-/*!
- * Returns the HTML color code which represents the given UIColor object.
- * Assumes the NSColor is an RGB color.
- */
-NSString *HTMLCodeForColor(UIColor *color);
-
-#else
 /*!
  * Creates an NSColor object represented by a given HTML color code.
  * (e.g., "#FFCC00")
  */
-__private_extern NSColor *ColorForHTMLCode(NSString *code);
+__private_extern LJColorRef ColorForHTMLCode(NSString *code);
 
 /*!
  * Returns the HTML color code which represents the given NSColor object.
  * Assumes the NSColor is an RGB color.
  */
-__private_extern NSString *HTMLCodeForColor(NSColor *color);
-#endif
+__private_extern NSString *HTMLCodeForColor(LJColorRef color);

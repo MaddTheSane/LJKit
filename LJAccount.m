@@ -32,7 +32,9 @@
 #import "LJUserEntity_Private.h"
 #import "LJAccount_Private.h"
 #import "LJJournal_Private.h"
+#if !TARGET_OS_IPHONE
 #import "LJMenu.h"
+#endif
 #import "LJMoods_Private.h"
 #import "LJServer_Private.h"
 #import "Miscellaneous.h"

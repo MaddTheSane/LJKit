@@ -30,6 +30,7 @@
 #import "LJAccount_Private.h"
 #import "Miscellaneous.h"
 #import "URLEncoding.h"
+#include <CFNetwork/CFNetwork.h>
 
 #ifdef ENABLE_REACHABILITY_MONITORING
 NSString * const LJServerReachabilityDidChangeNotification = @"LJServerReachabilityDidChange";
@@ -39,12 +40,16 @@ static NSString *				gUserAgent = nil;
 
 // Globals Required for Proxy Detection
 static CFIndex					gStoreRefCount = 0;
+#if !TARGET_OS_IPHONE
 static SCDynamicStoreRef 		gStore = NULL;
 static SCDynamicStoreContext 	gStoreContext;
 static CFRunLoopSourceRef 		gRunLoopSource = NULL;
+#endif
 static NSDictionary				*gProxyInfo = NULL;
 
+#if !TARGET_OS_IPHONE
 static void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
+#endif
 
 #ifdef ENABLE_REACHABILITY_MONITORING
 static void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info);
@@ -160,6 +165,12 @@ static CFStringRef LJServerReachabilityCopyDescription(const void *info);
  - (void)enableProxyDetection
 {
     if (gStoreRefCount == 0) {
+#if TARGET_OS_IPHONE
+		NSDictionary *proxySettings = CFBridgingRelease(CFNetworkCopySystemProxySettings());
+		NSArray *proxies = CFBridgingRelease(CFNetworkCopyProxiesForURL((__bridge CFURLRef)[self URL], (__bridge CFDictionaryRef)proxySettings));
+		gProxyInfo = proxies[0];
+#else
+		CFNetworkExecuteProxyAutoConfigurationScript
         gStore = SCDynamicStoreCreate(kCFAllocatorDefault,
                                       (__bridge CFStringRef)[[NSProcessInfo processInfo] processName], 
                                       LJServerStoreCallback, &gStoreContext);
@@ -170,6 +181,7 @@ static CFStringRef LJServerReachabilityCopyDescription(const void *info);
         CFRunLoopAddSource(CFRunLoopGetCurrent(), gRunLoopSource, kCFRunLoopDefaultMode);
         // The callback won't be called unless the proxy *changes*, so we make an initial copy here.
         gProxyInfo = CFBridgingRelease(SCDynamicStoreCopyProxies(gStore));
+#endif
     }
     gStoreRefCount++;
 }
@@ -178,9 +190,11 @@ static CFStringRef LJServerReachabilityCopyDescription(const void *info);
 {
     gStoreRefCount--;
     if (gStoreRefCount == 0) {
+#if !TARGET_OS_IPHONE
         CFRunLoopRemoveSource(CFRunLoopGetCurrent(), gRunLoopSource, kCFRunLoopDefaultMode);
         CFRelease(gRunLoopSource); gRunLoopSource = NULL;
         CFRelease(gStore); gStore = NULL;
+#endif
         gProxyInfo = nil;
     }
 }
@@ -299,11 +313,13 @@ static CFStringRef LJServerReachabilityCopyDescription(const void *info);
 
 @end
 
+#if !TARGET_OS_IPHONE
 void LJServerStoreCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info)
 {
     // We're only monitoring one key, so it's a safe bet we can ignore the changedKeys parameter.
     gProxyInfo = CFBridgingRelease(SCDynamicStoreCopyProxies(store));
 }
+#endif
 
 #ifdef ENABLE_REACHABILITY_MONITORING
 void LJServerReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info)

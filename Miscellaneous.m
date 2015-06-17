@@ -30,12 +30,6 @@
 
 #import "Miscellaneous.h"
 
-#if TARGET_OS_IPHONE
-typedef UIColor OurColor;
-#else
-typedef NSColor OurColor;
-#endif
-
 NSString *MD5HexDigest(NSString *string)
 {
     unsigned char digest[CC_MD5_DIGEST_LENGTH] = {0};
@@ -65,7 +59,7 @@ char ValueForHexDigit(char digit)
     }
 }
 
-OurColor *ColorForHTMLCode(NSString *code)
+LJColorRef ColorForHTMLCode(NSString *code)
 {
     // Code is of the form "#RRGGBB"
     CGFloat r, g, b;
@@ -88,7 +82,7 @@ OurColor *ColorForHTMLCode(NSString *code)
 #endif
 }
 
-NSString *HTMLCodeForColor(OurColor *color)
+NSString *HTMLCodeForColor(LJColorRef color)
 {
 #if TARGET_OS_IPHONE
     CGFloat red, green, blue;

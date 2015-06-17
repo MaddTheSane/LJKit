@@ -26,6 +26,8 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#import <LJKit/LJColor.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class LJAccount, LJGroup;
@@ -105,32 +107,29 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
 
 @property (nonatomic) unsigned int groupMask;
 
-#if !TARGET_OS_IPHONE
 /*!
  @property backgroundColor
  @abstract The background color of the receiver.
  */
-@property (nonatomic, copy) NSColor *backgroundColor;
+@property (nonatomic, copy) LJColor *backgroundColor;
 
 /*!
  @property foregroundColor
  @abstract The foreground color of the receiver.
  */
-@property (nonatomic, copy) NSColor *foregroundColor;
+@property (nonatomic, copy) LJColor *foregroundColor;
 
 /*!
  @property backgroundColorForYou
  @result The color this friend uses for your background.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *backgroundColorForYou;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) LJColor *backgroundColorForYou;
 
 /*!
  @property foregroundColorForYou
  @result The color this friend uses for your foreground.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *foregroundColorForYou;
-
-#endif
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) LJColor *foregroundColorForYou;
 
 @end
 

@@ -31,12 +31,10 @@
 @end
 
 @implementation LJFriend
-#if !TARGET_OS_IPHONE
 @synthesize backgroundColorForYou = _bgColorForYou;
 @synthesize foregroundColorForYou = _fgColorForYou;
 @synthesize backgroundColor = _bgColor;
 @synthesize foregroundColor = _fgColor;
-#endif
 
 + (LJFriend *)_friendWithReply:(NSDictionary *)reply prefix:(NSString *)prefix
                        account:(LJAccount *)account
@@ -89,7 +87,7 @@
             dc.year = [yr integerValue];
             dc.month = [mo integerValue];
             dc.day = [dy integerValue];
-            NSCalendar *greg = [NSCalendar calendarWithIdentifier:NSGregorianCalendar];
+            NSCalendar *greg = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
             bd = [greg dateFromComponents:dc];
         } else {
             bd = nil;
@@ -115,7 +113,7 @@
         [workingSet addObject:amigo];
         [friendOfs removeObject:amigo];
         NSString *key = [prefix stringByAppendingString:@"fg"];
-        NSColor *color = ColorForHTMLCode(reply[key]);
+        LJColor *color = ColorForHTMLCode(reply[key]);
 		amigo.foregroundColorForYou = color;
         key = [prefix stringByAppendingString:@"bg"];
         color = ColorForHTMLCode(reply[key]);
@@ -155,10 +153,10 @@
         _account = account;
         self.username = username;
         self.fullname = username;
-        _bgColor = [NSColor whiteColor];
-        _fgColor = [NSColor blackColor];
-        _bgColorForYou = [NSColor whiteColor];
-        _fgColorForYou = [NSColor blackColor];
+        _bgColor = [LJColor whiteColor];
+        _fgColor = [LJColor blackColor];
+        _bgColorForYou = [LJColor whiteColor];
+        _fgColorForYou = [LJColor blackColor];
         _modifiedDate = [[NSDate alloc] init];
     }
     return self;
@@ -216,7 +214,7 @@
     _modifiedDate = [[NSDate alloc] init];
 }
 
-- (void)setBackgroundColor:(NSColor *)bgColor
+- (void)setBackgroundColor:(LJColorRef)bgColor
 {
 	if (![_bgColor isEqual:bgColor]) {
 		_bgColor = bgColor;
@@ -224,7 +222,7 @@
 	}
 }
 
-- (void)setForegroundColor:(NSColor *)fgColor
+- (void)setForegroundColor:(LJColorRef)fgColor
 {
 	if (![_fgColor isEqual:fgColor]) {
 		_fgColor = fgColor;

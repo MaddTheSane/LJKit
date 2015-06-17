@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5510ADFD1B32116D004B175C /* LJColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5510ADFC1B32116D004B175C /* LJColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5510ADFE1B32116D004B175C /* LJColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5510ADFC1B32116D004B175C /* LJColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5510AE011B321692004B175C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5510ADFF1B321692004B175C /* CoreFoundation.framework */; };
+		5510AE021B321692004B175C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5510AE001B321692004B175C /* Foundation.framework */; };
 		552944301A6DFE6F00642F70 /* LJUserEntity_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */; };
 		55D087201A6CCE9200E0A00A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC71787905AD5484000355FC /* Localizable.strings */; };
 		55F2986A1A945ECF001C32EA /* LJKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F51DE22702E293FB01745AE7 /* LJKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,7 +30,6 @@
 		55F298781A945ECF001C32EA /* LJHttpURLs.h in Headers */ = {isa = PBXBuildFile; fileRef = F52E1F010357A538010C7683 /* LJHttpURLs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55F298791A945ECF001C32EA /* URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6D02E36F5701ECE1AA /* URLEncoding.h */; settings = {ATTRIBUTES = (); }; };
 		55F2987A1A945ECF001C32EA /* Miscellaneous.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB6502E362C001ECE1AA /* Miscellaneous.h */; settings = {ATTRIBUTES = (); }; };
-		55F2987B1A945ECF001C32EA /* LJMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = F52AFB7202E37FBE01ECE1AA /* LJMenu.h */; settings = {ATTRIBUTES = (); }; };
 		55F2987C1A945ECF001C32EA /* LJAccount_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A3505AB8C5F000EFE4A /* LJAccount_Private.h */; };
 		55F2987D1A945ECF001C32EA /* LJServer_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A7705AB9348000EFE4A /* LJServer_Private.h */; };
 		55F2987E1A945ECF001C32EA /* LJMoods_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BCBC6A7905AB9409000EFE4A /* LJMoods_Private.h */; };
@@ -55,8 +58,6 @@
 		55F298981A945ECF001C32EA /* LJEntryRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = F5BD1B0D03A5597201805C1D /* LJEntryRoot.m */; };
 		55F298991A945ECF001C32EA /* LJCheckFriendsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */; };
 		55F2989A1A945ECF001C32EA /* LJUserEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F548C4B07133B7600515272 /* LJUserEntity.m */; };
-		55F2989C1A945ECF001C32EA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		55F2989E1A945ECF001C32EA /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5992D0C03786BB6012C19B1 /* CoreServices.framework */; };
 		55F2989F1A945ECF001C32EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBC6B0A05ABB098000EFE4A /* SystemConfiguration.framework */; };
 		55F42ACB1AEC47FB0085CA56 /* LJMoods_Cocoa.h in Headers */ = {isa = PBXBuildFile; fileRef = 55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F548C4C07133B7600515272 /* LJUserEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F548C4A07133B7600515272 /* LJUserEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -117,6 +118,9 @@
 		438B206903BD273D00067F6D /* License.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCheckFriendsSession.h; sourceTree = "<group>"; };
 		43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LJCheckFriendsSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		5510ADFC1B32116D004B175C /* LJColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJColor.h; sourceTree = "<group>"; };
+		5510ADFF1B321692004B175C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		5510AE001B321692004B175C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		5529442F1A6DFE6F00642F70 /* LJUserEntity_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJUserEntity_Private.h; sourceTree = "<group>"; };
 		55F298A31A945ECF001C32EA /* LJKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LJKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		55F42ACA1AEC47FB0085CA56 /* LJMoods_Cocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMoods_Cocoa.h; sourceTree = "<group>"; };
@@ -175,8 +179,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55F2989C1A945ECF001C32EA /* Cocoa.framework in Frameworks */,
-				55F2989E1A945ECF001C32EA /* CoreServices.framework in Frameworks */,
+				5510AE011B321692004B175C /* CoreFoundation.framework in Frameworks */,
+				5510AE021B321692004B175C /* Foundation.framework in Frameworks */,
 				55F2989F1A945ECF001C32EA /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -222,6 +226,8 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5510ADFF1B321692004B175C /* CoreFoundation.framework */,
+				5510AE001B321692004B175C /* Foundation.framework */,
 				F5992D0C03786BB6012C19B1 /* CoreServices.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
@@ -252,6 +258,7 @@
 				F52AFB5002E35F2301ECE1AA /* LJAccount_EditFriends.m */,
 				43DC2B4103F897280074B2F0 /* LJCheckFriendsSession.h */,
 				43DC2B4203F897280074B2F0 /* LJCheckFriendsSession.m */,
+				5510ADFC1B32116D004B175C /* LJColor.h */,
 				F52AFB6902E3650701ECE1AA /* LJServer.h */,
 				F52AFB6802E3650701ECE1AA /* LJServer.m */,
 				F52AFB7702E381BC01ECE1AA /* LJMoods.h */,
@@ -317,6 +324,7 @@
 				55F298711A945ECF001C32EA /* LJEntrySummary.h in Headers */,
 				55F298721A945ECF001C32EA /* LJUserEntity_Private.h in Headers */,
 				55F298731A945ECF001C32EA /* LJServer.h in Headers */,
+				5510ADFE1B32116D004B175C /* LJColor.h in Headers */,
 				55F298741A945ECF001C32EA /* LJCheckFriendsSession.h in Headers */,
 				55F298751A945ECF001C32EA /* LJMoods.h in Headers */,
 				55F298761A945ECF001C32EA /* LJFriend.h in Headers */,
@@ -324,7 +332,6 @@
 				55F298781A945ECF001C32EA /* LJHttpURLs.h in Headers */,
 				55F298791A945ECF001C32EA /* URLEncoding.h in Headers */,
 				55F2987A1A945ECF001C32EA /* Miscellaneous.h in Headers */,
-				55F2987B1A945ECF001C32EA /* LJMenu.h in Headers */,
 				55F2987C1A945ECF001C32EA /* LJAccount_Private.h in Headers */,
 				55F2987D1A945ECF001C32EA /* LJServer_Private.h in Headers */,
 				55F2987E1A945ECF001C32EA /* LJMoods_Private.h in Headers */,
@@ -356,6 +363,7 @@
 				BC72DAFB058B2AFA00784C4A /* LJGroup.h in Headers */,
 				BC72DAFC058B2AFA00784C4A /* LJHttpURLs.h in Headers */,
 				55F42ACB1AEC47FB0085CA56 /* LJMoods_Cocoa.h in Headers */,
+				5510ADFD1B32116D004B175C /* LJColor.h in Headers */,
 				BC72DAFD058B2AFA00784C4A /* URLEncoding.h in Headers */,
 				BC72DAFE058B2AFA00784C4A /* Miscellaneous.h in Headers */,
 				BC72DAFF058B2AFA00784C4A /* LJMenu.h in Headers */,

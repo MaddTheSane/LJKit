@@ -30,8 +30,9 @@
 
 #if !TARGET_OS_IPHONE
 #import <CoreServices/CoreServices.h>
-#define ENABLE_REACHABILITY_MONITORING
 #endif
+
+#define ENABLE_REACHABILITY_MONITORING
 
 @class LJAccount;
 
