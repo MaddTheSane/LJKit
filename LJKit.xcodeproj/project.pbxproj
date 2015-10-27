@@ -321,7 +321,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 			};
 			buildConfigurationList = 5FBE9E17092E685C0071F534 /* Build configuration list for PBXProject "LJKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -452,6 +452,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.livejournal.benzado.LJKit;
 				PRODUCT_NAME = LJKit;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = framework;
@@ -475,6 +476,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.livejournal.benzado.LJKit;
 				PRODUCT_NAME = LJKit;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = framework;
@@ -536,6 +538,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
