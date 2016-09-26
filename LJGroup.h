@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)updateGroupSet:(NSMutableSet *)groups withReply:(NSDictionary *)reply account:(LJAccount *)account;
 
 - (instancetype)initWithNumber:(int)number account:(LJAccount *)account NS_DESIGNATED_INITIALIZER;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
@@ -122,14 +123,14 @@ NS_ASSUME_NONNULL_BEGIN
  @abstract The members of the receiver as a sorted array.
  @result An NSArray of LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *memberArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray<LJFriend*> *memberArray;
 
 /*!
  @property memberSet
  @abstract The members of the receiver as a set.
  @result An NSSet of LJFriend objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *memberSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet<LJFriend*> *memberSet;
 
 /*!
  @property nonMemberArray
@@ -139,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
  This method returns users who are friends of the parent account but are not
  members of this group.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *nonMemberArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray<LJFriend*> *nonMemberArray;
 
 /*!
  @property nonMemberSet
@@ -149,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
  This method returns users who are friends of the parent account but are not
  members of this group.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *nonMemberSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet<LJFriend*> *nonMemberSet;
 
 @end
 

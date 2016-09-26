@@ -202,7 +202,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
   If the entry is associated but no groups are allowed access, returns an empty array.
  @result An NSArray of LJGroup objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *groupsAllowedAccessArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSArray<LJGroup*> *groupsAllowedAccessArray;
 
 /*!
  @property groupsAllowedAccessSet
@@ -214,7 +214,7 @@ FOUNDATION_EXPORT NSString * const LJEntryDidNotRemoveFromJournalNotification;
  If the entry is associated but no groups are allowed access, returns an empty set.
  @result An NSSet of LJGroup objects.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSSet *groupsAllowedAccessSet;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSSet<LJGroup*> *groupsAllowedAccessSet;
 
 /*!
  @method removeFromJournal

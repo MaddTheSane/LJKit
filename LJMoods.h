@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  @property moodNames
  @abstract A sorted array of all known moods.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *moodNames;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray<NSString*> *moodNames;
 
 @end
 

@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  The getSummary... methods will return LJEntrySummary objects.
  */
 @interface LJJournal : NSObject <NSCoding>
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
@@ -61,12 +62,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
 
 /*!
- @method isDefault
+ @property isDefault
  @abstract Determine if the receiver is the default journal for its account.
  @discussion
  The default journal is the journal with the same name as the account's username.
  */
-- (BOOL)isDefault;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL isDefault;
 
 /*!
  @method getEntryForItemID:
@@ -92,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param date Retrieve entries posted before this date.
  @result An array of LJEntry objects.
  */
-- (NSArray *)getEntriesLastN:(int)n beforeDate:(NSDate *)date;
+- (NSArray<LJEntry*> *)getEntriesLastN:(int)n beforeDate:(NSDate *)date;
 
 /*!
  @method getEntriesLastN:
@@ -100,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param n The number of entries to download.
  @result An array of LJEntry objects.
  */
-- (NSArray *)getEntriesLastN:(int)n;
+- (NSArray<LJEntry*> *)getEntriesLastN:(int)n;
 
 /*!
  @method getEntriesForDay:
@@ -108,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param date The date to retrieve entries for.
  @result An array of LJEntry objects.
  */
-- (NSArray *)getEntriesForDay:(NSDate *)date;
+- (NSArray<LJEntry*> *)getEntriesForDay:(NSDate *)date;
 
 /*!
  @method getSummaryForItemID:
@@ -125,25 +126,25 @@ NS_ASSUME_NONNULL_BEGIN
  @abstract Obtain summaries of the n most recent entries before a specified date.
  @param n The number of summaries to download.
  @param date Retrieve summaries posted before this date.
- @result An array of LJSummaryEntry objects.
+ @result An array of \c LJEntrySummary objects.
  */
-- (NSArray *)getSummariesLastN:(int)n beforeDate:(NSDate *)date;
+- (NSArray<LJEntrySummary*> *)getSummariesLastN:(int)n beforeDate:(NSDate *)date;
 
 /*!
  @method getSummariesLastN:
  @abstract Obtain summaries of the n most recent entries.
  @param n The number of summaries to download.
- @result An array of LJSummaryEntry objects.
+ @result An array of \c LJEntrySummary objects.
  */
-- (NSArray *)getSummariesLastN:(int)n;
+- (NSArray<LJEntrySummary*> *)getSummariesLastN:(int)n;
 
 /*!
  @method getSummariesForDay:
  @abstract Obtain summaries of all entries posted on a given day.
  @param date The date to receive summaries for.
- @result An array of LJSummaryEntry objects.
+ @result An array of \c LJEntrySummary objects.
  */
-- (NSArray *)getSummariesForDay:(NSDate *)date;
+- (NSArray<LJEntrySummary*> *)getSummariesForDay:(NSDate *)date;
 
 /*!
  @property dayCounts
@@ -152,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
  Returns an NSDictionary with NSCalendarDate objects as keys and NSNumbers as values,
  representing the number of entries available for the given date.
  */
-@property (NS_NONATOMIC_IOSONLY, getter=getDayCounts, readonly, copy) NSDictionary *dayCounts;
+@property (NS_NONATOMIC_IOSONLY, getter=getDayCounts, readonly, copy) NSDictionary<NSDate*,NSNumber*> *dayCounts;
 
 /*!
  @property tags
@@ -161,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
  This method returns an array of tags that are defined for
  this journal. Setting new tags should add to this array.
  */
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSMutableArray *tags;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) NSMutableArray<NSString*> *tags;
 
 /*!
  @method updateTagsArray

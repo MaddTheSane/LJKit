@@ -47,6 +47,7 @@ typedef NS_OPTIONS(NSInteger, LJFriendship) {
  */
 @interface LJFriend : LJUserEntity <NSCoding>
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 

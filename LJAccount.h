@@ -171,7 +171,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 @interface LJAccount : LJUserEntity <NSCoding>
 {
 @protected
-    NSArray *_journalArray;
+    NSArray<LJJournal*> *_journalArray;
     LJServer *_server;
     LJMoods *_moods;
     NSDictionary *_userPicturesDictionary;
@@ -203,7 +203,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  The LJAccount class keeps track of all active account objects.
  This method returns the list in the form of an NSArray.
  */
-+ (NSArray *)allAccounts;
++ (NSArray<LJAccount*> *)allAccounts;
 
 /*!
  @method accountWithIdentifier:
@@ -230,7 +230,30 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  This method is guaranteed not to return nil unless there are no
  LJAccount objects in memory.
  */
-+ (LJAccount *)defaultAccount;
++ (nullable LJAccount *)defaultAccount;
+#if __has_feature(objc_class_property)
+/*!
+ @property defaultAccount
+ @abstract Returns the default account.
+ @result An account reference if any exists.
+ @discussion
+ The LJAccount keeps an internal list of all known account objects.
+ This method will return the one designated as default.  If you have
+ never set a default account, and arbitrary account will be returned.
+ This method is guaranteed not to return nil unless there are no
+ LJAccount objects in memory.
+ */
+@property (class, readonly, retain, nullable) LJAccount *defaultAccount;
+/*!
+ @property allAccounts
+ @abstract Obtain an array containing all active account objects.
+ @discussion
+ The LJAccount class keeps track of all active account objects.
+ This method returns the list in the form of an NSArray.
+ */
+@property (class, readonly, retain) NSArray<LJAccount*> *allAccounts;
+
+#endif
 
 /*!
  @method setDefaultAccount:
@@ -398,7 +421,6 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  @property loggedIn
  @abstract Returns YES if the account has been logged in.
  @result YES if the account has successfully logged in, NO otherwise.
- @discussion
  */
 @property (NS_NONATOMIC_IOSONLY, getter=isLoggedIn, readonly) BOOL loggedIn;
 
@@ -434,14 +456,14 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
 /*!
  @property userPictureKeywords
- @abstract An NSArray of account picture keywords in NSStrings.
+ @abstract An \c NSArray of account picture keywords in NSStrings.
  @discussion
 	 If you provided the LJGetPicturesLoginFlag to the loginWithPassword:flags:
 	 method, this method will return an NSArray of NSStrings. Otherwise, returns nil.
 	 
 	 This property is preserved during archiving.
 	 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *userPictureKeywords;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSArray<NSString*> *userPictureKeywords;
 
 
 /*!
@@ -454,7 +476,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  This property is preserved during archiving.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *userPicturesDictionary;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy, nullable) NSDictionary *userPicturesDictionary;
 
 /*!
  @method defaultUserPictureURL
@@ -493,7 +515,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
 
  This property is preserved during archiving.
 */
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *journalArray;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray<LJJournal*> *journalArray;
 
 /*!
  @method defaultJournal
@@ -513,7 +535,7 @@ FOUNDATION_EXPORT NSString * const LJAccountDidDownloadFriendsNotification;
  Searches the user's list of journals and returns one with the given name,
  or nil if none match.
  */
-- (LJJournal *)journalNamed:(NSString *)name;
+- (nullable LJJournal *)journalNamed:(NSString *)name;
 
 /*!
  @property journalMenu

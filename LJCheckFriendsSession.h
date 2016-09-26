@@ -82,6 +82,8 @@ send startChecking to the session object.
  */
 - (instancetype)initWithAccount:(LJAccount *)account NS_DESIGNATED_INITIALIZER;
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
@@ -117,7 +119,7 @@ send startChecking to the session object.
  Sets the groups to be checked.  If groupArray is nil, all friends will be
  checked.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSArray *checkGroupArray;
+@property (NS_NONATOMIC_IOSONLY, copy) NSArray<LJGroup*> *checkGroupArray;
 
 /*!
  @property checkGroupSet
@@ -127,7 +129,7 @@ send startChecking to the session object.
  Sets the groups to be checked.  If groupSet is nil, all friends will be
  checked.
  */
-@property (NS_NONATOMIC_IOSONLY, copy) NSSet *checkGroupSet;
+@property (NS_NONATOMIC_IOSONLY, copy) NSSet<LJGroup*> *checkGroupSet;
 
 /*!
  @method setChecking:forGroup:
